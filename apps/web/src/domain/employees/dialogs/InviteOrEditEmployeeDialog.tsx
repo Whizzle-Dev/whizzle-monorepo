@@ -34,8 +34,8 @@ type InviteEmployeeDialogProps = {
 const schema = z.object({
   email: z.string().min(1, { message: 'Email is required' }).email(),
   name: z.string().min(1, { message: 'Name is required' }),
-  role: z.string().nullable(),
-  team: z.string().nullable(),
+  role: z.string().optional(),
+  team: z.string().optional(),
   permissionRole: z.enum([
     PermissionRoleEnum.ACCOUNT_OWNER,
     PermissionRoleEnum.ADMIN,
@@ -67,8 +67,12 @@ export const InviteOrEditEmployeeDialog = ({
     if (employee) {
       methods.setValue('email', employee.email);
       methods.setValue('name', employee.name ?? '');
-      methods.setValue('role', employee.role?.id?.toString() ?? null);
-      methods.setValue('team', employee.team?.id?.toString() ?? null);
+      if (employee.role?.id) {
+        methods.setValue('role', employee.role.id.toString());
+      }
+      if (employee.team?.id) {
+        methods.setValue('team', employee.team.id.toString() ?? null);
+      }
       methods.setValue('permissionRole', employee.permissionRole);
     }
   }, [employee]);
