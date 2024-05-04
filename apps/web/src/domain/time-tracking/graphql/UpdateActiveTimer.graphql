@@ -1,0 +1,4 @@
+mutation UpdateActiveTimer($payload: EditActiveTimerInput!) {
+    updateActiveTimer(payload: $payload)
+
+}

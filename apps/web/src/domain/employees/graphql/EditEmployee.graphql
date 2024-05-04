@@ -1,0 +1,3 @@
+mutation EditEmployee($employeeId: Int!, $input: EditEmployeeInput!){
+    editEmployee(employeeId: $employeeId, input: $input)
+}

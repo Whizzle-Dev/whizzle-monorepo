@@ -1,0 +1,4 @@
+
+mutation CreatePTORequest($input: CreatePtoRequestInput!){
+  createPTORequest(input: $input)
+}

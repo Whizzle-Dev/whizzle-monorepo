@@ -1,0 +1,3 @@
+mutation AssignEmployeeToTeam ($teamId: Int!, $employeeIds: [Int!]!, $removedIds: [Int!]!){
+  assignEmployeeToTeam(teamId: $teamId, employeeIds: $employeeIds, removedIds: $removedIds)
+}

@@ -1,0 +1,23 @@
+query GetApprovalRoutings {
+    approvalRoutings{
+        ...ApprovalRouting
+    }
+}
+
+fragment ApprovalRouting on ApprovalRoutingDto {
+    id
+    name
+    config
+    assignedEmployees {
+        id
+        profilePhotoUrl
+        name
+    }
+    approvingLevels {
+        approvers {
+            id
+            profilePhotoUrl
+            name
+        }
+    }
+}

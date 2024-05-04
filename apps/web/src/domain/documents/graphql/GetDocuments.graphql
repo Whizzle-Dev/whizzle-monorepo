@@ -1,0 +1,12 @@
+query GetDocuments ($sort: String) {
+    documents(sort: $sort) {
+        id
+        name
+        content
+    }
+    myDocuments(sort: $sort) {
+        id
+        name
+        content
+    }
+}

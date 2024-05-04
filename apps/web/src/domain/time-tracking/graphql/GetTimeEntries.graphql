@@ -1,0 +1,79 @@
+query GetTimeEntries {
+    timeEntries {
+        ...TimeEntry
+    }
+}
+
+query GetCompanyTimeEntries ($options: PaginatedQueryInput, $filters: GetTimeEntriesFilters) {
+    companyTimeEntries (filters: $filters, options: $options) {
+        data {
+            ...TimeEntry
+        }
+        hasNextPage
+        totalCount
+    }
+}
+
+query TimeTrackingStats {
+    timeTrackingStats {
+        totalMinutesThisWeek
+        minutesPercentageDiffFromLastWeek
+        trendingProject {
+            project {
+                id
+                name
+            }
+            totalMinutes
+        }
+        mostActiveEmployees {
+            ...LightEmployee
+        }
+    }
+}
+
+query TimeTrackedPerProject ($dateRange: DateRangeInput) {
+    timeTrackedPerProject (dateRange: $dateRange) {
+        project {
+            id
+            name
+        }
+        totalMinutes
+    }
+}
+
+query TimeTrackedPerTeam ($dateRange: DateRangeInput) {
+    timeTrackedPerTeam (dateRange: $dateRange) {
+        team {
+            id
+            name
+        }
+        totalMinutes
+    }
+}
+
+query TimeTrackedPerEmployee ($dateRange: DateRangeInput) {
+    timeTrackedPerEmployee (dateRange: $dateRange) {
+        employee{
+            id
+            name
+        }
+        totalMinutes
+    }
+}
+fragment TimeEntry on TimeEntryDto {
+    id
+    description
+    startDate
+    endDate
+    task {
+        id
+        name
+    }
+    project {
+        id
+        name
+    }
+    employee {
+        ...LightEmployee
+    }
+}

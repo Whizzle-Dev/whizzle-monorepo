@@ -1,0 +1,3 @@
+mutation UpdateCheckInSubmission ($id: Int!, $payload: UpdateCheckInInput!) {
+    updateCheckIn(id: $id, payload: $payload)
+}

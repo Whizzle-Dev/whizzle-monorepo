@@ -1,0 +1,6 @@
+mutation CreateRole($name: String!, $description: String){
+    createRole(name: $name, description: $description){
+        id
+        name
+    }
+}

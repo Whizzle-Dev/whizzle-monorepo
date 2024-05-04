@@ -1,0 +1,14 @@
+mutation CreateTask($payload: CreateTaskInput!, $projectId: Int!) {
+    createTask(payload: $payload, projectId: $projectId) {
+        id
+        name
+    }
+}
+
+mutation UpdateTask($payload: UpdateTaskInput!){
+    updateTask(payload: $payload)
+}
+
+mutation UpdateTaskPosition($taskId:Int!, $prevCursor:String, $nextCursor:String){
+    updateTaskPosition(taskId: $taskId, prevCursor: $prevCursor, nextCursor: $nextCursor)
+}

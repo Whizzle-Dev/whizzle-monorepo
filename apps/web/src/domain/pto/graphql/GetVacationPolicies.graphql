@@ -1,0 +1,35 @@
+query GetVacationPolicies {
+  vacationPolicies {
+    ...VacationPolicy
+  }
+}
+
+query GetVacationPolicy($id: Int!) {
+  vacationPolicy(id: $id) {
+    ...VacationPolicy
+  }
+}
+
+
+fragment VacationPolicy on VacationPolicyDto {
+  id
+  description
+  name
+  policyDocument
+  default
+  archived
+  leaveCategories{
+    id
+    name
+    daysAllowed
+  }
+  publicHolidays {
+    id
+    name
+    date
+  }
+  workingDays
+  employees {
+    ...LightEmployee
+  }
+}

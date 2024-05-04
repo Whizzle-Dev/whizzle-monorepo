@@ -1,0 +1,20 @@
+query GetRoles {
+  roles {
+    id
+    name
+    description
+    numberOfEmployees
+  }
+}
+
+query GetRole($roleId: Int!){
+  role(id: $roleId){
+    id
+    name
+    numberOfEmployees
+    employees {
+      id
+      name
+    }
+  }
+}

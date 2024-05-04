@@ -1,0 +1,3 @@
+mutation ApproveRejectPTORequest($requestId: Int!, $accepted: Boolean!) {
+    approveRejectPTORequest(requestId: $requestId, accepted: $accepted)
+}

@@ -1,0 +1,32 @@
+query GetCurrentUser {
+  currentUser{
+    id
+    email
+  	name
+    phoneNumber
+    dateOfBirth
+    address
+    profilePhotoUrl
+    company{
+      website
+      id
+      businessName
+    }
+  }
+  currentEmployee {
+    id
+    bankInformation {
+      bankName
+      bankAccountNumber
+    }
+    permissionRole
+    role {
+      id
+      name
+    }
+    team {
+      id
+      name
+    }
+  }
+}

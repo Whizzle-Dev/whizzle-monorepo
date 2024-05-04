@@ -1,0 +1,7 @@
+mutation CreateLeavesCategory($input: CreateLeaveCategoryInput!) {
+  createLeavesCategory(input: $input){
+    id
+    daysAllowed
+    name
+  }
+}

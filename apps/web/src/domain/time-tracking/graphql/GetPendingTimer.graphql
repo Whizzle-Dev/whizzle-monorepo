@@ -1,0 +1,10 @@
+
+query GetActiveTimer {
+    activeTimer {
+        id
+        description
+        startDate
+        taskId
+        projectId
+  }
+}

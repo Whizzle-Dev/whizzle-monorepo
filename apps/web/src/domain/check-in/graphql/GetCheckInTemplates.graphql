@@ -1,0 +1,8 @@
+query GetCheckInTemplates{
+    getCheckInTemplates{
+        id
+        formElements
+        type
+        createdBy
+    }
+}

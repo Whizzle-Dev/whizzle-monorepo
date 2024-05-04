@@ -1,0 +1,27 @@
+query GetProjects {
+    projects {
+        ...Project
+    }
+}
+
+query GetProject($id: Int!, $isBacklog: Boolean!, $searchQuery: String, $assignedTo: [Int!]) {
+    project(id: $id) {
+        ...Project
+        columns {
+            name
+            value
+        }
+    }
+    tasks(projectId: $id, isBacklog: $isBacklog, searchQuery: $searchQuery, assignedTo: $assignedTo) {
+        ...Task
+    }
+}
+
+
+fragment Project on ProjectDto {
+    id
+    name
+    description
+    color
+}
+

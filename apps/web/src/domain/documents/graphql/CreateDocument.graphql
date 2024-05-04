@@ -1,0 +1,7 @@
+mutation CreateDocument ($input: CreateDocumentInput!){
+    createDocument(input: $input) {
+        id
+        name
+        content
+    }
+}

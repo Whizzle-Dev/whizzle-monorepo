@@ -1,0 +1,7 @@
+mutation assignEmployeeToVacationPolicy($policyId: Int!, $employeeIds: [Int!]!, $removedIds: [Int!]!) {
+    assignEmployeeToVacationPolicy(
+        policyId: $policyId
+        employeeIds: $employeeIds
+        removedIds: $removedIds
+    )
+}

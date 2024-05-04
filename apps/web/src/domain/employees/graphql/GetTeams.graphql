@@ -1,0 +1,20 @@
+query GetTeams {
+  teams {
+    id
+    name
+    description
+    numberOfEmployees
+  }
+}
+
+query GetTeam($teamId: Int!) {
+  team(id: $teamId) {
+    id
+    name
+    employees{
+      id
+      name
+      email
+    }
+  }
+}

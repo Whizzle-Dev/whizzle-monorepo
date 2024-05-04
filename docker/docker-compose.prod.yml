@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-prod
+    restart: always
+    ports:
+      - '5432:5432'
+    env_file:
+      - ../apps/api/.env
+    volumes:
+      - postgresv2:/var/lib/postgresql/data
+  redis:
+    image: redis:6.2
+    container_name: redis-prod
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis:/data
+  nestjs_app:
+    build:
+      dockerfile: ./docker/Dockerfile
+      context: '../'
+    container_name: nestjs_app
+    environment:
+      DB_HOST: postgres-prod
+      DB_PORT: 5432
+      DB_SCHEMA: yaiks
+    restart: always  # You can adjust the restart policy as needed
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - '3001:3001'  # Map port 3000 on the host to port 3000 in the container
+  notifications-service:
+    build:
+      dockerfile: ./docker/notifications.Dockerfile
+      context: '../'
+    container_name: notifications-service
+    restart: always  # You can adjust the restart policy as needed
+    depends_on:
+      - redis
+    env_file:
+      - ../apps/notifications-service/.env
+volumes:
+  postgresv2:
+    name: nest-db
+  redis:
+    name: nest-redis

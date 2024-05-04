@@ -1,0 +1,3 @@
+mutation SetVacationPolicyAsDefault($id: Int!){
+    setAsDefault(id: $id)
+}

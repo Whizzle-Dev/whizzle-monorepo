@@ -1,0 +1,31 @@
+query GetEmployees ($filters: EmployeeFiltersInput){
+  employees (filters: $filters) {
+    ...Employee
+  }
+}
+
+
+fragment Employee on EmployeeDto {
+  id
+  email
+  name
+  companyId
+  status
+  team {
+    id
+    name
+  }
+  role {
+    id
+    name
+  }
+  permissionRole
+  profilePhotoUrl
+}
+
+fragment LightEmployee on EmployeeDto {
+  id
+  email
+  name
+  profilePhotoUrl
+}

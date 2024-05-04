@@ -1,0 +1,3 @@
+mutation UpdateTeam($id: Int!, $name: String!, $description: String){
+    updateTeam(name: $name, description: $description, id: $id)
+}

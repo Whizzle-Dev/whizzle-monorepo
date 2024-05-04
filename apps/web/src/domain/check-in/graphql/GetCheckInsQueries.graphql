@@ -1,0 +1,37 @@
+query GetPastCheckIns {
+    getPastCheckIns{
+        ...CheckInSubmission
+    }
+}
+
+
+query GetPendingCheckIns {
+    getPendingCheckins {
+        ...CheckInSubmission
+    }
+}
+query GetCheckInsForCompany ($options: PaginatedQueryInput, $filters: CheckInSubmissionsFiltersInput) {
+    getCompanyCheckIns (filters: $filters, options: $options) {
+        ...CheckInSubmission
+    }
+}
+
+query GetCheckInById ($id: Int!){
+    getCheckInSubmission(id: $id) {
+        ...CheckInSubmission
+    }
+}
+
+fragment CheckInSubmission on CheckInSubmissionModel {
+    id
+    formElements
+    createdBy
+    type
+    prettyName
+    status
+    formElements
+    answer
+    employee {
+        ...LightEmployee
+    }
+}

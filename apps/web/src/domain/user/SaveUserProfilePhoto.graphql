@@ -1,0 +1,3 @@
+mutation SaveUserProfilePhoto($fileName: String!){
+    saveUserProfilePhoto(fileName: $fileName)
+}

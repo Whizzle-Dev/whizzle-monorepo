@@ -1,0 +1,3 @@
+mutation DeleteApprovalRouting($id: Int!){
+    deleteApprovalRouting(id: $id)
+}

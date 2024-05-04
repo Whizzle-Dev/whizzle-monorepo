@@ -1,0 +1,18 @@
+mutation CreateProject($name: String!, $description: String, $color: String!) {
+  createProject(name: $name, description: $description, color: $color) {
+    id
+    name
+  }
+}
+
+mutation AddColumn($projectId: Int!, $name: String!, $value: String!) {
+  addColumnToProject(projectId: $projectId, name: $name, value: $value)
+}
+
+mutation RemoveColumn($projectId: Int!, $value: String!) {
+  removeColumnFromProject(projectId: $projectId, value: $value)
+}
+
+mutation UpdateColumns($projectId: Int!, $columns: [ProjectColumnInput!]!) {
+  updateColumnsForProject(projectId: $projectId, columns: $columns)
+}

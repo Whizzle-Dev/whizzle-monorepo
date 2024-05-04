@@ -1,0 +1,18 @@
+query GetNotifications {
+    notifications {
+        ...Notification
+    }
+}
+
+fragment Notification on NotificationDto {
+    id
+    payload
+    createdAt
+    read
+    title
+    eventName
+}
+
+query UnreadNotificationsCount {
+    unreadNotificationsCount
+}

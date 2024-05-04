@@ -1,0 +1,675 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CompanyDto {
+  id: Int!
+  website: String
+  businessName: String!
+}
+
+type UserDto {
+  id: Int!
+  email: String!
+  name: String
+  phoneNumber: String
+  dateOfBirth: DateTime
+  address: String
+  company: CompanyDto
+  profilePhotoUrl: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type NotificationDto {
+  id: Int!
+  title: String!
+  read: Boolean!
+  createdAt: DateTime!
+  payload: JSON!
+  eventName: String!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type UploadFileModel {
+  url: String!
+  fileName: String!
+}
+
+type LeaveCategoryDto {
+  id: Int!
+  name: String!
+  daysAllowed: Int!
+}
+
+type PublicHolidayDto {
+  id: Int!
+  name: String!
+  date: DateTime!
+}
+
+type BankInformationDto {
+  id: Int!
+  bankAccountNumber: String
+  bankName: String
+}
+
+type RoleDto {
+  id: Int!
+  name: String!
+  description: String
+  numberOfEmployees: Int
+  employees: [EmployeeDto!]
+}
+
+type TeamDto {
+  id: Int!
+  name: String!
+  description: String
+  numberOfEmployees: Int
+  employees: [EmployeeDto!]
+}
+
+type EmployeeDto {
+  id: Int!
+  email: String!
+  name: String
+  companyId: Int!
+  status: EmployeeStatus!
+  bankInformation: BankInformationDto
+  role: RoleDto
+  team: TeamDto
+  permissionRole: PermissionRoleEnum!
+  profilePhotoUrl: String
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INVITED
+  DISMISSED
+  EXPIRED
+}
+
+enum PermissionRoleEnum {
+  ADMIN
+  ACCOUNT_OWNER
+  EMPLOYEE
+  MANAGER
+}
+
+type VacationPolicyDto {
+  id: Int!
+  name: String!
+  description: String!
+  policyDocument: String
+  leaveCategories: [LeaveCategoryDto!]
+  publicHolidays: [PublicHolidayDto!]
+  workingDays: [String!]
+  default: Boolean!
+  archived: Boolean!
+  employees: [EmployeeDto!]
+}
+
+type PtoEmployeeRequestModel {
+  id: Int!
+  requestedById: Int!
+  requestedByName: String
+  status: PtoRequestStatus!
+  workingDays: Int!
+  createdAt: DateTime!
+  startDate: DateTime!
+  endDate: DateTime!
+  leaveCategoryName: String!
+  profilePhotoUrl: String
+}
+
+enum PtoRequestStatus {
+  APPROVED
+  CANCELLED
+  PENDING
+  REJECTED
+}
+
+type LeaveEntitlementDto {
+  categoryId: Int!
+  name: String!
+  remainingDays: Float!
+}
+
+type ApprovalRoutingDto {
+  id: Int!
+  config: String!
+  assignedEmployees: [EmployeeDto!]!
+  approvingLevels: [ApproversLevelDto!]!
+  name: String!
+}
+
+type ApproversLevelDto {
+  approvers: [EmployeeDto!]!
+}
+
+type PendingRequestForApprovalDto {
+  id: Int!
+  status: PtoRequestStatus!
+  startDate: DateTime!
+  endDate: DateTime!
+  workingDays: Float!
+  createdAt: DateTime!
+  requestedByName: String
+  leaveCategoryName: String!
+}
+
+type PtoRequestDto {
+  id: Int!
+  status: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  approvers: [PtoRequestApproverDto!]!
+  workingDays: Int!
+  requstedBy: EmployeeDto
+  ptoCategoryName: String!
+}
+
+type PtoRequestApproverDto {
+  employee: EmployeeDto!
+  status: String!
+  priority: Int!
+}
+
+type AbsentEmployeesResponse {
+  employees: [PtoEmployeeRequestModel!]!
+  totalCount: Int!
+}
+
+type LeaveAccrualsDto {
+  id: Int!
+  employeeId: Int!
+  employee: EmployeeDto
+  categoryId: Int!
+  accrualValue: Float!
+  accrualDate: DateTime!
+  description: String
+  cancelReason: String
+  status: LeaveAccrualStatus!
+  timeOfRequestId: Int
+  createdAt: DateTime!
+  updatedAt: DateTime
+  leaveCategoryName: String
+}
+
+enum LeaveAccrualStatus {
+  ACCRUED
+  EXPIRED
+  CANCELLED
+}
+
+type CheckInTemplateModel {
+  id: Int!
+  createdBy: Int!
+  formElements: String!
+  type: CheckInType!
+}
+
+enum CheckInType {
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+type CheckInSubmissionModel {
+  id: Int!
+  createdBy: Int!
+  formElements: String!
+  type: CheckInType!
+  prettyName: String!
+  answer: String
+  status: CheckInSubmissionStatus!
+  employee: EmployeeDto!
+}
+
+enum CheckInSubmissionStatus {
+  EXPIRED
+  PENDING
+  SUBMITTED
+}
+
+type CheckInStatsDto {
+  completionRate: Float!
+  pending: Int!
+  overdue: Int!
+}
+
+type DocumentDto {
+  id: Int!
+  name: String!
+  content: JSON!
+  icon: String
+}
+
+type RecentlyUpdateDocumentDto {
+  id: Int!
+  name: String!
+  employeeName: String
+  employeePhotoUrl: String
+  updatedAt: DateTime
+}
+
+type TaskDto {
+  id: Int!
+  name: String!
+  description: String
+  status: String!
+  assignedTo: Int
+  createdBy: Int!
+  assignedToEmployee: EmployeeDto
+  isBacklog: Boolean
+  project: ProjectDto
+  rank: String
+}
+
+type ProjectDto {
+  id: Int!
+  name: String!
+  color: String!
+  description: String!
+  columns: [ProjectColumnDto!]
+  tasks: [TaskDto!]
+}
+
+type ProjectColumnDto {
+  value: String!
+  name: String!
+}
+
+type ProjectColumn {
+  name: String!
+  value: String!
+}
+
+type TimeEntryDto {
+  id: Int!
+  description: String
+  startDate: DateTime!
+  endDate: DateTime!
+  task: TaskDto
+  project: ProjectDto
+  employee: EmployeeDto
+}
+
+type PendingTimeEntryDto {
+  id: Int!
+  description: String
+  startDate: DateTime!
+  taskId: Int
+  projectId: Int
+}
+
+type TimeEntriesPaginatedResponse {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  data: [TimeEntryDto!]!
+}
+
+type TimeTrackingStatsDto {
+  mostActiveEmployees: [EmployeeDto!]!
+  trendingProject: TrendingProject
+  totalMinutesThisWeek: Int!
+  minutesPercentageDiffFromLastWeek: String!
+}
+
+type TrendingProject {
+  project: ProjectDto!
+  totalMinutes: Int!
+}
+
+type TimeTrackedPerProject {
+  project: ProjectDto!
+  totalMinutes: Int!
+}
+
+type TimeTrackedPerEmployee {
+  employee: EmployeeDto!
+  totalMinutes: Int!
+}
+
+type TimeTrackedPerTeam {
+  team: TeamDto!
+  totalMinutes: Int!
+}
+
+type Query {
+  getFileUploadUrl(fileName: String!): UploadFileModel!
+  currentUser: UserDto!
+  notifications: [NotificationDto!]!
+  unreadNotificationsCount: Int!
+  leaveEntitlements: [LeaveEntitlementDto!]!
+  vacationPolicies: [VacationPolicyDto!]!
+  vacationPolicy(id: Int!): VacationPolicyDto!
+  leavesCategories: [LeaveCategoryDto!]!
+  getRequestsForApproval(status: PtoRequestStatus): [PendingRequestForApprovalDto!]!
+  approvalRoutings: [ApprovalRoutingDto!]!
+  getPtoRequestDetails(requestId: Int!): PtoRequestDto!
+  getPtoRequestsForEmployee(options: PaginatedQueryInput): [PtoEmployeeRequestModel!]!
+  getPtoRequestsForCompany(options: PaginatedQueryInput, filters: GetPtoRequestsFilter!): [PtoEmployeeRequestModel!]!
+  absentEmployees(fromDate: DateTime!, toDate: DateTime!): AbsentEmployeesResponse!
+  getLeaveAccrualsForEmployee: [LeaveAccrualsDto!]!
+  getLeaveAccrualsForCompany: [LeaveAccrualsDto!]!
+  teams: [TeamDto!]!
+  team(id: Int!): TeamDto!
+  currentEmployee: EmployeeDto!
+  employees(filters: EmployeeFiltersInput): [EmployeeDto!]!
+  recentlyJoinedEmployees: [EmployeeDto!]!
+  roles: [RoleDto!]!
+  role(id: Int!): RoleDto!
+  getCheckInTemplates: [CheckInTemplateModel!]!
+  getCheckInSubmission(id: Int!): CheckInSubmissionModel!
+  getPendingCheckins: [CheckInSubmissionModel!]!
+  getCompanyCheckIns(options: PaginatedQueryInput, filters: CheckInSubmissionsFiltersInput): [CheckInSubmissionModel!]!
+  getPastCheckIns: [CheckInSubmissionModel!]!
+  checkInsStatsForEmployee: CheckInStatsDto!
+  documents(sort: String): [DocumentDto!]!
+  myDocuments(sort: String): [DocumentDto!]!
+  recentlyUpdatedDocuments(limit: Int): [RecentlyUpdateDocumentDto!]!
+  projects: [ProjectDto!]!
+  project(id: Int!): ProjectDto!
+  availableStatusesForProject(projectId: Int!): [ProjectColumn!]!
+  tasks(projectId: Int, isBacklog: Boolean, searchQuery: String, assignedTo: [Int!]): [TaskDto!]!
+  task(id: Int!): TaskDto!
+  myTasks: [TaskDto!]!
+  myRecentTasks: [TaskDto!]!
+  timeEntries: [TimeEntryDto!]!
+  companyTimeEntries(options: PaginatedQueryInput, filters: GetTimeEntriesFilters): TimeEntriesPaginatedResponse!
+  activeTimer: PendingTimeEntryDto
+  timeTrackingStats: TimeTrackingStatsDto!
+  timeTrackedPerProject(dateRange: DateRangeInput): [TimeTrackedPerProject!]!
+  timeTrackedPerTeam(dateRange: DateRangeInput): [TimeTrackedPerTeam!]!
+  timeTrackedPerEmployee(dateRange: DateRangeInput): [TimeTrackedPerEmployee!]!
+}
+
+input PaginatedQueryInput {
+  skip: Int!
+  take: Int!
+}
+
+input GetPtoRequestsFilter {
+  status: PtoRequestStatus!
+  startDate: DateTime
+  endDate: DateTime
+  teamIds: [Int!]
+  employeeIds: [Int!]
+  roleIds: [Int!]
+}
+
+input EmployeeFiltersInput {
+  roleId: Int
+  teamId: Int
+}
+
+input CheckInSubmissionsFiltersInput {
+  status: CheckInSubmissionStatus
+  teamId: Int
+}
+
+input GetTimeEntriesFilters {
+  projectIds: [Int!]
+  taskIds: [Int!]
+  teamIds: [Int!]
+  employeeIds: [Int!]
+  dateRange: DateRangeInput
+}
+
+input DateRangeInput {
+  from: DateTime
+  to: DateTime
+}
+
+type Mutation {
+  login(input: LoginInput!): String!
+  signup(input: SignupInput!): Boolean!
+  verify(input: VerificationInput!): Boolean!
+  updateDetails(personalDetails: UpdateUserInput!): Boolean!
+  saveUserProfilePhoto(fileName: String!): String!
+  removeUserProfilePhoto: Boolean!
+  markAsRead(id: Int!): Boolean!
+  createVacationPolicy(input: CreateVacationPolicyInput!): VacationPolicyDto!
+  setAsDefault(id: Int!): Boolean!
+  assignEmployeeToVacationPolicy(employeeIds: [Int!]!, removedIds: [Int!]!, policyId: Int!): Boolean!
+  updateVacationPolicy(input: UpdateVacationPolicyInput!): Boolean!
+  archiveVacationPolicy(id: Int!, value: Boolean = true): Boolean!
+  createLeavesCategory(input: CreateLeaveCategoryInput!): LeaveCategoryDto!
+  createApprovalRouting(input: CreateApprovalRoutingInput!): Boolean!
+  updateApprovalRouting(input: UpdateApprovalRoutingInput!): Boolean!
+  assignApprovalRouting(employeeIds: [Int!]!, approvalRoutingId: Int!): Boolean!
+  deleteApprovalRouting(id: Int!): Boolean!
+  createPTORequest(input: CreatePtoRequestInput!): Boolean!
+  cancelPTORequest(requestId: Int!): Boolean!
+  approveRejectPTORequest(requestId: Int!, accepted: Boolean!): Boolean!
+  createTeam(name: String!, description: String): TeamDto!
+  assignEmployeeToTeam(employeeIds: [Int!]!, removedIds: [Int!]!, teamId: Int!): Boolean!
+  removeEmployeeFromTeam(employeeId: Int!, teamId: Int!): Boolean!
+  deleteTeam(id: Int!): Boolean!
+  updateTeam(id: Int!, name: String!, description: String): Boolean!
+  editEmployee(employeeId: Int!, input: EditEmployeeInput!): Boolean!
+  inviteEmployee(name: String!, email: String!, permission: PermissionRoleEnum!, roleId: Int, teamId: Int): Boolean!
+  resendEmployeeInvite(employeeId: Int!): Boolean!
+  acceptInvite(inviteCode: String!, password: String!): EmployeeDto!
+  cancelInvite(employeeId: Int!): Boolean!
+  saveBankDetails(bankDetails: BankDetailsInput!): Boolean!
+  createRole(name: String!, description: String): RoleDto!
+  assignEmployeeToRole(employeeIds: [Int!]!, removedIds: [Int!]!, roleId: Int!): Boolean!
+  deleteRole(id: Int!): Boolean!
+  updateRole(id: Int!, name: String!, description: String): RoleDto!
+  createCheckInTemplate(payload: CreateCheckInTemplateDto!): Boolean!
+  submitCheckIn(payload: SubmitCheckInInput!): Boolean!
+  updateCheckIn(payload: UpdateCheckInInput!, id: Int!): Boolean!
+  createDocument(input: CreateDocumentInput!): DocumentDto!
+  updateDocument(id: Int!, input: UpdateDocumentInput!): Boolean!
+  deleteDocument(id: Int!): Boolean!
+  mentionEmployee(employeeId: Int!, documentId: Int!): Boolean!
+  createProject(name: String!, description: String, color: String!): ProjectDto!
+  addColumnToProject(projectId: Int!, name: String!, value: String!): Boolean!
+  removeColumnFromProject(projectId: Int!, value: String!): Boolean!
+  updateColumnsForProject(projectId: Int!, columns: [ProjectColumnInput!]!): Boolean!
+  updateTaskPosition(taskId: Int!, prevCursor: String, nextCursor: String): Boolean!
+  createTask(projectId: Int!, payload: CreateTaskInput!): TaskDto!
+  updateTask(payload: UpdateTaskInput!): Boolean!
+  assignEmployeeToTask(taskId: Int!, employeeId: Int!): Boolean!
+  createTimeEntry(payload: CreateTimeEntryInput!): TimeEntryDto!
+  startTimer(payload: StartTimerInput!): Boolean!
+  stopTimer: TimeEntryDto!
+  updateActiveTimer(payload: EditActiveTimerInput!): Boolean!
+  deleteTimeEntry(id: Int!): Boolean!
+  editTimeEntry(payload: EditTimeEntryInput!): TimeEntryDto!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input SignupInput {
+  name: String!
+  email: String!
+  password: String!
+  businessName: String!
+  website: String!
+}
+
+input VerificationInput {
+  verificationToken: String!
+}
+
+input UpdateUserInput {
+  phoneNumber: String
+  address: String
+  fullName: String
+  dateOfBirth: String
+  profilePhotoFileName: String
+}
+
+input CreateVacationPolicyInput {
+  name: String!
+  description: String!
+  policyDocument: String!
+  leaveCategories: [LeaveCategoryInput!]!
+  workingDays: [String!]!
+  publicHolidays: [PublicHolidaysInput!]!
+  employees: [Int!]!
+}
+
+input LeaveCategoryInput {
+  name: String!
+  daysAllowed: Int!
+  accrualType: AccrualType!
+}
+
+enum AccrualType {
+  FIXED_NUMBER_PER_MONTH
+  FIXED_NUMBER_PER_YEAR
+  PER_MONTH_START
+  PER_YEAR_START
+}
+
+input PublicHolidaysInput {
+  name: String!
+  date: String!
+}
+
+input UpdateVacationPolicyInput {
+  id: Int!
+  name: String!
+  description: String!
+  policyDocument: String!
+  leaveCategories: [LeaveCategoryInput!]
+  workingDays: [String!]
+  publicHolidays: [PublicHolidaysInput!]
+}
+
+input CreateLeaveCategoryInput {
+  name: String!
+  daysAllowed: Int!
+  policyId: Int!
+}
+
+input CreateApprovalRoutingInput {
+  routing: [Routing!]!
+  assignedEmployees: [Int!]!
+  name: String!
+}
+
+input Routing {
+  approvers: [ApproverEntry!]!
+}
+
+input ApproverEntry {
+  approverId: Int!
+}
+
+input UpdateApprovalRoutingInput {
+  routing: [Routing!]!
+  assignedEmployees: [Int!]!
+  name: String!
+  id: Int!
+}
+
+input CreatePtoRequestInput {
+  startDate: DateTime!
+  endDate: DateTime!
+  categoryId: Int!
+  note: String
+}
+
+input EditEmployeeInput {
+  name: String!
+  email: String!
+  roleId: Int
+  teamId: Int
+  permission: PermissionRoleEnum!
+}
+
+input BankDetailsInput {
+  bankName: String!
+  bankAccountNumber: String!
+}
+
+input CreateCheckInTemplateDto {
+  type: CheckInType!
+  template: String!
+}
+
+input SubmitCheckInInput {
+  checkInId: Int!
+  answers: String!
+}
+
+input UpdateCheckInInput {
+  answers: String!
+}
+
+input CreateDocumentInput {
+  name: String!
+  content: String!
+  icon: String
+  isPrivate: Boolean!
+}
+
+input UpdateDocumentInput {
+  name: String!
+  content: String!
+  icon: String
+}
+
+input ProjectColumnInput {
+  name: String!
+  value: String!
+}
+
+input CreateTaskInput {
+  name: String!
+  description: String
+  status: String
+  assignedTo: Int
+  isBacklog: Boolean
+}
+
+input UpdateTaskInput {
+  id: Int!
+  name: String
+  description: String
+  status: String
+  assignedTo: Int
+  isBacklog: Boolean
+}
+
+input CreateTimeEntryInput {
+  taskId: Int!
+  startDate: DateTime!
+  endDate: DateTime!
+  description: String!
+}
+
+input StartTimerInput {
+  taskId: Int!
+  startDate: DateTime!
+  description: String!
+}
+
+input EditActiveTimerInput {
+  taskId: Int
+  description: String
+}
+
+input EditTimeEntryInput {
+  taskId: Int!
+  startDate: DateTime!
+  endDate: DateTime!
+  description: String!
+  id: Int!
+}

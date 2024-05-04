@@ -1,0 +1,32 @@
+query GetAccrualsForEmployee {
+    getLeaveAccrualsForEmployee {
+        ...LeaveAccrual
+    }
+}
+
+query GetLeaveAccrualsForCompany {
+    getLeaveAccrualsForCompany{
+        ...LeaveAccrual
+    }
+}
+
+
+fragment LeaveAccrual on LeaveAccrualsDto {
+    id
+    accrualDate
+    accrualValue
+    cancelReason
+    categoryId
+    description
+    updatedAt
+    createdAt
+    timeOfRequestId
+    employeeId
+    status
+    leaveCategoryName
+    employee {
+        id
+        name
+        profilePhotoUrl
+    }
+}

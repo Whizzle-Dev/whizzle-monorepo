@@ -1,0 +1,17 @@
+query GetAbsentEmployees($fromDate: DateTime!, $toDate: DateTime!) {
+  absentEmployees(fromDate: $fromDate, toDate: $toDate) {
+    totalCount
+    employees {
+      id
+      status
+      requestedByName
+      workingDays
+      createdAt
+      startDate
+      endDate
+      leaveCategoryName
+      requestedById
+      profilePhotoUrl
+    }
+  }
+}

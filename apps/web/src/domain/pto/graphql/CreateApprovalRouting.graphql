@@ -1,0 +1,3 @@
+mutation CreateApprovalRouting ($input: CreateApprovalRoutingInput!) {
+  createApprovalRouting(input: $input)
+}

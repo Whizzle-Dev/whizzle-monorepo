@@ -1,0 +1,29 @@
+query GetPtoRequestsDetail($requestId: Int!){
+    getPtoRequestDetails(requestId: $requestId){
+        ...PtoRequestFragment
+    }
+
+}
+
+fragment PtoRequestFragment on PtoRequestDto {
+    approvers{
+        employee {
+            id
+            name
+            profilePhotoUrl
+        }
+        status
+        priority
+    }
+    id
+    startDate
+    endDate
+    status
+    workingDays
+    requstedBy {
+        id
+        name
+        profilePhotoUrl
+    }
+    ptoCategoryName
+}

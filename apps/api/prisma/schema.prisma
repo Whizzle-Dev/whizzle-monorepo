@@ -1,0 +1,410 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  password    String
+  name        String?
+  phoneNumber String?   @unique
+  dateOfBirth DateTime?
+  address     String?
+  updatedAt DateTime? @updatedAt
+  createdAt DateTime  @default(now())
+  profilePhotoFileName String?
+  profilePhotoUrl String?
+  emailVerified Boolean    @default(false)
+
+  Employee      Employee[]
+}
+
+model BankInformation {
+  id                Int        @id @default(autoincrement())
+  bankName          String?
+  bankAccountNumber String?
+  Employee          Employee[]
+}
+
+model Employee {
+  id                        Int            @id @default(autoincrement())
+  companyId                 Int
+  userId                    Int
+  assignedApprovalRoutingId Int?
+  assignedVacationPolicyId  Int?
+  bankInformationId         Int?
+  roleId                    Int?
+  teamId                    Int?
+  status                    EmployeeStatus
+  inviteCode                String?
+  inviteDate                DateTime?
+  updatedAt                 DateTime?      @updatedAt
+  createdAt                 DateTime       @default(now())
+  permissionRole            PermissionRole @default(EMPLOYEE)
+  acceptedInviteAt          DateTime?
+
+  pendingTimer            PendingTimer?
+  Accruals                LeaveAccrual[]
+  TimeEntries             TimeEntry[]
+  TimeOfRequests          TimeOffRequest[]
+  Approvers               TimeOffRequestApprover[]
+  AssignedApprovalRouting ApprovalRouting?         @relation(fields: [assignedApprovalRoutingId], references: [id])
+  BankInformation         BankInformation?         @relation(fields: [bankInformationId], references: [id])
+  CheckInForms            CheckInForm[]
+  CheckInFormSubmissions  CheckInFormSubmission[]
+  Role                    Role?                    @relation(fields: [roleId], references: [id])
+  Team                    Team?                    @relation(fields: [teamId], references: [id])
+  Company                 Company                  @relation(fields: [companyId], references: [id])
+  User                    User                     @relation(fields: [userId], references: [id])
+  AssignedVacationPolicy  VacationPolicy?          @relation(fields: [assignedVacationPolicyId], references: [id])
+  CreatedTasks            Task[]                   @relation("TaskCreatedBy")
+  AssignedTasks           Task[]                   @relation("AssignedTo")
+  CreatedDocuments        Document[]               @relation("createdBy")
+  UpdatedDocuments        Document[]               @relation("updatedBy")
+  Notifications           Notification[]
+
+  @@unique([companyId, userId])
+}
+
+model Document {
+  id        Int       @id @default(autoincrement())
+  name      String
+  content   Json
+  companyId Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  icon      String?
+  isPrivate Boolean   @default(false)
+  createdById Int?
+  lastUpdatedById Int?
+
+
+  CreatedBy Employee? @relation(fields: [createdById], references: [id], name: "createdBy")
+  LastUpdatedBy Employee? @relation(fields: [lastUpdatedById], references: [id], name: "updatedBy")
+  Company Company @relation(fields: [companyId], references: [id])
+}
+
+model Role {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  companyId   Int
+  updatedAt   DateTime? @updatedAt
+  createdAt   DateTime  @default(now())
+
+  Employees Employee[]
+  company   Company    @relation(fields: [companyId], references: [id])
+}
+
+model Team {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  companyId   Int
+  updatedAt   DateTime? @updatedAt
+  createdAt   DateTime  @default(now())
+
+  Company Company    @relation(fields: [companyId], references: [id])
+  Members Employee[]
+}
+
+model Company {
+  id           Int       @id @default(autoincrement())
+  website      String?
+  businessName String
+  updatedAt    DateTime? @updatedAt
+  createdAt    DateTime  @default(now())
+  active       Boolean   @default(true)
+
+  UserSignupRequest UserSignupRequest[]
+  VacationPolicies  VacationPolicy[]
+  LeaveCategories   LeaveCategory[]
+  ApprovalRoutings  ApprovalRouting[]
+  Employees         Employee[]
+  Roles             Role[]
+  Teams             Team[]
+  CheckInForms      CheckInForm[]
+  Documents         Document[]
+  Projects          Project[]
+  TimeEntries       TimeEntry[]
+}
+
+model NationalHoliday {
+  id   Int      @id @default(autoincrement())
+  name String
+  date DateTime
+
+  vacationPolicyId Int?
+  VacationPolicy   VacationPolicy? @relation(fields: [vacationPolicyId], references: [id])
+
+  updatedAt DateTime? @updatedAt
+  createdAt DateTime  @default(now())
+}
+
+model UserSignupRequest {
+  id                Int       @id @default(autoincrement())
+  email             String
+  password          String
+  name              String?
+  Company           Company   @relation(fields: [companyId], references: [id])
+  companyId         Int
+  verificationToken String    @unique
+  codeGeneratedAt   DateTime?
+
+  updatedAt DateTime? @updatedAt
+  createdAt DateTime  @default(now())
+}
+
+model VacationPolicy {
+  id             Int       @id @default(autoincrement())
+  name           String
+  description    String
+  policyDocument String?
+  default        Boolean   @default(false)
+  archived       Boolean   @default(false)
+  companyId      Int
+  workingDays    String[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime? @updatedAt
+
+  Categories       LeaveCategory[]
+  Company          Company           @relation(fields: [companyId], references: [id])
+  NationalHolidays NationalHoliday[]
+  Employees        Employee[]
+}
+
+model LeaveCategory {
+  id              Int              @id @default(autoincrement())
+  name            String
+  daysAllowed     Int
+  Policy          VacationPolicy   @relation(fields: [policyId], references: [id])
+  policyId        Int
+  timeOffRequests TimeOffRequest[]
+  companyId       Int
+  Company         Company          @relation(fields: [companyId], references: [id])
+  accruals        LeaveAccrual[]
+
+  createdAt   DateTime    @default(now())
+  accrualType AccrualType @default(FIXED_NUMBER_PER_YEAR)
+}
+
+model LeaveAccrual {
+  id              Int                @id @default(autoincrement())
+  employeeId      Int
+  categoryId      Int
+  accrualValue    Float
+  accrualDate     DateTime
+  description     String?
+  cancelReason    String?
+  status          LeaveAccrualStatus @default(ACCRUED)
+  timeOfRequestId Int?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime?          @updatedAt
+
+  Employee      Employee        @relation(fields: [employeeId], references: [id])
+  LeaveCategory LeaveCategory   @relation(fields: [categoryId], references: [id])
+  TimeOfRequest TimeOffRequest? @relation(fields: [timeOfRequestId], references: [id])
+}
+
+enum LeaveAccrualStatus {
+  ACCRUED
+  EXPIRED
+  CANCELLED
+}
+
+enum AccrualType {
+  PER_MONTH_START
+  PER_YEAR_START
+  FIXED_NUMBER_PER_YEAR
+  FIXED_NUMBER_PER_MONTH
+}
+
+model TimeOffRequest {
+  id            Int                      @id @default(autoincrement())
+  startDate     DateTime
+  endDate       DateTime
+  status        TimeOffRequestStatus
+  RequestedBy   Employee                 @relation(fields: [requestedById], references: [id])
+  requestedById Int
+  Category      LeaveCategory            @relation(fields: [categoryId], references: [id])
+  categoryId    Int
+  Approvers     TimeOffRequestApprover[]
+  workingDays   Float
+
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime?      @updatedAt
+  LeaveAccrual LeaveAccrual[]
+}
+
+model TimeOffRequestApprover {
+  id         Int                  @id @default(autoincrement())
+  Request    TimeOffRequest       @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  requestId  Int
+  Approver   Employee             @relation(fields: [approverId], references: [id])
+  approverId Int
+  createdAt  DateTime             @default(now())
+  updatedAt  DateTime?            @updatedAt
+  status     TimeOffRequestStatus @default(PENDING)
+  priority   Int
+}
+
+model ApprovalRouting {
+  id        Int       @id @default(autoincrement())
+  config    Json
+  companyId Int
+  name      String    @default("Approval Routing")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  Company           Company    @relation(fields: [companyId], references: [id])
+  AssignedApprovers Employee[]
+}
+
+enum CheckInFormRecurrence {
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+model CheckInForm {
+  id           Int       @id @default(autoincrement())
+  formElements Json
+  companyId    Int
+  createdBy    Int
+  active       Boolean
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @default(now()) @updatedAt
+
+  CheckInFormSubmissions CheckInFormSubmission[]
+  recurrence             CheckInFormRecurrence
+  Company                Company                 @relation(fields: [companyId], references: [id])
+  CreatedBy              Employee                @relation(fields: [createdBy], references: [id])
+}
+
+model CheckInFormSubmission {
+  id            Int                         @id @default(autoincrement())
+  checkInFormId Int
+  answer        String?
+  createdAt     DateTime                    @default(now())
+  updatedAt     DateTime?                   @updatedAt
+  dueAt         DateTime
+  status        CheckInFormSubmissionStatus
+  submittedById Int
+
+  checkInForm CheckInForm @relation(fields: [checkInFormId], references: [id])
+  SubmittedBy Employee    @relation(fields: [submittedById], references: [id])
+}
+
+model Project {
+  id          Int       @id @default(autoincrement())
+  name        String
+  companyId   Int
+  updatedAt   DateTime? @updatedAt
+  createdAt   DateTime  @default(now())
+  color       String    @default("#000000")
+  description String    @default("")
+  columns Json @default("[{ \"name\": \"Todo\", \"value\": \"TODO\" }, { \"name\": \"In Progress\", \"value\": \"IN_PROGRESS\" }, { \"name\": \"Done\", \"value\": \"DONE\"}]")
+
+
+  Company Company @relation(fields: [companyId], references: [id])
+  Tasks   Task[]
+}
+
+model Task {
+  id          Int       @id @default(autoincrement())
+  name        String
+  projectId   Int
+  updatedAt   DateTime? @updatedAt
+  createdAt   DateTime  @default(now())
+  createdBy   Int
+  description String    @default("")
+  assignedTo  Int?
+  status      String    @default("TODO")
+  isBacklog   Boolean   @default(false)
+  lexoRank    String?
+
+  Project       Project        @relation(fields: [projectId], references: [id])
+  CreatedBy     Employee       @relation(fields: [createdBy], references: [id], name: "TaskCreatedBy")
+  AssignedTo    Employee?      @relation(fields: [assignedTo], references: [id], name: "AssignedTo")
+  TimeEntries   TimeEntry[]
+  PendingTimers PendingTimer[]
+}
+
+model TimeEntry {
+  id          Int       @id @default(autoincrement())
+  taskId      Int?
+  employeeId  Int
+  startDate   DateTime
+  endDate     DateTime
+  description String?
+  updatedAt   DateTime? @updatedAt
+  createdAt   DateTime  @default(now())
+  companyId   Int
+
+  Company  Company  @relation(fields: [companyId], references: [id])
+  Task     Task?    @relation(fields: [taskId], references: [id])
+  Employee Employee @relation(fields: [employeeId], references: [id])
+}
+
+model PendingTimer {
+  id          Int       @id @default(autoincrement())
+  taskId      Int?
+  employeeId  Int       @unique
+  startDate   DateTime
+  description String?
+  updatedAt   DateTime? @updatedAt
+  createdAt   DateTime  @default(now())
+
+  Task     Task?    @relation(fields: [taskId], references: [id])
+  Employee Employee @relation(fields: [employeeId], references: [id])
+
+  @@unique([taskId, employeeId])
+}
+
+model Notification {
+  id          Int       @id @default(autoincrement())
+  eventName   String
+  payload     Json
+  read        Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  employeeId  Int
+  title     String
+
+  Employee Employee @relation(fields: [employeeId], references: [id])
+}
+
+enum PermissionRole {
+  ACCOUNT_OWNER
+  ADMIN
+  MANAGER
+  EMPLOYEE
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INVITED
+  DISMISSED
+  EXPIRED
+}
+
+enum TimeOffRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum CheckInFormSubmissionStatus {
+  PENDING
+  SUBMITTED
+  EXPIRED
+}

@@ -1,0 +1,26 @@
+query GetPtoRequestsForEmployee ($options: PaginatedQueryInput) {
+    getPtoRequestsForEmployee (options: $options){
+        id
+        startDate
+        endDate
+        status
+        createdAt
+        requestedById
+        workingDays
+        leaveCategoryName
+    }
+}
+
+query GetPtoRequestsForCompany ($options: PaginatedQueryInput, $filters: GetPtoRequestsFilter!) {
+    getPtoRequestsForCompany (options: $options, filters: $filters){
+        id
+        startDate
+        endDate
+        status
+        createdAt
+        requestedById
+        workingDays
+        leaveCategoryName
+        requestedByName
+    }
+}

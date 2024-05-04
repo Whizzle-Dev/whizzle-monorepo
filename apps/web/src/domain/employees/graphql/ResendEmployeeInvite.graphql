@@ -1,0 +1,3 @@
+mutation ResendEmployeeInvite($id: Int!) {
+  resendEmployeeInvite(employeeId: $id)
+}

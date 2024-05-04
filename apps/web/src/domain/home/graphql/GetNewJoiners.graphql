@@ -1,0 +1,14 @@
+
+query GetNewJoiners {
+    recentlyJoinedEmployees {
+        ...LightEmployee
+        role {
+            id
+            name
+        }
+        team {
+            id
+            name
+        }
+    }
+}

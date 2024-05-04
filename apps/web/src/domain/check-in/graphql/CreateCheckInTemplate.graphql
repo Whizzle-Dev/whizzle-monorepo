@@ -1,0 +1,3 @@
+mutation CreateCheckInTemplate($payload: CreateCheckInTemplateDto!){
+    createCheckInTemplate(payload: $payload)
+}

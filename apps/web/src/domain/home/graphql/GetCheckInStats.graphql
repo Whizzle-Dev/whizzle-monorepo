@@ -1,0 +1,7 @@
+query GetCheckInsStatsForEmployee {
+    checkInsStatsForEmployee{
+        overdue
+        completionRate
+        pending
+    }
+}

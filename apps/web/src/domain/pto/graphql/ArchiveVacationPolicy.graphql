@@ -1,0 +1,3 @@
+mutation ArchiveVacationPolicy($id: Int!, $value: Boolean){
+  archiveVacationPolicy(id: $id, value: $value)
+}

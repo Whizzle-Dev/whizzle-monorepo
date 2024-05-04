@@ -1,0 +1,32 @@
+---
+title: You have been invited
+bodyClass: bg-gray-100
+---
+
+<extends src="src/layouts/main.html">
+  <block name="template">
+    <tr>
+      <td class="text-center pt-4 px-4 pb-6 sm:pb-3">
+        <h1 class="font-semibold text-black text-2xl">You have been invited 🎉</h1>
+      </td>
+    </tr>
+    <tr>
+      <td class="bg-white text-center">
+        <p class="text-lg font-semibold m-0">Hey there,</p>
+        <raw>
+          <p class="text-gray-700 text-base"><span class="font-bold text-gray-700">{{ inviterName }}</span>
+            invited you to join <span class="font-bold text-gray-700">{{ companyName }}</span>
+          </p>
+        </raw>
+        <div class="leading-6 sm:h-8">&zwnj;</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="pb-8">
+        <component align="center" src="src/components/button.html" href="@{{ inviteLink }}">Setup Account &rarr;
+        </component>
+      </td>
+    </tr>
+    <component src="src/components/footer.html"></component>
+  </block>
+</extends>

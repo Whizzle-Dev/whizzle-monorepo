@@ -1,0 +1,3 @@
+mutation AssignEmployeeToRole ($roleId: Int!, $employeeIds: [Int!]!, $removedIds: [Int!]!){
+  assignEmployeeToRole(roleId: $roleId, employeeIds: $employeeIds, removedIds: $removedIds)
+}

@@ -1,0 +1,16 @@
+mutation EditTimeEntry($payload: EditTimeEntryInput!) {
+    editTimeEntry(payload: $payload) {
+        id
+        description
+        startDate
+        endDate
+        task {
+            id
+            name
+        }
+        project {
+            id
+            name
+        }
+    }
+}

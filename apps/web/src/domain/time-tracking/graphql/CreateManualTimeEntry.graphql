@@ -1,0 +1,16 @@
+mutation CreateManualTimeEntry($payload: CreateTimeEntryInput!) {
+    createTimeEntry(payload: $payload) {
+        id
+        description
+        startDate
+        endDate
+        task {
+            id
+            name
+        }
+        project {
+            id
+            name
+        }
+    }
+}

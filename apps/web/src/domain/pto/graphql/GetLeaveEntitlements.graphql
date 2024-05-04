@@ -1,0 +1,8 @@
+
+query GetLeaveEntitlements {
+    leaveEntitlements {
+        name
+        remainingDays
+        categoryId
+    }
+}

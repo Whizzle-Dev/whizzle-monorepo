@@ -1,0 +1,36 @@
+---
+title: Action Required - New PTO Request Submission
+bodyClass: bg-gray-100
+---
+
+<extends src="src/layouts/main.html">
+  <block name="template">
+    <tr>
+      <td class="text-center pt-4 px-6 pb-6 sm:pb-3">
+        <raw>
+          <h1 class="font-semibold text-black text-2xl">{{ requestSubmitterName }} <span class="font-normal">has submitted a new PTO request</span></h1>
+        </raw>
+      </td>
+    </tr>
+    <tr>
+      <td class="bg-white text-center px-4">
+        <raw>
+          <span class="text-lg font-semibold text-gray-700">{{ requestSubmitterName }} <span
+            class="text-lg font-normal text-gray-600">submitted a PTO request for</span> {{
+            requestDuration }} <span class="text-lg font-normal text-gray-600">of</span> {{ timeOffType }} <span
+              class="text-lg font-normal text-gray-600">from</span> {{ startDate }} <span
+              class="text-lg font-normal text-gray-600">to</span> {{ endDate }} <span
+              class="text-lg font-normal text-gray-600">please review and approve</span></span>
+        </raw>
+        <div class="leading-6 sm:h-8">&zwnj;</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="pb-8">
+        <component align="center" src="src/components/button.html" href="@{{ ctaLink }}">Click to Review Request &rarr;
+        </component>
+      </td>
+    </tr>
+    <component src="src/components/footer.html"></component>
+  </block>
+</extends>

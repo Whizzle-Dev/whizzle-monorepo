@@ -1,0 +1,54 @@
+query GetTasks($projectId: Int) {
+    tasks(projectId: $projectId) {
+        ...Task
+    }
+}
+
+query GetMyTasks {
+    myTasks {
+        ...TaskWithProject
+    }
+}
+
+query GetAvailableStatusesForProject($projectId: Int!) {
+    availableStatusesForProject(projectId: $projectId){
+        value
+        name
+    }
+}
+
+
+fragment LiteTask on TaskDto {
+    id
+    name
+}
+
+fragment Task on TaskDto {
+    id
+    name
+    description
+    assignedTo
+    createdBy
+    status
+    isBacklog
+    rank
+    assignedToEmployee {
+        ...LightEmployee
+    }
+}
+
+
+fragment TaskWithProject on TaskDto {
+    ...Task
+    project {
+        id
+        name
+        color
+    }
+}
+
+query GetTask($id: Int!) {
+    task(id: $id) {
+        ...TaskWithProject
+    }
+}

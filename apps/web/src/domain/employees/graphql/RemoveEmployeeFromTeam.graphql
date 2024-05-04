@@ -1,0 +1,3 @@
+mutation RemoveEmployeeFromTeam($teamId: Int!, $employeeId: Int!){
+  removeEmployeeFromTeam(teamId: $teamId, employeeId: $employeeId)
+}

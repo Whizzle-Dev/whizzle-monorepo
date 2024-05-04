@@ -1,0 +1,3 @@
+mutation InviteEmployee($email: String!, $name: String!, $roleId: Int, $permission: PermissionRoleEnum!, $teamId: Int) {
+    inviteEmployee(email: $email, name: $name, roleId: $roleId, permission: $permission, teamId: $teamId)
+}

@@ -1,0 +1,23 @@
+---
+title: Employee Mentioned on Document
+bodyClass: bg-gray-100
+---
+
+<extends src="src/layouts/main.html">
+  <block name="template">
+    <tr>
+      <td class="text-center pt-4 px-6 pb-6 sm:pb-3">
+        <raw>
+          <h1 class="font-semibold text-black text-2xl">{{ mentionerName }} <span class="font-normal">mentioned you on a document</span></h1>
+        </raw>
+      </td>
+    </tr>
+    <tr>
+      <td class="pb-8">
+        <component align="center" src="src/components/button.html" href="@{{ ctaLink }}">View Document
+        </component>
+      </td>
+    </tr>
+    <component src="src/components/footer.html"></component>
+  </block>
+</extends>

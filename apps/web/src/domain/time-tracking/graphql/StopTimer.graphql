@@ -1,0 +1,12 @@
+mutation StopTimer {
+    stopTimer {
+        id
+        description
+        startDate
+        endDate
+        task {
+            id
+            name
+        }
+    }
+}

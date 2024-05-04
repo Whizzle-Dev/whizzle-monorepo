@@ -1,0 +1,9 @@
+query GetRecentlyUpdatedDocuments{
+    recentlyUpdatedDocuments {
+        id
+        updatedAt
+        name
+        employeeName
+        employeePhotoUrl
+    }
+}

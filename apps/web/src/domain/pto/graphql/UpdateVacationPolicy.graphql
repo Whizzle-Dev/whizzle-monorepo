@@ -1,0 +1,3 @@
+mutation UpdateVacationPolicy ($input: UpdateVacationPolicyInput!){
+  updateVacationPolicy(input: $input )
+}

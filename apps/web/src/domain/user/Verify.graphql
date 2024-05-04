@@ -1,0 +1,3 @@
+mutation VerifyUser($input:VerificationInput!){
+  verify(input:$input)
+}

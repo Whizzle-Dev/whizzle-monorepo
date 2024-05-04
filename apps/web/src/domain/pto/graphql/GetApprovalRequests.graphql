@@ -1,0 +1,12 @@
+query GetApprovalRequests ($status: PtoRequestStatus){
+    getRequestsForApproval(status: $status){
+        id
+        workingDays
+        status
+        createdAt
+        endDate
+        startDate
+        requestedByName
+        leaveCategoryName
+    }
+}

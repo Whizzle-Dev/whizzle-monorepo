@@ -1,0 +1,3 @@
+mutation MentionEmployee($employeeId: Int!, $documentId: Int!) {
+    mentionEmployee(employeeId: $employeeId, documentId: $documentId)
+}

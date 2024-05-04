@@ -1,0 +1,11 @@
+mutation SaveUserDetails($personalDetails: UpdateUserInput!) {
+    updateDetails(personalDetails: $personalDetails)
+}
+
+mutation SaveBankDetails($bankDetails: BankDetailsInput!) {
+    saveBankDetails(bankDetails: $bankDetails)
+}
+
+mutation DeleteUserProfilePhoto {
+    removeUserProfilePhoto
+}

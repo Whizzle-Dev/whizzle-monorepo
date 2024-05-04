@@ -1,0 +1,3 @@
+mutation DeleteDocument($id: Int!) {
+  deleteDocument(id: $id)
+}
