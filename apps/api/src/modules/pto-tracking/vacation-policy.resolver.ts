@@ -38,7 +38,7 @@ export class VacationPolicyResolver {
     });
   }
 
-  @Roles(PermissionRoleEnum.ADMIN)
+  @Roles(PermissionRoleEnum.EMPLOYEE)
   @Query(() => [VacationPolicyDto])
   async vacationPolicies(
     @JwtGraphqlDecorator() token: JwtPayload,

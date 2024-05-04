@@ -105,7 +105,7 @@ export const ManageVacationPolicy = ({
         const workday = DAYS.reduce((acc, day) => {
           acc[day] = !!policy.workingDays?.includes(day);
           return acc;
-        }, {} as Record<typeof DAYS[number], boolean>);
+        }, {} as Record<(typeof DAYS)[number], boolean>);
         methods.setValue('workday', workday);
       }
 
@@ -170,6 +170,7 @@ export const ManageVacationPolicy = ({
               daysAllowed: category.daysAllowed,
               accrualType: category.accrualType,
             })),
+            employees: [],
           },
         },
       }).then(() => {
