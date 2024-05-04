@@ -14,18 +14,20 @@ type CreateProjectDrawerProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
+
 const projectSchema = z.object({
   name: z.string().min(3, 'Required').max(255),
   color: z.string().min(3, 'Required').max(255).default('#000000'),
   description: z.string().max(255, 'Max 255 characters').optional(),
 });
+
 type ProjectFormValues = z.infer<typeof projectSchema>;
+
 export const CreateProjectDrawer = ({
   open,
   onOpenChange,
 }: CreateProjectDrawerProps) => {
   const methods = useForm<ProjectFormValues>({
-    // @ts-expect-error todo: fix this
     resolver: zodResolver(projectSchema),
     defaultValues: {
       name: '',
@@ -49,7 +51,6 @@ export const CreateProjectDrawer = ({
       .then(() => {
         toast({
           title: 'Project Created',
-          description: 'Project has been created',
           variant: 'default',
         });
         onOpenChange(false);
