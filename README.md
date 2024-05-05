@@ -1,20 +1,21 @@
 ## Monorepo for Whizzle application
 
-Consists of:
+#### Projects:
 
-- apps/api: Main backend service
-- apps/web: Main frontend app
-- packages/email-templates: Email templates for the services.
+- [apps/api](apps/api): Main backend service
+- [apps/web](apps/web): Main frontend app
+- [packages/email-templates](packages/email-templates): Email templates
 
 
 
 Main Technologies Used:
 
-* Language: Typescript
-* Framework: NestJs & NextJs
-* Query builder: Kysely
-* Migrations manager: Prisma
-* Database: Postgres
-* Queues/Jobs: Bull/Redis
-* Package manager: PNPM
-* CI/CD: Github Actions
+* Language: **Typescript**
+* Framework: **Next.js, NestJS**
+* Query builder: **Kysely**
+* Migrations manager: **Prisma**
+* Database: **Postgres**
+* Queues/Jobs: **Bull/Redis**
+* Package manager: **PNPM**
+* Emails: **Resend**
+* Error Reporting: **Sentry**

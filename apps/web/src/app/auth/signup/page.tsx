@@ -19,7 +19,7 @@ export default function SignupPage() {
           className={cn('absolute right-4 top-4 md:right-8 md:top-8')}
           variant="ghost"
         >
-          <Link href="/auth/login">Login</Link>
+          <Link href="/auth/login">Log in</Link>
         </Button>
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">

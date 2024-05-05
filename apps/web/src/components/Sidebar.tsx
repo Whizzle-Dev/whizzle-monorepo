@@ -362,7 +362,7 @@ const ProfilePopover = ({
             <CommandItem onSelect={() => router.push('/app/dashboard/profile')}>
               View Profile
             </CommandItem>
-            <CommandItem onSelect={onLogout}>Logout</CommandItem>
+            <CommandItem onSelect={onLogout}>Log out</CommandItem>
           </CommandList>
           <CommandSeparator />
         </Command>
