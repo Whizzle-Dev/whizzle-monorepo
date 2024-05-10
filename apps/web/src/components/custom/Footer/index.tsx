@@ -1,4 +1,4 @@
-import Link from 'next/link';
+// import Link from 'next/link';
 
 export function Footer() {
   return (
@@ -33,38 +33,33 @@ export function Footer() {
             </p>
           </div>
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="flex flex-col gap-1">
-            <h3 className="text-lg font-semibold">Links</h3>
-            <ul className="grid gap-2">
-              <li>
-                {/*// todo*/}
-                <Link href="/">Terms of Service</Link>
-              </li>
-              <li>
-                {/*// todo*/}
-                <Link href="/">Privacy Policy</Link>
-              </li>
-            </ul>
-          </div>
-          <div className="flex flex-col gap-1">
-            <h3 className="text-lg font-semibold">Resources</h3>
-            <ul className="grid gap-2">
-              <li>
-                {/*// todo*/}
-                <Link href="/">Blog</Link>
-              </li>
-              <li>
-                {/*// todo*/}
-                <Link href="/">Documentation</Link>
-              </li>
-              <li>
-                {/*// todo*/}
-                <Link href="/">Case Studies</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
+        {/*<div className="grid gap-4 md:grid-cols-2">*/}
+        {/*  <div className="flex flex-col gap-1">*/}
+        {/*    <h3 className="text-lg font-semibold">Links</h3>*/}
+        {/*    <ul className="grid gap-2">*/}
+        {/*      <li>*/}
+        {/*        <Link href="/">Terms of Service</Link>*/}
+        {/*      </li>*/}
+        {/*      <li>*/}
+        {/*        <Link href="/">Privacy Policy</Link>*/}
+        {/*      </li>*/}
+        {/*    </ul>*/}
+        {/*  </div>*/}
+        {/*  <div className="flex flex-col gap-1">*/}
+        {/*    <h3 className="text-lg font-semibold">Resources</h3>*/}
+        {/*    <ul className="grid gap-2">*/}
+        {/*      <li>*/}
+        {/*        <Link href="/">Blog</Link>*/}
+        {/*      </li>*/}
+        {/*      <li>*/}
+        {/*        <Link href="/">Documentation</Link>*/}
+        {/*      </li>*/}
+        {/*      <li>*/}
+        {/*        <Link href="/">Case Studies</Link>*/}
+        {/*      </li>*/}
+        {/*    </ul>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
       </div>
     </footer>
   );
