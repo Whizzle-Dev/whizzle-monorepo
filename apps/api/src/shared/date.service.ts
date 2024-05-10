@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import * as dayjs from 'dayjs';
-import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 
 enum DateFormats {
   FullMonthDayFullYear = 'MMMM DD, YYYY',
@@ -11,7 +10,7 @@ enum DateFormats {
 export class DateService {
   static Formats = DateFormats;
 
-  public getCurrentDate(): Dayjs {
+  public getCurrentDate(): dayjs.Dayjs {
     return dayjs();
   }
 
@@ -19,11 +18,11 @@ export class DateService {
     return dayjs(date).format(format);
   }
 
-  addDays(date: Date, days: number): Dayjs {
+  addDays(date: Date, days: number): dayjs.Dayjs {
     return dayjs(date).add(days, 'day');
   }
 
-  createFrom(date: Date | string): Dayjs {
+  createFrom(date: Date | string): dayjs.Dayjs {
     return dayjs(date);
   }
 }

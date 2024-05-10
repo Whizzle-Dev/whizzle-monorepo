@@ -1,8 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { CheckInFormSubmission, Employee } from 'kysely-codegen';
 import { EmployeeDto } from '../../company/dto/employee.dto';
-import {CheckInSubmissionStatus, CheckInType} from './enums';
+import { CheckInSubmissionStatus, CheckInType } from './enums';
 
 @ObjectType()
 export class CheckInSubmissionModel {

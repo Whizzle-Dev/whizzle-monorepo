@@ -16,8 +16,8 @@ export class HtmlRenderService {
     data: Record<string, string>,
   ): Promise<string> {
     const emailTemplatePath = path.join(
-      process.cwd(),
-      `./assets/email-templates/${template}.html`,
+      __dirname,
+      `../../../assets/email-templates/${template}.html`,
     );
 
     const content = fs.readFileSync(emailTemplatePath, 'utf8');

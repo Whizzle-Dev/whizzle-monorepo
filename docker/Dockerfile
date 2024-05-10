@@ -1,17 +1,20 @@
 FROM node:20-alpine
-
 RUN corepack enable && corepack prepare pnpm@latest --activate
+WORKDIR /usr/src/app
 
-WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+COPY apps/api apps/api/
+COPY pnpm-workspace.yaml ./
+COPY tsconfig.json ./
+COPY tsconfig.base.json ./
 
-COPY .. .
+RUN apk add --update python3 make g++
 
-RUN apk add --no-cache python3 g++ make
+RUN npm rebuild bcrypt --build-from-source
 
 RUN pnpm install
 
 RUN pnpm --filter @whizzle/backend build
 
-EXPOSE 3001
-
-CMD ["node", "apps/api/dist/main.js"]
+ENTRYPOINT ["node"]
+CMD ["apps/api/dist/main.js"]
