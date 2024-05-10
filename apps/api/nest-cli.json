@@ -3,11 +3,10 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "assets": [
-      "assets/*"
-    ]
+      "assets/email-templates/**/*"
+    ],
+    "typeCheck": false,
+    "builder": "swc"
   },
-  "watchAssets": true,
-  "assets": [
-    { "include": "assets/*.html", "watchAssets": true }
-  ]
+  "watchAssets": true
 }

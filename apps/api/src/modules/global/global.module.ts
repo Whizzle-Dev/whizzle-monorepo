@@ -11,6 +11,7 @@ import {
 } from '../../queues/cron-jobs';
 import { FilesModule } from '../files/files.module';
 import { DateService } from '../../shared/date.service';
+import { Buffer } from 'buffer';
 
 @Global()
 @Module({
@@ -19,8 +20,14 @@ import { DateService } from '../../shared/date.service';
     ConfigModule.forRoot(),
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
-        privateKey: configService.get('JWT_PRIVATE_KEY'),
-        publicKey: configService.get('JWT_PUBLIC_KEY'),
+        privateKey: Buffer.from(
+          configService.get('JWT_PRIVATE_KEY') as string,
+          'base64',
+        ).toString('utf-8'),
+        publicKey: Buffer.from(
+          configService.get('JWT_PUBLIC_KEY') as string,
+          'base64',
+        ).toString('utf-8'),
         verifyOptions: {
           algorithms: [configService.get('JWT_ALGORITHM')] as any,
         },

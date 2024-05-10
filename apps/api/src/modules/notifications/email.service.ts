@@ -17,18 +17,20 @@ export class EmailService {
   async sendEmail(args: SendEmailArgs): Promise<boolean> {
     const { recipients, template, data, subject } = args;
     if (this.configService.get('MOCK_EMAILS') === 'true') {
-      console.log('MOCK_EMAILS');
       return Promise.resolve(true);
     }
 
     const content = await this.htmlRenderService.renderHtml(template, data);
-    await this.resend.emails.send({
-      // todo change to whizzle domain
-      from: 'noreply@resend.dev',
-      to: this.configService.get('MOCKED_EMAIL_RECIPIENT') ?? recipients,
+    const response = await this.resend.emails.send({
+      from: 'noreply@api.whizzle.app',
+      to: this.configService.get('MOCKED_EMAIL_RECIPIENT') || recipients,
       subject,
       html: content,
     });
+    if (response.error) {
+      console.error('Error sending email', response.error);
+      return false;
+    }
     return true;
   }
 }

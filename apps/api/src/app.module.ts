@@ -20,6 +20,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import GraphQLJSON from 'graphql-type-json';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TimeoutInterceptor } from './shared/interceptors/timeout.interceptor';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -66,7 +67,7 @@ import { TimeoutInterceptor } from './shared/interceptors/timeout.interceptor';
     TimeTrackingModule,
     EventEmitterModule.forRoot(),
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [
     CronJobsManagerService,
     {
