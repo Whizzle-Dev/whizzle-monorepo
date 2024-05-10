@@ -19,11 +19,6 @@ resource "google_sql_database_instance" "main" {
       require_ssl                                   = false
 
       authorized_networks {
-        name  = "Local"
-        value = "77.46.178.222"
-      }
-
-      authorized_networks {
         name  = "Cloud Run"
         value = google_compute_address.default.address
       }

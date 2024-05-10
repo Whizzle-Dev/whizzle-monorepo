@@ -1,4 +1,3 @@
-# Use the official Node.js 14 image as the base image
 FROM node:20-alpine
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /usr/src/app
