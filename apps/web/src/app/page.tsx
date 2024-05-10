@@ -4,6 +4,7 @@ import { Icons } from '@/components/ui/icons';
 import { HomeFeatureItem } from '@/components/HomeFeatureItem';
 import { Metadata } from 'next';
 import { SectionWithImage } from '@/components/SectionWithImage';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Whizzle',
@@ -33,8 +34,10 @@ export default function Home() {
           <HomeFeatureItem label="Free & Open Source" icon={<Icons.Github />} />
         </div>
 
-        <Button size="xl" className="mt-20 mb-10">
-          Star us on GitHub
+        <Button size="xl" className="mt-20 mb-10" asChild>
+          <Link href={'https://github.com/Whizzle-Dev/whizzle-monorepo' as any}>
+            Star us on GitHub
+          </Link>
         </Button>
       </div>
       <div className="my-8">

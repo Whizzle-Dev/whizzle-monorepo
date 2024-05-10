@@ -36,3 +36,5 @@ variable "gcp_credentials_private_key" {
 variable "region" {
   default = "europe-west1"
 }
+
+variable "allowed_ips" {}

@@ -22,8 +22,14 @@ resource "google_sql_database_instance" "main" {
         name  = "Cloud Run"
         value = google_compute_address.default.address
       }
+      dynamic "authorized_networks" {
+        for_each = var.allowed_ips
+        content {
+          name  = "Authorized network"
+          value = authorized_networks.value
+        }
+      }
     }
-
   }
 }
 

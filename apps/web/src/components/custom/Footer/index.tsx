@@ -30,8 +30,6 @@ export function Footer() {
             <h3 className="text-lg font-semibold">Contact Us</h3>
             <p className="text-gray-500 dark:text-gray-400">
               Email: support@whizzle.app
-              <br />
-              Phone: +1 (877) 773-8554
             </p>
           </div>
         </div>
