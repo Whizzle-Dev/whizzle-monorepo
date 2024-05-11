@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
-
+import helmet from 'helmet';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['verbose'],
@@ -26,6 +26,8 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+
+  app.use(helmet());
 
   app.enableCors();
 

@@ -21,6 +21,7 @@ import GraphQLJSON from 'graphql-type-json';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TimeoutInterceptor } from './shared/interceptors/timeout.interceptor';
 import { AppController } from './app.controller';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { AppController } from './app.controller';
         numberScalarMode: 'integer',
       },
       resolvers: { JSON: GraphQLJSON },
+      context: ({ req, res }: any) => ({ req, res }),
     }),
     AuthModule,
     UserModule,
@@ -63,12 +65,17 @@ import { AppController } from './app.controller';
         schema: configService.get('DB_SCHEMA') as string,
       }),
     }),
-
     NotificationsModule,
     DocumentsModule,
     ProjectManagementModule,
     TimeTrackingModule,
     EventEmitterModule.forRoot(),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
   ],
   controllers: [AppController],
   providers: [
