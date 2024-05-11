@@ -12,10 +12,11 @@ import {
 import { FilesModule } from '../files/files.module';
 import { DateService } from '../../shared/date.service';
 import { Buffer } from 'buffer';
+import { UtilService } from '../../services/util.service';
 
 @Global()
 @Module({
-  providers: [AccessControlService, DateService],
+  providers: [AccessControlService, DateService, UtilService],
   imports: [
     ConfigModule.forRoot(),
     JwtModule.registerAsync({
@@ -60,6 +61,7 @@ import { Buffer } from 'buffer';
     AccessControlService,
     FilesModule,
     DateService,
+    UtilService,
   ],
 })
 export class GlobalModule {}

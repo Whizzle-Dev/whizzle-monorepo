@@ -23,6 +23,7 @@ import { TimeoutInterceptor } from './shared/interceptors/timeout.interceptor';
 import { AppController } from './app.controller';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
+import { UtilService } from './services/util.service';
 
 @Module({
   imports: [
@@ -78,11 +79,12 @@ import { LoggerModule } from 'nestjs-pino';
       },
     ]),
     LoggerModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
+      inject: [UtilService],
+      useFactory: (utilService: UtilService) => ({
         pinoHttp: {
           level: 'info',
+          redact: ['req.headers.authorization'],
+          genReqId: () => utilService.generateUUID(),
         },
       }),
     }),

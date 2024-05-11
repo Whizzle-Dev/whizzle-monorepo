@@ -3,7 +3,6 @@ import { TeamsResolver } from './teams.resolver';
 import { EmployeesResolver } from './employees.resolver';
 import { EmployeeService } from './employee.service';
 import { RolesResolver } from './roles.resolver';
-import { UtilService } from '../../services/util.service';
 import { PasswordService } from '../../services/password.service';
 import { EmployeeRepository } from './employee.repository';
 import { RolesRepository } from './roles.repository';
@@ -25,7 +24,6 @@ import { NotificationsModule } from '../notifications/notifications.module';
     TeamsRepository,
     //services
     EmployeeService,
-    UtilService,
     PasswordService,
     FilesService,
     //other
