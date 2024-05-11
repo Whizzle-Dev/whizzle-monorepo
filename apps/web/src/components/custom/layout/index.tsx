@@ -7,7 +7,7 @@ export function Layout(props: LayoutProps) {
     <>
       <div className="flex flex-col" style={{ minHeight: '100vh' }}>
         <Header />
-        <main className="flex flex-col p-20">{props.children}</main>
+        <main className="flex flex-col p-8 xl:p20">{props.children}</main>
       </div>
       <Footer />
     </>
