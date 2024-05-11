@@ -17,10 +17,10 @@ export default function Home() {
   return (
     <Layout>
       <div className="w-full flex flex-col justify-center items-center pt-8">
-        <p className="text-5xl font-bold text-center max-w-[800px] leading-snug">
+        <p className="text-5xl font-bold text-center max-w-[800px] mt-10 leading-snug">
           Streamline your business operation with all-in-one management platform
         </p>
-        <div className="grid grid-cols-4 grid-rows-2 mt-20 gap-4">
+        <div className="grid xl:grid-cols-4 xl:grid-rows-2 mt-20 gap-4">
           <HomeFeatureItem label="Time Tracking" icon={<Icons.Clock />} />
           <HomeFeatureItem label="Task Management" icon={<Icons.ListTodo />} />
           <HomeFeatureItem
@@ -34,7 +34,7 @@ export default function Home() {
           <HomeFeatureItem label="Open Source" icon={<Icons.Github />} />
         </div>
 
-        <div className="flex items-center mt-20 mb-10 gap-4">
+        <div className="xl:flex-row flex flex-col items-center xl:mt-20 xl:mb-10 mt-10 mb-5 gap-4">
           <Button size="xl" className="" asChild variant="secondary">
             <Link
               href={'https://github.com/Whizzle-Dev/whizzle-monorepo' as any}
