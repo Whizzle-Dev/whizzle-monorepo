@@ -6,6 +6,7 @@ import {
   Plate,
   RenderAfterEditable,
   PlateLeaf,
+  TElement,
 } from '@udecode/plate-common';
 import {
   createParagraphPlugin,
@@ -106,7 +107,6 @@ import { autoformatBlocks } from '@/lib/plate/autoformatBlocks';
 import { autoformatIndentLists } from '@/lib/plate/autoformatIndentLists';
 import { autoformatMarks } from '@/lib/plate/autoformatMarks';
 import { createEmojiPlugin } from '@udecode/plate-emoji';
-import { useRef } from 'react';
 
 export const autoformatRules: AutoformatRule[] = [
   ...autoformatBlocks,
@@ -234,25 +234,17 @@ const plugins = createPlugins(
 );
 
 type PlateEditorProps = {
-  // todo fix types
-  onChange: (value: any) => void;
-  content: any;
+  onChange: (value: TElement[]) => void;
+  content: TElement[];
   children: React.ReactNode;
 };
 
 export function PlateEditor({ onChange, content, children }: PlateEditorProps) {
-  // todo fix types
-  const editorRef = useRef<any>(null);
   return (
     <TooltipProvider>
       <DndProvider backend={HTML5Backend}>
         <CommentsProvider users={{}} myUserId="1">
-          <Plate
-            plugins={plugins}
-            initialValue={content}
-            onChange={onChange}
-            editorRef={editorRef}
-          >
+          <Plate plugins={plugins} initialValue={content} onChange={onChange}>
             {children}
           </Plate>
         </CommentsProvider>

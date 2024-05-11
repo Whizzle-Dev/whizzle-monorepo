@@ -236,7 +236,7 @@ export class EmployeeService {
     this.notificationsService.handleEmployeeInviteResend({
       code: code,
       email: existingEmployee.email as string,
-      companyBusinessName: existingEmployee.companyBusinessName as string,
+      companyBusinessName: existingEmployee.companyBusinessName,
       inviterName: inviter.name as string,
     });
   }

@@ -140,8 +140,7 @@ export class NotificationsService {
         '/accept-invite?code=' +
         args.inviteCode,
       companyName: company.businessName,
-      // todo fix 'as string'
-      inviterName: inviter.name as string,
+      inviterName: inviter.name,
     });
   }
 

@@ -34,8 +34,7 @@ export function SidebarNav({
         withPath && item.path ? (
           <Link
             key={item.key}
-            // todo fix
-            href={item.path as any}
+            href={item.path}
             className={cn(
               buttonVariants({ variant: 'ghost' }),
               pathname === item.path

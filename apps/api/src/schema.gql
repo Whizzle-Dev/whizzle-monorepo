@@ -80,7 +80,7 @@ type TeamDto {
 type EmployeeDto {
   id: Int!
   email: String!
-  name: String
+  name: String!
   companyId: Int!
   status: EmployeeStatus!
   bankInformation: BankInformationDto

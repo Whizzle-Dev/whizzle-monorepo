@@ -3,7 +3,7 @@ import { PermissionRoleEnum } from '../../types/permission-role.enum';
 
 export type EmployeeFromDB = {
   employeeId: number;
-  fullName: string | null;
+  fullName: string;
   email: string;
   roleId?: number | null;
   roleName?: string | null;
@@ -21,7 +21,7 @@ export type EmployeeFromDB = {
 export const mapEmployee = (employee: EmployeeFromDB): EmployeeDto => {
   return {
     id: employee.employeeId,
-    name: employee.fullName || '',
+    name: employee.fullName,
     companyId: employee.companyId,
     email: employee.email,
     role:

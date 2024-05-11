@@ -13,8 +13,8 @@ export class EmployeeDto {
   @Field()
   email: string;
 
-  @Field(() => String, { nullable: true })
-  name?: string | null;
+  @Field(() => String)
+  name: string;
 
   @Field()
   companyId: number;
