@@ -139,8 +139,8 @@ export class NotificationsService {
         this.configService.get('APP_URL') +
         '/accept-invite?code=' +
         args.inviteCode,
+      companyName: company.businessName,
       // todo fix 'as string'
-      companyName: company.businessName as string,
       inviterName: inviter.name as string,
     });
   }

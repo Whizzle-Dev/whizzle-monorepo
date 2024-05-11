@@ -45,7 +45,6 @@ export const ManageTaskDrawer = ({
     skip: !projectId,
   });
   const methods = useForm<TaskFormValues>({
-    // @ts-expect-error todo fix
     resolver: zodResolver(taskSchema),
   });
   const { toast } = useToast();

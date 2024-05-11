@@ -97,6 +97,7 @@ import {
   autoformatLegalHtml,
   autoformatMath,
   autoformatPunctuation,
+  AutoformatRule,
   autoformatSmartQuotes,
   createAutoformatPlugin,
 } from '@udecode/plate-autoformat';
@@ -107,16 +108,16 @@ import { autoformatMarks } from '@/lib/plate/autoformatMarks';
 import { createEmojiPlugin } from '@udecode/plate-emoji';
 import { useRef } from 'react';
 
-export const autoformatRules = [
+export const autoformatRules: AutoformatRule[] = [
   ...autoformatBlocks,
   ...autoformatIndentLists,
   ...autoformatMarks,
-  ...(autoformatSmartQuotes as any[]),
-  ...(autoformatPunctuation as any[]),
-  ...(autoformatLegal as any[]),
-  ...(autoformatLegalHtml as any[]),
-  ...(autoformatArrow as any[]),
-  ...(autoformatMath as any[]),
+  ...autoformatSmartQuotes,
+  ...autoformatPunctuation,
+  ...autoformatLegal,
+  ...autoformatLegalHtml,
+  ...autoformatArrow,
+  ...autoformatMath,
 ];
 
 const plugins = createPlugins(

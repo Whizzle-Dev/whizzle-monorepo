@@ -17,9 +17,8 @@ export default function Home() {
   return (
     <Layout>
       <div className="w-full flex flex-col justify-center items-center pt-8">
-        <p className="text-4xl text-center max-w-lg">
-          Streamline Your Business Operation with Our All-in-One Management
-          Platform.
+        <p className="text-5xl font-bold text-center max-w-[800px] leading-snug">
+          Streamline your business operation with all-in-one management platform
         </p>
         <div className="grid grid-cols-4 grid-rows-2 mt-20 gap-4">
           <HomeFeatureItem label="Time Tracking" icon={<Icons.Clock />} />
@@ -32,7 +31,7 @@ export default function Home() {
           <HomeFeatureItem label="Check-Ins" icon={<Icons.ClipboardEdit />} />
           <HomeFeatureItem label="Knowledge Base" icon={<Icons.FileText />} />
           <HomeFeatureItem label="Human Resources" icon={<Icons.User />} />
-          <HomeFeatureItem label="Free & Open Source" icon={<Icons.Github />} />
+          <HomeFeatureItem label="Open Source" icon={<Icons.Github />} />
         </div>
 
         <div className="flex items-center mt-20 mb-10 gap-4">

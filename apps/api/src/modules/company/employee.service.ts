@@ -55,8 +55,7 @@ export class EmployeeService {
           .values({
             email: args.email,
             name: args.name,
-            // todo change
-            password: 'placeholder-password',
+            password: this.utilService.generateUUID(),
             emailVerified: false,
           })
           .returning('User.id')
