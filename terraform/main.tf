@@ -77,11 +77,11 @@ resource "google_cloud_run_v2_service" "whizzle-api-cloud-run" {
         value = var.postgres_db_schema
       }
       env {
-        name  = "REDIS_HOST"
+        name = "REDIS_HOST"
         value = google_redis_instance.cache.host
       }
       env {
-        name  = "REDIS_PORT"
+        name = "REDIS_PORT"
         value = google_redis_instance.cache.port
       }
       env {
