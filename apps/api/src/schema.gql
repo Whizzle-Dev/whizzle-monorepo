@@ -434,6 +434,7 @@ type Mutation {
   login(input: LoginInput!): String!
   signup(input: SignupInput!): Boolean!
   verify(input: VerificationInput!): Boolean!
+  requestBetaAccess(input: BetaAccessInput!): Boolean!
   updateDetails(personalDetails: UpdateUserInput!): Boolean!
   saveUserProfilePhoto(fileName: String!): String!
   removeUserProfilePhoto: Boolean!
@@ -504,6 +505,12 @@ input SignupInput {
 
 input VerificationInput {
   verificationToken: String!
+}
+
+input BetaAccessInput {
+  email: String!
+  company: String!
+  fullName: String!
 }
 
 input UpdateUserInput {

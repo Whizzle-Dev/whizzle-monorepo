@@ -63,6 +63,12 @@ export type BankInformationDto = {
   id: Scalars['Int']['output'];
 };
 
+export type BetaAccessInput = {
+  company: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  fullName: Scalars['String']['input'];
+};
+
 export type CheckInStatsDto = {
   __typename?: 'CheckInStatsDto';
   completionRate: Scalars['Float']['output'];
@@ -333,6 +339,7 @@ export type Mutation = {
   removeColumnFromProject: Scalars['Boolean']['output'];
   removeEmployeeFromTeam: Scalars['Boolean']['output'];
   removeUserProfilePhoto: Scalars['Boolean']['output'];
+  requestBetaAccess: Scalars['Boolean']['output'];
   resendEmployeeInvite: Scalars['Boolean']['output'];
   saveBankDetails: Scalars['Boolean']['output'];
   saveUserProfilePhoto: Scalars['String']['output'];
@@ -554,6 +561,11 @@ export type MutationRemoveColumnFromProjectArgs = {
 export type MutationRemoveEmployeeFromTeamArgs = {
   employeeId: Scalars['Int']['input'];
   teamId: Scalars['Int']['input'];
+};
+
+
+export type MutationRequestBetaAccessArgs = {
+  input: BetaAccessInput;
 };
 
 
@@ -1790,6 +1802,13 @@ export type UpdateActiveTimerMutationVariables = Exact<{
 
 
 export type UpdateActiveTimerMutation = { __typename?: 'Mutation', updateActiveTimer: boolean };
+
+export type RequestBetaAccessMutationVariables = Exact<{
+  input: BetaAccessInput;
+}>;
+
+
+export type RequestBetaAccessMutation = { __typename?: 'Mutation', requestBetaAccess: boolean };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5411,6 +5430,37 @@ export function useUpdateActiveTimerMutation(baseOptions?: Apollo.MutationHookOp
 export type UpdateActiveTimerMutationHookResult = ReturnType<typeof useUpdateActiveTimerMutation>;
 export type UpdateActiveTimerMutationResult = Apollo.MutationResult<UpdateActiveTimerMutation>;
 export type UpdateActiveTimerMutationOptions = Apollo.BaseMutationOptions<UpdateActiveTimerMutation, UpdateActiveTimerMutationVariables>;
+export const RequestBetaAccessDocument = gql`
+    mutation RequestBetaAccess($input: BetaAccessInput!) {
+  requestBetaAccess(input: $input)
+}
+    `;
+export type RequestBetaAccessMutationFn = Apollo.MutationFunction<RequestBetaAccessMutation, RequestBetaAccessMutationVariables>;
+
+/**
+ * __useRequestBetaAccessMutation__
+ *
+ * To run a mutation, you first call `useRequestBetaAccessMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRequestBetaAccessMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [requestBetaAccessMutation, { data, loading, error }] = useRequestBetaAccessMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRequestBetaAccessMutation(baseOptions?: Apollo.MutationHookOptions<RequestBetaAccessMutation, RequestBetaAccessMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RequestBetaAccessMutation, RequestBetaAccessMutationVariables>(RequestBetaAccessDocument, options);
+      }
+export type RequestBetaAccessMutationHookResult = ReturnType<typeof useRequestBetaAccessMutation>;
+export type RequestBetaAccessMutationResult = Apollo.MutationResult<RequestBetaAccessMutation>;
+export type RequestBetaAccessMutationOptions = Apollo.BaseMutationOptions<RequestBetaAccessMutation, RequestBetaAccessMutationVariables>;
 export const GetCurrentUserDocument = gql`
     query GetCurrentUser {
   currentUser {

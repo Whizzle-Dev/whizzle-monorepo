@@ -1,8 +1,7 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
-import { SentryFilter } from './shared/filters/sentry.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -14,12 +13,12 @@ async function bootstrap() {
   if (sentryDsn) {
     Sentry.init({
       dsn: sentryDsn,
-      integrations: [new Sentry.Integrations.Http()],
       environment: process.env.ENVIRONMENT,
+      ignoreErrors: ['Non-Error exception captured'],
+      integrations: [new Sentry.Integrations.Http({ tracing: true })],
     });
-
-    const { httpAdapter } = app.get(HttpAdapterHost);
-    app.useGlobalFilters(new SentryFilter(httpAdapter));
+    app.use(Sentry.Handlers.requestHandler());
+    app.use(Sentry.Handlers.tracingHandler());
   }
 
   app.useGlobalPipes(

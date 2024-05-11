@@ -16,6 +16,7 @@ import { UtilService } from '../../services/util.service';
 import { EMAIL_VALIDITY_MINUTES } from '../../constants';
 import { PermissionRoleEnum } from '../../types/permission-role.enum';
 import { DateService } from '../../shared/date.service';
+import { BetaAccessInput } from './dto/beta-access.input';
 
 @Injectable()
 export class AuthService {
@@ -153,6 +154,14 @@ export class AuthService {
       emailVerified: true,
       verificationToken,
       permissionRole: PermissionRoleEnum.ACCOUNT_OWNER,
+    });
+  }
+
+  requestBetaAccess(input: BetaAccessInput) {
+    return this.authRepository.createBetaAccessRequest({
+      email: input.email,
+      company: input.company,
+      fullName: input.fullName,
     });
   }
 }

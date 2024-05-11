@@ -5,6 +5,7 @@ import { HomeFeatureItem } from '@/components/HomeFeatureItem';
 import { Metadata } from 'next';
 import { SectionWithImage } from '@/components/SectionWithImage';
 import Link from 'next/link';
+import { PrivateBetaDialog } from '@/app/PrivateBetaDialog';
 
 export const metadata: Metadata = {
   title: 'Whizzle',
@@ -34,11 +35,17 @@ export default function Home() {
           <HomeFeatureItem label="Free & Open Source" icon={<Icons.Github />} />
         </div>
 
-        <Button size="xl" className="mt-20 mb-10" asChild>
-          <Link href={'https://github.com/Whizzle-Dev/whizzle-monorepo' as any}>
-            Star us on GitHub
-          </Link>
-        </Button>
+        <div className="flex items-center mt-20 mb-10 gap-4">
+          <Button size="xl" className="" asChild variant="secondary">
+            <Link
+              href={'https://github.com/Whizzle-Dev/whizzle-monorepo' as any}
+            >
+              Star us on GitHub
+              <Icons.Github className="ml-2" />
+            </Link>
+          </Button>
+          <PrivateBetaDialog />
+        </div>
       </div>
       <div className="my-8">
         <SectionWithImage
