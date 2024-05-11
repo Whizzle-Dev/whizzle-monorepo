@@ -121,4 +121,20 @@ export class AuthRepository {
         .execute();
     });
   }
+
+  async createBetaAccessRequest(param: {
+    fullName: string;
+    company: string;
+    email: string;
+  }) {
+    return this.database
+      .insertInto('PrivateBetaAccessRequest')
+      .values({
+        email: param.email,
+        company: param.company,
+        fullName: param.fullName,
+      })
+      .returningAll()
+      .executeTakeFirstOrThrow();
+  }
 }

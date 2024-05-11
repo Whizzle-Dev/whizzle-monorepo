@@ -11,10 +11,7 @@ export function Header() {
       </div>
       <div className="z-10 flex gap-2 h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
         <Link href="/auth/login">
-          <Button variant="secondary">Log in</Button>
-        </Link>
-        <Link href="/auth/signup">
-          <Button>Sign up</Button>
+          <Button variant="default">Login</Button>
         </Link>
       </div>
     </header>

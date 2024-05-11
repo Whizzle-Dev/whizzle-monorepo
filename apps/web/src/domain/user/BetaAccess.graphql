@@ -1,0 +1,3 @@
+mutation RequestBetaAccess($input: BetaAccessInput!){
+    requestBetaAccess(input: $input)
+}

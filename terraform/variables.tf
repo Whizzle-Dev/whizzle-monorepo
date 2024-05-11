@@ -68,3 +68,7 @@ variable "region" {
 }
 
 variable "allowed_ips" {}
+
+variable "private_beta" {
+  default = "true"
+}
