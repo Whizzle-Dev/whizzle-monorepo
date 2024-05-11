@@ -22,6 +22,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TimeoutInterceptor } from './shared/interceptors/timeout.interceptor';
 import { AppController } from './app.controller';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
@@ -76,6 +77,15 @@ import { ThrottlerModule } from '@nestjs/throttler';
         limit: 10,
       },
     ]),
+    LoggerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        pinoHttp: {
+          level: 'info',
+        },
+      }),
+    }),
   ],
   controllers: [AppController],
   providers: [

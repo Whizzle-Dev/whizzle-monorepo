@@ -274,7 +274,6 @@ export class TasksService {
         entity: args,
         nextEntity: args.nextCursor,
       });
-      console.log(rank.toString(), args);
       await trx
         .updateTable('Task')
         .where('id', '=', args.taskId)

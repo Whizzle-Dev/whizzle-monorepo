@@ -20,54 +20,46 @@ export class EmployeeQueueProcessor extends GeneralQueueProcessor {
   }
   @Process(EMPLOYEE_EXPIRED_INVITES_JOB)
   async handleCron() {
-    try {
-      await this.database.transaction().execute(async (tx) => {
-        await tx
-          .updateTable('Employee')
-          .where('Employee.status', '=', 'INVITED')
-          .where(
-            'Employee.inviteDate',
-            '<',
-            sql<any>`timestamp 'now' - interval '${sql.raw(
-              INVITE_VALID_DAYS.toString(),
-            )} days'`,
-          )
-          .set({
-            status: 'EXPIRED',
-          })
-          .execute();
-      });
-    } catch (e) {
-      console.log(e);
-    }
+    await this.database.transaction().execute(async (tx) => {
+      await tx
+        .updateTable('Employee')
+        .where('Employee.status', '=', 'INVITED')
+        .where(
+          'Employee.inviteDate',
+          '<',
+          sql<any>`timestamp 'now' - interval '${sql.raw(
+            INVITE_VALID_DAYS.toString(),
+          )} days'`,
+        )
+        .set({
+          status: 'EXPIRED',
+        })
+        .execute();
+    });
   }
 
   @Process(EMPLOYEE_PROFILE_IMAGE_GENERATOR_JOB)
   async handleProfileImageGenerator() {
-    try {
-      await this.database.transaction().execute(async (tx) => {
-        const users = await tx
-          .selectFrom('User')
-          .select(['profilePhotoFileName', 'id'])
-          .execute();
-        for (const user of users) {
-          if (!user.profilePhotoFileName) {
-            continue;
-          }
-          const url = await this.filesService.getReadUrl({
-            fileName: user.profilePhotoFileName,
-          });
-          await tx
-            .updateTable('User')
-            .where('User.id', '=', user.id)
-            .set({
-              profilePhotoUrl: url,
-            })
-            .execute();
+    await this.database.transaction().execute(async (tx) => {
+      const users = await tx
+        .selectFrom('User')
+        .select(['profilePhotoFileName', 'id'])
+        .execute();
+      for (const user of users) {
+        if (!user.profilePhotoFileName) {
+          continue;
         }
-      });
-    } catch (e) {
-      console.log(e);
-    }
+        const url = await this.filesService.getReadUrl({
+          fileName: user.profilePhotoFileName,
+        });
+        await tx
+          .updateTable('User')
+          .where('User.id', '=', user.id)
+          .set({
+            profilePhotoUrl: url,
+          })
+          .execute();
+      }
+    });
   }
 }

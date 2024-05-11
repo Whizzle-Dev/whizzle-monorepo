@@ -87,7 +87,6 @@ const DocumentsPages = () => {
     data?.documents.find((doc) => doc.id === documentId) ||
     data?.myDocuments.find((doc) => doc.id === documentId);
   const handleContentChange = (content: any) => {
-    console.log({ content, selectedDocument });
     if (selectedDocument) {
       update({
         variables: {

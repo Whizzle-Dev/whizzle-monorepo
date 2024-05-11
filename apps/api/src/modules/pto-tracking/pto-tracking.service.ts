@@ -793,7 +793,6 @@ export class PtoTrackingService {
     companyId: number,
   ) {
     await this.database.transaction().execute(async (tx) => {
-      console.log('in here', { input });
       await tx
         .updateTable('VacationPolicy')
         .where('id', '=', input.id)

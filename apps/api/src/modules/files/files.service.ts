@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Storage } from '@google-cloud/storage';
 import { UtilService } from '../../services/util.service';
 import { ConfigService } from '@nestjs/config';
@@ -8,6 +8,8 @@ import { Buffer } from 'buffer';
 
 @Injectable()
 export class FilesService {
+  private readonly logger = new Logger(FilesService.name);
+
   storage: Storage;
   constructor(
     private utilService: UtilService,
@@ -79,8 +81,7 @@ export class FilesService {
         .file(fileName)
         .delete();
     } catch (e) {
-      // todo add proper logging
-      console.log(e);
+      this.logger.error(`failed to delete a file: ${fileName}`, e);
     }
   }
 }

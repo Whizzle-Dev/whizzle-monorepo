@@ -87,10 +87,4 @@ export class EmailProcessorService extends GeneralQueueProcessor {
 
     throw new Error('Not implemented');
   }
-
-  @Process(NotificationsQueueJobs.SEND_SLACK_NOTIFICATION)
-  async sendSlackNotification(job: Job<any>) {
-    console.log('Sending slack notification');
-    return true;
-  }
 }
