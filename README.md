@@ -19,3 +19,4 @@ Main Technologies Used:
 * Package manager: **PNPM**
 * Emails: **Resend**
 * Error Reporting: **Sentry**
+* Infrastructure: **Google Cloud, Terraform, Upstash**

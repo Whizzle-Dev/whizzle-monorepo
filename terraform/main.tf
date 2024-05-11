@@ -62,7 +62,7 @@ resource "google_cloud_run_v2_service" "whizzle-api-cloud-run" {
       }
       env {
         name  = "POSTGRES_DB"
-        value = "whizzle"
+        value = var.postgres_db
       }
       env {
         name  = "DB_HOST"
@@ -70,18 +70,18 @@ resource "google_cloud_run_v2_service" "whizzle-api-cloud-run" {
       }
       env {
         name  = "DB_PORT"
-        value = "5432"
+        value = var.postgres_db_port
       }
       env {
         name  = "DB_SCHEMA"
-        value = "whizzle"
+        value = var.postgres_db_schema
       }
       env {
-        name  = "REDIS_HOST"
+        name = "REDIS_HOST"
         value = google_redis_instance.cache.host
       }
       env {
-        name  = "REDIS_PORT"
+        name = "REDIS_PORT"
         value = google_redis_instance.cache.port
       }
       env {
@@ -129,7 +129,7 @@ resource "google_cloud_run_v2_service" "whizzle-api-cloud-run" {
         value = var.gcp_client_id
       }
       env {
-        name = "GCP_BUCKET_NAME"
+        name  = "GCP_BUCKET_NAME"
         value = var.gcp_bucket_name
       }
 
@@ -162,16 +162,14 @@ resource "google_cloud_run_service_iam_binding" "default" {
 }
 
 resource "google_project_service" "vpc" {
-  provider           = google
   service            = "vpcaccess.googleapis.com"
   disable_on_destroy = false
 }
 
 // vps & nat gateway setup
 resource "google_vpc_access_connector" "default" {
-  provider = google
-  name     = "whizzle-connector"
-  region   = var.region
+  name   = "whizzle-connector"
+  region = var.region
 
   subnet {
     name = google_compute_subnetwork.default.name
@@ -184,12 +182,10 @@ resource "google_vpc_access_connector" "default" {
 }
 
 resource "google_compute_network" "default" {
-  provider = google
-  name     = "whizzle-subnet-network"
+  name = "whizzle-subnet-network"
 }
 
 resource "google_compute_subnetwork" "default" {
-  provider      = google
   name          = "whizzle-subnet-static-ip"
   ip_cidr_range = "10.124.0.0/28"
   network       = google_compute_network.default.id
@@ -197,23 +193,20 @@ resource "google_compute_subnetwork" "default" {
 }
 
 resource "google_compute_router" "default" {
-  provider = google
-  name     = "whizzle-static-ip-router"
-  network  = google_compute_network.default.name
-  region   = google_compute_subnetwork.default.region
+  name    = "whizzle-static-ip-router"
+  network = google_compute_network.default.name
+  region  = google_compute_subnetwork.default.region
 }
 
 resource "google_compute_address" "default" {
-  provider = google
-  name     = "whizzle-static-ip-addr"
-  region   = google_compute_subnetwork.default.region
+  name   = "whizzle-static-ip-addr"
+  region = google_compute_subnetwork.default.region
 }
 
 resource "google_compute_router_nat" "default" {
-  provider = google
-  name     = "whizzle-static-nat-gw"
-  router   = google_compute_router.default.name
-  region   = google_compute_subnetwork.default.region
+  name   = "whizzle-static-nat-gw"
+  router = google_compute_router.default.name
+  region = google_compute_subnetwork.default.region
 
   nat_ip_allocate_option = "MANUAL_ONLY"
   nat_ips                = [google_compute_address.default.self_link]
