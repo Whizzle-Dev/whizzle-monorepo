@@ -1,6 +1,6 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { ConfigService } from '@nestjs/config';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginInput } from './dto/login.input';
 import { SignupInput } from './dto/signup-input.dto';
@@ -8,6 +8,7 @@ import { VerificationInput } from './dto/verification.input';
 
 import { NotificationsService } from '../notifications/notifications.service';
 import { BetaAccessInput } from './dto/beta-access.input';
+import { GqlThrottlerGuard } from '../../guards/throttle.guard';
 
 @Resolver()
 export class AuthResolver {
@@ -17,6 +18,7 @@ export class AuthResolver {
     private configService: ConfigService,
   ) {}
 
+  @UseGuards(GqlThrottlerGuard)
   @Mutation(() => String)
   async login(@Args('input') input: LoginInput) {
     const { token } = await this.authService.login({
@@ -27,6 +29,7 @@ export class AuthResolver {
     return token;
   }
 
+  @UseGuards(GqlThrottlerGuard)
   @Mutation(() => Boolean)
   async signup(@Args('input') input: SignupInput) {
     if (this.configService.get('PRIVATE_BETA') === 'true') {
@@ -44,6 +47,7 @@ export class AuthResolver {
     return true;
   }
 
+  @UseGuards(GqlThrottlerGuard)
   @Mutation(() => Boolean)
   async verify(@Args('input') input: VerificationInput) {
     await this.authService.verifyUser(input.verificationToken);
@@ -51,6 +55,7 @@ export class AuthResolver {
     return true;
   }
 
+  @UseGuards(GqlThrottlerGuard)
   @Mutation(() => Boolean)
   async requestBetaAccess(@Args('input') input: BetaAccessInput) {
     try {
