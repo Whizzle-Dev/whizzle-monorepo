@@ -16,7 +16,6 @@ export class NotificationsProcessorQueue extends GeneralQueueProcessor {
 
   @Process(NotificationsQueueJobs.SEND_EMAIL)
   async sendEmail(job: Job<NotificationsQueueEvents>) {
-    console.log('Sending email', job.data);
     if (job.data.type === 'AUTH_VERIFY_ACCOUNT') {
       await this.emailService.sendEmail({
         recipients: [job.data.email],

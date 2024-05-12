@@ -7,7 +7,7 @@ import { useCheckInsData } from '@/domain/check-in/hooks/useCheckInsData';
 import { SetupCheckInsView } from '@/domain/check-in/SetupCheckInsView';
 import { usePermissions } from '@/domain/employees/usePermissions';
 import { PermissionRoleEnum } from '@/generated';
-import { Loader } from 'lucide-react';
+import { Loader } from '@/components/ui/loader';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -36,7 +36,7 @@ function Layout({ children }: LayoutProps) {
     });
   }
   if (loading) {
-    return <Loader className="w-6 h-6" />;
+    return <Loader />;
   }
   if (!isSetup && !loading) {
     return <SetupCheckInsView />;
