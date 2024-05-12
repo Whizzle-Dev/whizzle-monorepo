@@ -83,7 +83,7 @@ import { UtilService } from './services/util.service';
       inject: [UtilService],
       useFactory: (utilService: UtilService) => ({
         pinoHttp: {
-          level: 'debug',
+          level: 'info',
           redact: ['req.headers.authorization'],
           genReqId: () => utilService.generateUUID(),
           autoLogging: true,
