@@ -24,7 +24,7 @@ export const SectionWithImage = ({
 
   const text = (
     <div className="flex flex-col justify-center space-y-4">
-      <div className="space-y-2">
+      <div className="space-y-3">
         <h2 className="text-4xl font-bold space">{title}</h2>
         <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
           {description}
@@ -45,8 +45,11 @@ export const SectionWithImage = ({
     <div className="bg-gray-50/90 rounded-md">
       <div className="py-12 px-6 lg:py-24">
         <div className="container px-4 md:px-6">
-          <div className="grid items-center gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]">
+          <div className="hidden xl:grid items-center gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]">
             {imageOnRight ? [text, image] : [image, text]}
+          </div>
+          <div className="xl:hidden items-center gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]">
+            {[text, image]}
           </div>
         </div>
       </div>
