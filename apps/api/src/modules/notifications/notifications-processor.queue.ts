@@ -9,7 +9,7 @@ import { EmailService } from './email.service';
 import { GeneralQueueProcessor } from '../../shared/general-queue-processor';
 
 @Processor(NOTIFICATIONS_QUEUE)
-export class EmailProcessorService extends GeneralQueueProcessor {
+export class NotificationsProcessorQueue extends GeneralQueueProcessor {
   constructor(private emailService: EmailService) {
     super();
   }

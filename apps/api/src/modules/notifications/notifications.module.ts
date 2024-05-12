@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { EmailService } from './email.service';
-import { EmailProcessorService } from './email-processor.service';
+import { NotificationsProcessorQueue } from './notifications-processor.queue';
 import { HtmlRenderService } from './html-render.service';
 import { NotificationsService } from './notifications.service';
 import { NotificationsResolver } from './notifications.resolver';
@@ -8,7 +8,7 @@ import { NotificationsResolver } from './notifications.resolver';
 @Module({
   providers: [
     EmailService,
-    EmailProcessorService,
+    NotificationsProcessorQueue,
     HtmlRenderService,
     NotificationsService,
     NotificationsResolver,

@@ -10,7 +10,36 @@ import { PrivateBetaDialog } from '@/app/PrivateBetaDialog';
 export const metadata: Metadata = {
   title: 'Whizzle',
   description:
-    'Streamline Your Business Operation with Our All-in-One Management Platform.',
+    'Streamline your business operation with all-in-one management platform',
+  openGraph: {
+    title: 'Whizzle | Unleash Your Startup Potential, All in One Place!',
+    description:
+      'Streamline your business operation with all-in-one management platform',
+    images: [
+      {
+        url: 'https://whizzle.app/logo.svg',
+        width: 500,
+        height: 500,
+        alt: 'Logo',
+      },
+    ],
+  },
+  keywords: [
+    'startup',
+    'management',
+    'platform',
+    'time tracking',
+    'pto',
+    'paid time leave',
+    'task management',
+    'knowledge base',
+    'human resources',
+    'hr',
+    'employee onboarding',
+    'check-ins',
+    'open source',
+    'github',
+  ],
 };
 
 export default function Home() {

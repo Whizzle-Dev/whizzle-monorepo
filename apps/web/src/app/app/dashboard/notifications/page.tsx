@@ -14,9 +14,10 @@ import {
   NotificationItem,
   NotificationRender,
 } from '@/domain/notifications/NotificationRender';
+import { Loader } from '@/components/ui/loader';
 
 const NotificationsPage = () => {
-  const { data } = useGetNotificationsQuery();
+  const { data, loading } = useGetNotificationsQuery();
 
   const [markAsRead] = useMarkNotificationAsReadMutation({
     refetchQueries: [UnreadNotificationsCountDocument],
@@ -65,11 +66,13 @@ const NotificationsPage = () => {
     }
   }, [notificationId]);
 
+  const hasNotifications = !!data?.notifications.length;
   return (
     <div>
       <h2 className="text-2xl font-bold mb-6">Notifications</h2>
       <div className="flex w-full max-w-screen-lg">
         <nav className="flex flex-col w-[300px] flex-shrink-0 overflow-auto">
+          {loading && <Loader />}
           {data?.notifications.map((notification) => (
             <NotificationItem
               key={notification.id}
@@ -79,18 +82,25 @@ const NotificationsPage = () => {
               selected={notification.id === notificationId}
             />
           ))}
-        </nav>
-        <div className="flex">
-          {selected ? (
-            renderNotificationDetails(selected)
-          ) : (
-            <div className="flex items-center justify-center">
-              <p className="text-gray-500 dark:text-gray-400">
-                Select a notification to view details
-              </p>
-            </div>
+          {!loading && !hasNotifications && (
+            <p className="text-gray-500 dark:text-gray-400">
+              You are up to date! No new notifications.
+            </p>
           )}
-        </div>
+        </nav>
+        {!loading && hasNotifications && (
+          <div className="flex">
+            {selected ? (
+              renderNotificationDetails(selected)
+            ) : (
+              <div className="flex items-center justify-center">
+                <p className="text-gray-500 dark:text-gray-400">
+                  Select a notification to view details
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

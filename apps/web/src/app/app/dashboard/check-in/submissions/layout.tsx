@@ -7,6 +7,7 @@ import { useCheckInsData } from '@/domain/check-in/hooks/useCheckInsData';
 import { SetupCheckInsView } from '@/domain/check-in/SetupCheckInsView';
 import { usePermissions } from '@/domain/employees/usePermissions';
 import { PermissionRoleEnum } from '@/generated';
+import { Loader } from '@/components/ui/loader';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -34,6 +35,9 @@ function Layout({ children }: LayoutProps) {
       path: '/app/dashboard/check-in/submissions/team',
     });
   }
+  if (loading) {
+    return <Loader />;
+  }
   if (!isSetup && !loading) {
     return <SetupCheckInsView />;
   }
@@ -44,7 +48,7 @@ function Layout({ children }: LayoutProps) {
         title="Check-ins"
         withPath
       >
-        {!isSetup && !loading ? <SetupCheckInsView /> : children}
+        {children}
       </SettingsLayout>
     </>
   );

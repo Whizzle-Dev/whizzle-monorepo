@@ -34,7 +34,9 @@ const RequestTimeOf = () => {
                 description={
                   "Looks like you haven't configured paid time off for your organization. Setup paid time off to enable employees to use them. If you are an employee contact your account administrator."
                 }
-                onAction={() => router.push('/app/dashboard/pto/settings')}
+                onAction={() =>
+                  router.push('/app/dashboard/pto/settings/vacation-policies')
+                }
               />
             )
           )}
