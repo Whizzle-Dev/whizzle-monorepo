@@ -1,15 +1,7 @@
-<table>
-  <tr>
-    <td valign="center">
-        <img align="center" src="https://whizzle.app/logo.svg" style="width: 60px"/>
-    </td>
-    <td valign="middle">
-        <div>
-            <h1>Whizzle</h1>
-        </div>
-    </td>
-  </tr>
-</table>
+<div style="display: flex; flex-direction: row; align-items: center">
+    <img align="center" src="/apps/web/public/logo.svg" style="width: 60px"/>
+    <h1 style="margin-left: 20px; font-size: 34px; margin-top:5px">Whizzle</h1>
+</div>
 
 ## Monorepo for Whizzle application
 
