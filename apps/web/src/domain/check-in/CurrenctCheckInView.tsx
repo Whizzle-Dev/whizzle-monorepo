@@ -66,6 +66,7 @@ export const CurrentCheckInView = () => {
   const hasPendingCheckIns =
     !loading && (data?.getPendingCheckins.length ?? 0) > 0;
 
+
   return (
     <div className="flex flex-col">
       {hasPendingCheckIns ? (

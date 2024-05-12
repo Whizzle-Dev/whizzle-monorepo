@@ -9,13 +9,14 @@ import { EmailService } from './email.service';
 import { GeneralQueueProcessor } from '../../shared/general-queue-processor';
 
 @Processor(NOTIFICATIONS_QUEUE)
-export class EmailProcessorService extends GeneralQueueProcessor {
+export class NotificationsProcessorQueue extends GeneralQueueProcessor {
   constructor(private emailService: EmailService) {
     super();
   }
 
   @Process(NotificationsQueueJobs.SEND_EMAIL)
   async sendEmail(job: Job<NotificationsQueueEvents>) {
+    console.log('Sending email', job.data);
     if (job.data.type === 'AUTH_VERIFY_ACCOUNT') {
       await this.emailService.sendEmail({
         recipients: [job.data.email],

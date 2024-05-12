@@ -176,6 +176,14 @@ export class PtoTrackingService {
 
   createVacationPolicy(data: CreateVacationPolicyInput, companyId: number) {
     return this.database.transaction().execute(async (tx) => {
+      const hasDefaultPolicy = await tx
+        .selectFrom('VacationPolicy')
+        .where('companyId', '=', companyId)
+        .where('default', '=', true)
+        .select('id')
+        .limit(1)
+        .executeTakeFirst();
+
       const policy = await tx
         .insertInto('VacationPolicy')
         .values({
@@ -184,6 +192,7 @@ export class PtoTrackingService {
           description: data.description,
           companyId,
           workingDays: data.workingDays,
+          default: !hasDefaultPolicy,
         })
         .returningAll()
         .executeTakeFirstOrThrow();
@@ -227,7 +236,7 @@ export class PtoTrackingService {
         employeeId: number;
         companyId: number;
         profilePhotoFilename?: string | null;
-        fullName: string | null;
+        fullName: string;
         email: string;
         status: any;
         permissionRole: any;

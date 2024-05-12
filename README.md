@@ -3,8 +3,6 @@
     <h1 style="margin-left: 20px; font-size: 34px; margin-top:5px">Whizzle</h1>
 </div>
 
-## Monorepo for Whizzle application
-
 ### Projects:
 
 - [apps/api](apps/api): Main backend service

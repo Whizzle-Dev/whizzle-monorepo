@@ -1,21 +1,13 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import {
-  BadRequestException,
-  NotFoundException,
-  UseGuards,
-} from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import * as z from 'zod';
 import { ProjectManagementService } from './project-management.service';
 import { JwtGraphqlGuard } from '../../guards/jwt-graphql.guard';
 import { JwtGraphqlDecorator } from '../../decorators/user.decorator';
 import { JwtPayload } from '../../types/jwt-payload';
 import { ProjectDto } from './dto/project.dto';
-import { TaskDto } from './dto/task.dto';
 import { Roles } from '../auth/roles.decorator';
 import { PermissionRoleEnum } from '../../types/permission-role.enum';
-import { UpdateTaskInput } from './dto/update-task.input';
-import { CurrentUserRoleDecorator } from '../../decorators/current-user-role-decorator';
-import { CreateTaskInput } from './dto/create-task.input';
 import { ProjectColumn, ProjectColumnInput } from './dto/project-column.dto';
 import { PROJECT_COLUMN_SCHEMA } from './misc/project-column-schema';
 
@@ -47,7 +39,6 @@ export class ProjectManagementResolver {
     };
   }
 
-
   @Roles(PermissionRoleEnum.ADMIN)
   @Mutation(() => ProjectDto)
   async createProject(
@@ -71,7 +62,6 @@ export class ProjectManagementResolver {
       columns,
     };
   }
-
 
   // add column to project mutation
   @Roles(PermissionRoleEnum.MANAGER)
@@ -122,7 +112,6 @@ export class ProjectManagementResolver {
     return true;
   }
 
-
   @Roles(PermissionRoleEnum.EMPLOYEE)
   @Query(() => [ProjectColumn])
   async availableStatusesForProject(
@@ -136,6 +125,4 @@ export class ProjectManagementResolver {
 
     return z.array(PROJECT_COLUMN_SCHEMA).parse(project.columns);
   }
-
-
 }

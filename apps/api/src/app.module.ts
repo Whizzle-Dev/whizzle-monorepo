@@ -48,7 +48,8 @@ import { UtilService } from './services/util.service';
             host: configService.get('REDIS_HOST') || '127.0.0.1',
             port: +configService.get('REDIS_PORT') || 6379,
             password: configService.get('REDIS_PASSWORD') || undefined,
-            tls: {},
+            tls:
+              configService.get('NODE_ENV') === 'production' ? {} : undefined,
           },
         };
       },
@@ -82,9 +83,10 @@ import { UtilService } from './services/util.service';
       inject: [UtilService],
       useFactory: (utilService: UtilService) => ({
         pinoHttp: {
-          level: 'info',
+          level: 'debug',
           redact: ['req.headers.authorization'],
           genReqId: () => utilService.generateUUID(),
+          autoLogging: true,
         },
       }),
     }),
