@@ -1,4 +1,15 @@
-# ![Whizzle Logo](apps/web/public/mstile-70x70.png)
+<table>
+  <tr>
+    <td valign="center">
+        <img align="center" src="https://whizzle.app/logo.svg" style="width: 60px"/>
+    </td>
+    <td valign="middle">
+        <div>
+            <h1>Whizzle</h1>
+        </div>
+    </td>
+  </tr>
+</table>
 
 ## Monorepo for Whizzle application
 
