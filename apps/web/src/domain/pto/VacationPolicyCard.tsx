@@ -97,10 +97,11 @@ export const VacationPolicyCard = ({
                 Assigned Employees:
               </span>
               <div className="flex flex-row items-center gap-2 flex-wrap">
-                {employees.map((employee) => (
+                {employees.map((employee, index) => (
                   <EmployeeAvatar
-                    src={employee.profilePhotoUrl ?? ''}
-                    name={employee.name ?? ''}
+                    key={employee.profilePhotoUrl ?? index}
+                    src={employee.profilePhotoUrl}
+                    name={employee.name}
                     size="small"
                   />
                 ))}

@@ -64,9 +64,10 @@ export const useCheckInTableColumns = () => {
             <div className="w-full flex justify-end">
               <Button variant="secondary" size="sm" asChild>
                 <Link
-                  href={
-                    `/app/dashboard/check-in/submissions?id=${row.original.id}` as any
-                  }
+                  href={{
+                    pathname: '/app/dashboard/check-in/submissions',
+                    query: { id: row.original.id.toString() },
+                  }}
                 >
                   View
                   <Icons.ChevronRight className="ml-2" size={16} />

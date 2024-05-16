@@ -36,7 +36,7 @@ export const HeadingElement = withRef<typeof HeadingElementVariants>(
         ref={ref}
         asChild
         variant={variant}
-        isFirstBlock={element === editor.children[0]}
+        isFirstBlock={isFirstBlock || element === editor.children[0]}
         {...props}
       >
         <Element>{children}</Element>

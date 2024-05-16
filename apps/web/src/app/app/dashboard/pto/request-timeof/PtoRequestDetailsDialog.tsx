@@ -100,7 +100,7 @@ export const PtoRequestDetailsDialog = ({
         <span>Approval</span>
         <ol className="relative border-s border-gray-200 dark:border-gray-700">
           {approvers &&
-            Object.entries(approvers).map(([_, l], index) => (
+            Object.entries(approvers).map(([, l], index) => (
               <li className="mb-2 ms-4 flex flex-col gap-4" key={index}>
                 <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                 <time className="mt-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">

@@ -26,10 +26,10 @@ export const MyRecentTasks = () => {
               <li key={task.id} className="">
                 <div className="grid grid-cols-3 gap-2 items-center mb-2">
                   <Link
-                    href={
-                      ('/app/dashboard/project-management/tasks?id=' +
-                        task.id) as any
-                    }
+                    href={{
+                      pathname: '/app/dashboard/project-management/tasks',
+                      query: { id: task.id.toString() },
+                    }}
                   >
                     <span className="font-medium hover:underline">
                       {task.name}
@@ -37,10 +37,10 @@ export const MyRecentTasks = () => {
                   </Link>
                   <div className="flex items-center gap-2">
                     <Link
-                      href={
-                        ('/app/dashboard/project-management/projects?id=' +
-                          task.project?.id) as any
-                      }
+                      href={{
+                        pathname: '/app/dashboard/project-management/projects',
+                        query: { id: task.project?.id.toString() },
+                      }}
                     >
                       <span className="hover:underline">
                         {task.project?.name}{' '}

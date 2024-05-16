@@ -30,7 +30,10 @@ export const NotificationItem = ({
     >
       <Link
         className="flex gap-2 p-2 rounded-md"
-        href={('/app/dashboard/notifications?id=' + id) as any}
+        href={{
+          pathname: '/app/dashboard/notifications',
+          query: { id: id.toString() },
+        }}
       >
         <div className="grid gap-0.5 items-start">
           <h3 className="text-sm font-medium">{title}</h3>
@@ -59,7 +62,10 @@ export const NotificationRender = ({
           <p>{payload.mentionerEmployeeName} mentioned you in a document</p>
           <Button asChild>
             <Link
-              href={`/app/dashboard/documents?id=${payload.documentId}` as any}
+              href={{
+                pathname: '/app/dashboard/documents',
+                query: { id: payload.documentId.toString() },
+              }}
             >
               View Document
             </Link>

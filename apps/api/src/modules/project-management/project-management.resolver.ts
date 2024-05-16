@@ -19,6 +19,7 @@ export class ProjectManagementResolver {
   @Roles(PermissionRoleEnum.EMPLOYEE)
   @Query(() => [ProjectDto])
   projects(@JwtGraphqlDecorator() token: JwtPayload): Promise<ProjectDto[]> {
+    throw new Error('Not implemented');
     return this.projectManagementService.getProjects(token.companyId);
   }
 

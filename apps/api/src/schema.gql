@@ -117,6 +117,24 @@ type VacationPolicyDto {
   employees: [EmployeeDto!]
 }
 
+type LeaveEntitlementDto {
+  categoryId: Int!
+  name: String!
+  remainingDays: Float!
+}
+
+type ApprovalRoutingDto {
+  id: Int!
+  config: String!
+  assignedEmployees: [EmployeeDto!]!
+  approvingLevels: [ApproversLevelDto!]!
+  name: String!
+}
+
+type ApproversLevelDto {
+  approvers: [EmployeeDto!]!
+}
+
 type PtoEmployeeRequestModel {
   id: Int!
   requestedById: Int!
@@ -137,24 +155,6 @@ enum PtoRequestStatus {
   REJECTED
 }
 
-type LeaveEntitlementDto {
-  categoryId: Int!
-  name: String!
-  remainingDays: Float!
-}
-
-type ApprovalRoutingDto {
-  id: Int!
-  config: String!
-  assignedEmployees: [EmployeeDto!]!
-  approvingLevels: [ApproversLevelDto!]!
-  name: String!
-}
-
-type ApproversLevelDto {
-  approvers: [EmployeeDto!]!
-}
-
 type PendingRequestForApprovalDto {
   id: Int!
   status: PtoRequestStatus!
@@ -166,6 +166,17 @@ type PendingRequestForApprovalDto {
   leaveCategoryName: String!
 }
 
+type AbsentEmployeesResponse {
+  employees: [PtoEmployeeRequestModel!]!
+  totalCount: Int!
+}
+
+type PtoRequestApproverDto {
+  employee: EmployeeDto!
+  status: String!
+  priority: Int!
+}
+
 type PtoRequestDto {
   id: Int!
   status: String!
@@ -175,17 +186,6 @@ type PtoRequestDto {
   workingDays: Int!
   requstedBy: EmployeeDto
   ptoCategoryName: String!
-}
-
-type PtoRequestApproverDto {
-  employee: EmployeeDto!
-  status: String!
-  priority: Int!
-}
-
-type AbsentEmployeesResponse {
-  employees: [PtoEmployeeRequestModel!]!
-  totalCount: Int!
 }
 
 type LeaveAccrualsDto {
@@ -355,10 +355,10 @@ type Query {
   leavesCategories: [LeaveCategoryDto!]!
   getRequestsForApproval(status: PtoRequestStatus): [PendingRequestForApprovalDto!]!
   approvalRoutings: [ApprovalRoutingDto!]!
-  getPtoRequestDetails(requestId: Int!): PtoRequestDto!
   getPtoRequestsForEmployee(options: PaginatedQueryInput): [PtoEmployeeRequestModel!]!
   getPtoRequestsForCompany(options: PaginatedQueryInput, filters: GetPtoRequestsFilter!): [PtoEmployeeRequestModel!]!
   absentEmployees(fromDate: DateTime!, toDate: DateTime!): AbsentEmployeesResponse!
+  getPtoRequestDetails(requestId: Int!): PtoRequestDto!
   getLeaveAccrualsForEmployee: [LeaveAccrualsDto!]!
   getLeaveAccrualsForCompany: [LeaveAccrualsDto!]!
   teams: [TeamDto!]!

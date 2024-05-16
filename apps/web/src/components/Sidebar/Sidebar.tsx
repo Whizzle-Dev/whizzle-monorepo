@@ -1,25 +1,13 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { cn, getAbbreviation } from '@/lib/utils';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import { ChevronDownIcon, HomeIcon } from '@radix-ui/react-icons';
+import { HomeIcon } from '@radix-ui/react-icons';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Route } from 'nextjs-routes';
-import { Icons } from './ui/icons';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import {
-  Command,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from '@/components/ui/command';
+import { Icons } from '../ui/icons';
 import { emitter } from '@/domain/auth/logoutEvent';
 import {
   PermissionRoleEnum,
@@ -28,6 +16,8 @@ import {
 } from '@/generated';
 import { usePermissions } from '@/domain/employees/usePermissions';
 import { Button } from '@/components/ui/button';
+import { NavItem } from '@/components/Sidebar/NavItem';
+import { ProfilePopover } from '@/components/Sidebar/ProfilePopover';
 
 type MenuItem = {
   title: string;
@@ -143,7 +133,6 @@ const menuItems: (MenuItem & {
 
 export default function Sidebar() {
   const { permissionCheck } = usePermissions();
-  const router = useRouter();
 
   const pathname = usePathname();
   const [activeMenuItems, setActiveMenuItems] = useState(() => {
@@ -315,140 +304,3 @@ export default function Sidebar() {
     </>
   );
 }
-
-type ProfilePopoverProps = {
-  profileImageUrl?: string | null;
-  data: any;
-  onLogout: () => void;
-};
-const ProfilePopover = ({
-  profileImageUrl,
-  data,
-  onLogout,
-}: ProfilePopoverProps) => {
-  const router = useRouter();
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <button
-          className={cn(
-            'justify-between h-fit hover:border-solid box-border px-2 pb-2 pt-2 mb-4 hover:border-primary-4 hover:bg-gray-100 w-full text-left rounded-md border-0 border-b-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-4 focus:ring-opacity-50',
-          )}
-        >
-          <div className="flex flex-row items-center">
-            {profileImageUrl ? (
-              <img
-                className="rounded-[8px] mr-3 w-[40px] h-[40px] object-cover"
-                src={profileImageUrl}
-                alt="profile image"
-              />
-            ) : (
-              <div className="w-[40px] h-[40px] rounded-[8px] mr-3 flex items-center justify-center border-1">
-                {data?.currentUser.name &&
-                  getAbbreviation(data.currentUser.name)}
-              </div>
-            )}
-            <div className="flex flex-col text-left">
-              <p className="text-xs font-bold">{data?.currentUser.name}</p>
-              <p className="text-xs text-gray-500">{data?.currentUser.email}</p>
-            </div>
-            {/*<CaretSortIcon className="ml-4 h-4 w-4 shrink-0 opacity-50" />*/}
-          </div>
-        </button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0" data-side="right">
-        <Command>
-          <CommandList>
-            <CommandItem onSelect={() => router.push('/app/dashboard/profile')}>
-              View Profile
-            </CommandItem>
-            <CommandItem onSelect={onLogout}>Log out</CommandItem>
-          </CommandList>
-          <CommandSeparator />
-        </Command>
-      </PopoverContent>
-    </Popover>
-  );
-};
-
-type NavItemProps = {
-  path?: Route['pathname'];
-  title: string;
-  Icon?: React.ComponentType<any>;
-  nested?: boolean;
-  collapsible?: boolean;
-  collapsed?: boolean;
-  active?: boolean;
-};
-const NavItem = ({
-  path,
-  title,
-  Icon,
-  nested = false,
-  collapsible,
-  collapsed,
-  active,
-}: NavItemProps) => {
-  const linkClassName = cn(
-    'flex min-h-9 flex-grow items-center gap-3 rounded px-3 hover:bg-gray-200 py-2 my-0.5',
-    nested ? 'py-2' : '',
-    active ? 'bg-gray-200' : '',
-  );
-  if (!path || collapsible) {
-    if (path) {
-      return (
-        <li>
-          <Link className={linkClassName} href={path as any}>
-            {Icon ? <Icon aria-hidden width={18} height={18} /> : null}
-            <span className="block text-m tabular-nums leading-none">
-              {title}
-            </span>
-            <ChevronDownIcon
-              aria-hidden
-              className={clsx(
-                collapsed
-                  ? '-rotate-180 ease-out motion-safe:duration-100'
-                  : 'rotate-0 ease-in motion-safe:duration-75',
-                'ml-auto',
-              )}
-            />
-          </Link>
-        </li>
-      );
-    }
-    return (
-      <li>
-        <a className={linkClassName}>
-          {Icon ? <Icon aria-hidden width={18} height={18} /> : null}
-          <span className="block text-m tabular-nums leading-none">
-            {title}
-          </span>
-          <ChevronDownIcon
-            aria-hidden
-            className={clsx(
-              collapsed
-                ? '-rotate-180 ease-out motion-safe:duration-100'
-                : 'rotate-0 ease-in motion-safe:duration-75',
-              'ml-auto',
-            )}
-          />
-        </a>
-      </li>
-    );
-  }
-  return (
-    <li>
-      <Link className={linkClassName} href={path as any}>
-        {Icon ? <Icon aria-hidden width={18} height={18} /> : null}
-        <span
-          className={cn(
-            'block text-m tabular-nums leading-none',
-            nested ? 'text-sm' : 'text-m',
-          )}
-        >
-          {title}
-        </span>
-      </Link>
-    </li>
-  );
-};

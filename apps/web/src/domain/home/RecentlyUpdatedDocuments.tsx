@@ -38,7 +38,10 @@ export const RecentlyUpdatedDocuments = () => {
                     className="flex flex-row items-center gap-2"
                   >
                     <Link
-                      href={`/app/dashboard/documents?id=${document.id}` as any}
+                      href={{
+                        pathname: '/app/dashboard/documents',
+                        query: { id: document.id.toString() },
+                      }}
                       className="group flex flex-row items-center gap-2"
                     >
                       <p className="font-medium group-hover:underline">

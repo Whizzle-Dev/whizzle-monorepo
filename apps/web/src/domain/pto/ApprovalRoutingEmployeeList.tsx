@@ -2,7 +2,6 @@ import { useEmployeeSelectOptions } from '@/domain/shared/useEmployeeSelectOptio
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { FormSelect } from '@/components/ui/form/form-select';
 import { FormSelectEmployeeItem } from '@/domain/pto/FormSelectEmployeeItem';
-import { getAbbreviation } from '@/lib/utils';
 import { Icons } from '@/components/ui/icons';
 import { Button } from '@/components/ui/button';
 import React from 'react';

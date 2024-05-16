@@ -152,9 +152,13 @@ const Projects = ({ params }: { params: { id: number } }) => {
         </div>
         <Button variant="secondary" className="gap-2" asChild>
           <Link
-            href={
-              `/app/dashboard/project-management/projects?id=${params.id}&isBacklog=true` as any
-            }
+            href={{
+              pathname: '/app/dashboard/project-management/projects',
+              query: {
+                id: params.id.toString(),
+                isBacklog: 'true',
+              },
+            }}
           >
             View Backlog
           </Link>

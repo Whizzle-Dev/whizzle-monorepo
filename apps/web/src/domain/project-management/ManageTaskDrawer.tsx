@@ -174,9 +174,12 @@ export const ManageTaskDrawer = ({
               {task && (
                 <Button asChild variant="secondary">
                   <Link
-                    href={
-                      `/app/dashboard/project-management/tasks?id=${task.id}` as any
-                    }
+                    href={{
+                      pathname: '/app/dashboard/project-management/tasks',
+                      query: {
+                        id: task.id.toString(),
+                      },
+                    }}
                   >
                     <Icons.Maximize className="text-gray-500" size={16} />
                   </Link>

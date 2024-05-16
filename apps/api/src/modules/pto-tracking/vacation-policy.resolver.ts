@@ -21,11 +21,15 @@ import { Roles } from '../auth/roles.decorator';
 import { PermissionRoleEnum } from '../../types/permission-role.enum';
 import { UpdateVacationPolicyInput } from './dto/update-vacation-policy.input';
 import { mapEmployee } from '../company/util';
+import { VacationPolicyService } from './vacation-policy.service';
 
 @UseGuards(JwtGraphqlGuard)
 @Resolver(() => VacationPolicyDto)
 export class VacationPolicyResolver {
-  constructor(private ptoTrackingService: PtoTrackingService) {}
+  constructor(
+    private ptoTrackingService: PtoTrackingService,
+    private vacationPolicyService: VacationPolicyService,
+  ) {}
 
   @Roles(PermissionRoleEnum.EMPLOYEE)
   @Query(() => [LeaveEntitlementDto])
@@ -43,7 +47,7 @@ export class VacationPolicyResolver {
   async vacationPolicies(
     @JwtGraphqlDecorator() token: JwtPayload,
   ): Promise<VacationPolicyDto[]> {
-    const policies = await this.ptoTrackingService.getVacationPolicies({
+    const policies = await this.vacationPolicyService.getVacationPolicies({
       companyId: token.companyId,
     });
 
@@ -59,7 +63,7 @@ export class VacationPolicyResolver {
     @JwtGraphqlDecorator() token: JwtPayload,
     @Args('id') id: number,
   ): Promise<VacationPolicyDto> {
-    return this.ptoTrackingService.getVacationPolicy({
+    return this.vacationPolicyService.getVacationPolicy({
       companyId: token.companyId,
       id,
     });
@@ -71,7 +75,10 @@ export class VacationPolicyResolver {
     @Args('input') input: CreateVacationPolicyInput,
     @JwtGraphqlDecorator() token: JwtPayload,
   ): Promise<VacationPolicyDto> {
-    return this.ptoTrackingService.createVacationPolicy(input, token.companyId);
+    return this.vacationPolicyService.createVacationPolicy(
+      input,
+      token.companyId,
+    );
   }
 
   @Roles(PermissionRoleEnum.ADMIN)
@@ -80,7 +87,7 @@ export class VacationPolicyResolver {
     @Args('id', { type: () => Number }) id: number,
     @JwtGraphqlDecorator() token: JwtPayload,
   ): Promise<boolean> {
-    await this.ptoTrackingService.setAsDefault(id, token.companyId);
+    await this.vacationPolicyService.setAsDefault(id, token.companyId);
     return true;
   }
 
@@ -92,7 +99,7 @@ export class VacationPolicyResolver {
     @Args('removedIds', { type: () => [Number] }) removedIds: number[],
     @Args('policyId') policyId: number,
   ) {
-    await this.ptoTrackingService.assignEmployeesToVacationPolicy(
+    await this.vacationPolicyService.assignEmployeesToVacationPolicy(
       { employeeIds, removedIds },
       policyId,
       token.companyId,
@@ -106,7 +113,10 @@ export class VacationPolicyResolver {
     @Args('input') input: UpdateVacationPolicyInput,
     @JwtGraphqlDecorator() token: JwtPayload,
   ): Promise<boolean> {
-    await this.ptoTrackingService.updateVacationPolicy(input, token.companyId);
+    await this.vacationPolicyService.updateVacationPolicy(
+      input,
+      token.companyId,
+    );
     return true;
   }
 
@@ -118,11 +128,13 @@ export class VacationPolicyResolver {
     @Args('value', { defaultValue: true, nullable: true })
     value: boolean,
   ): Promise<boolean> {
-    const updatedLines = await this.ptoTrackingService.archiveVacationPolicy({
-      companyId: token.companyId,
-      id,
-      value,
-    });
+    const updatedLines = await this.vacationPolicyService.archiveVacationPolicy(
+      {
+        companyId: token.companyId,
+        id,
+        value,
+      },
+    );
     if (updatedLines.length === 0) {
       throw new BadRequestException("Can't archive policy");
     }
