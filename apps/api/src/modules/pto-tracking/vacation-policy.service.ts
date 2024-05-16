@@ -43,22 +43,17 @@ export class VacationPolicyService {
         .executeTakeFirst();
     }
   }
-  async updateVacationPolicy(
-    input: UpdateVacationPolicyInput,
-    companyId: number,
-  ) {
-    await this.database.transaction().execute(async (tx) => {
-      await tx
-        .updateTable('VacationPolicy')
-        .where('id', '=', input.id)
-        .where('companyId', '=', companyId)
-        .set({
-          name: input.name,
-          description: input.description,
-          policyDocument: input.policyDocument,
-        })
-        .execute();
-    });
+  updateVacationPolicy(input: UpdateVacationPolicyInput, companyId: number) {
+    return this.database
+      .updateTable('VacationPolicy')
+      .where('id', '=', input.id)
+      .where('companyId', '=', companyId)
+      .set({
+        name: input.name,
+        description: input.description,
+        policyDocument: input.policyDocument,
+      })
+      .execute();
   }
 
   async setAsDefault(id: number, companyId: number) {
