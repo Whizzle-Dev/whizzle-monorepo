@@ -2,13 +2,8 @@ import { BullModule } from '@nestjs/bull';
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { NOTIFICATIONS_QUEUE } from '../../queues/notification-queue';
 import { AccessControlService } from '../auth/access-control.service';
-import {
-  CHECK_INS_QUEUE,
-  EMPLOYEES_QUEUE,
-  PTO_QUEUE,
-} from '../../queues/cron-jobs';
+import { QUEUES } from '../../queues/queues';
 import { FilesModule } from '../files/files.module';
 import { DateService } from '../../shared/date.service';
 import { Buffer } from 'buffer';
@@ -40,16 +35,16 @@ import { UtilService } from '../../services/util.service';
     }),
     BullModule.registerQueue(
       {
-        name: CHECK_INS_QUEUE,
+        name: QUEUES.CHECK_INS_QUEUE.name,
       },
       {
-        name: PTO_QUEUE,
+        name: QUEUES.PTO_QUEUE.name,
       },
       {
-        name: EMPLOYEES_QUEUE,
+        name: QUEUES.EMPLOYEES_QUEUE.name,
       },
       {
-        name: NOTIFICATIONS_QUEUE,
+        name: QUEUES.NOTIFICATIONS_QUEUE.name,
       },
     ),
     FilesModule,

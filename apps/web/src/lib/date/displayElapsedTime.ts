@@ -31,4 +31,3 @@ export function displayElapsedTime(startDate: Date, endDate: Date): string {
 
   return result;
 }
-

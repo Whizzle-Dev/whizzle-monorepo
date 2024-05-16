@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { EmployeeDto } from '../company/dto/employee.dto';
+import { EmployeeDto } from '../../company/dto/employee.dto';
+import { PtoRequestApproverDto } from './pto-request-approver.dto';
 
 @ObjectType()
 export class PtoRequestDto {
@@ -28,14 +29,3 @@ export class PtoRequestDto {
   ptoCategoryName: string;
 }
 
-@ObjectType()
-export class PtoRequestApproverDto {
-  @Field(() => EmployeeDto)
-  employee: EmployeeDto;
-
-  @Field()
-  status: string;
-
-  @Field()
-  priority: number;
-}

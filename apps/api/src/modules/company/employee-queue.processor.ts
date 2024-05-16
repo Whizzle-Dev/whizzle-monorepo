@@ -1,16 +1,12 @@
 import { Process, Processor } from '@nestjs/bull';
-import {
-  EMPLOYEE_EXPIRED_INVITES_JOB,
-  EMPLOYEE_PROFILE_IMAGE_GENERATOR_JOB,
-  EMPLOYEES_QUEUE,
-} from '../../queues/cron-jobs';
+import { QUEUES } from '../../queues/queues';
 import { Database } from '../../database/database.module';
 import { sql } from 'kysely';
 import { GeneralQueueProcessor } from '../../shared/general-queue-processor';
 import { INVITE_VALID_DAYS } from '../../constants';
 import { FilesService } from '../files/files.service';
 
-@Processor(EMPLOYEES_QUEUE)
+@Processor(QUEUES.EMPLOYEES_QUEUE.name)
 export class EmployeeQueueProcessor extends GeneralQueueProcessor {
   constructor(
     private readonly database: Database,
@@ -18,7 +14,7 @@ export class EmployeeQueueProcessor extends GeneralQueueProcessor {
   ) {
     super();
   }
-  @Process(EMPLOYEE_EXPIRED_INVITES_JOB)
+  @Process(QUEUES.EMPLOYEES_QUEUE.EXPIRED_INVITES.name)
   async handleCron() {
     await this.database.transaction().execute(async (tx) => {
       await tx
@@ -38,7 +34,7 @@ export class EmployeeQueueProcessor extends GeneralQueueProcessor {
     });
   }
 
-  @Process(EMPLOYEE_PROFILE_IMAGE_GENERATOR_JOB)
+  @Process(QUEUES.EMPLOYEES_QUEUE.PROFILE_IMAGE_GENERATOR.name)
   async handleProfileImageGenerator() {
     await this.database.transaction().execute(async (tx) => {
       const users = await tx

@@ -25,10 +25,10 @@ export const useMyTasksColumns = ({ onUpdate }: UseTasksColumnsArgs) => {
           return (
             <div className="font-bold min-w-[250px]">
               <Link
-                href={
-                  ('/app/dashboard/project-management/tasks?id=' +
-                    row.original.id) as any
-                }
+                href={{
+                  pathname: '/app/dashboard/project-management/tasks',
+                  query: { id: row.original.id.toString() },
+                }}
                 className="hover:underline"
               >
                 <span>{row.original.name}</span>
@@ -49,10 +49,10 @@ export const useMyTasksColumns = ({ onUpdate }: UseTasksColumnsArgs) => {
           return (
             <div className="flex items-center gap-2 min-w-[250px]">
               <Link
-                href={
-                  ('/app/dashboard/project-management/projects?id=' +
-                    project.id) as any
-                }
+                href={{
+                  pathname: '/app/dashboard/project-management/projects',
+                  query: { id: project.id.toString() },
+                }}
                 className="flex items-center gap-2 hover:underline"
               >
                 {project.name}

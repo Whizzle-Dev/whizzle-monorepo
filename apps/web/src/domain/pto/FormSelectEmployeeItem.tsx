@@ -1,7 +1,7 @@
 import { FormSelect } from '@/components/ui/form/form-select';
 import React from 'react';
 
-import {EmployeeAvatar} from "@/components/ui/avatar";
+import { EmployeeAvatar } from '@/components/ui/avatar';
 
 type FormSelectEmployeeItemProps = {
   value: string;

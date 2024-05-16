@@ -4,14 +4,11 @@ import { DB } from 'kysely-codegen';
 import type { Dayjs, OpUnitType } from 'dayjs';
 
 import { Database } from '../../database/database.module';
-import {
-  CRON_JOB_FOR_CHECK_INS,
-  CHECK_INS_QUEUE,
-} from '../../queues/cron-jobs';
+import { QUEUES } from '../../queues/queues';
 import { GeneralQueueProcessor } from '../../shared/general-queue-processor';
 import { DateService } from '../../shared/date.service';
 
-@Processor(CHECK_INS_QUEUE)
+@Processor(QUEUES.CHECK_INS_QUEUE.name)
 export class CheckInsCronJobProcessorService extends GeneralQueueProcessor {
   constructor(
     private readonly database: Database,
@@ -20,7 +17,7 @@ export class CheckInsCronJobProcessorService extends GeneralQueueProcessor {
     super();
   }
 
-  @Process(CRON_JOB_FOR_CHECK_INS)
+  @Process(QUEUES.CHECK_INS_QUEUE.CHECK_INS.name)
   async handleCron() {
     await this.database.transaction().execute(async (tx) => {
       const checkIns = await this.getCheckInsData(tx);

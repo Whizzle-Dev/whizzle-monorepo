@@ -1,18 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bull';
-import {
-  CHECK_INS_QUEUE,
-  CRON_JOB_FOR_CHECK_INS,
-  CRON_JOB_FOR_CHECK_INS_UNIQUE_ID,
-  EMPLOYEE_EXPIRED_INVITES_JOB,
-  EMPLOYEE_EXPIRED_INVITES_JOB_ID,
-  EMPLOYEE_PROFILE_IMAGE_GENERATOR_JOB,
-  EMPLOYEE_PROFILE_IMAGE_GENERATOR_JOB_ID,
-  EMPLOYEES_QUEUE,
-  PTO_ACCRUALS_CRON_JOB,
-  PTO_ACCRUALS_CRON_JOB_ID,
-  PTO_QUEUE,
-} from './cron-jobs';
+import { QUEUES } from './queues';
 import { Queue } from 'bull';
 import { CronExpression } from '../types/cron-expresion';
 
@@ -26,59 +14,59 @@ export class CronJobsManagerService {
     },
   };
   constructor(
-    @InjectQueue(CHECK_INS_QUEUE)
+    @InjectQueue(QUEUES.CHECK_INS_QUEUE.name)
     private checkInQueue: Queue,
-    @InjectQueue(PTO_QUEUE)
+    @InjectQueue(QUEUES.PTO_QUEUE.name)
     private ptoQueue: Queue,
-    @InjectQueue(EMPLOYEES_QUEUE)
+    @InjectQueue(QUEUES.EMPLOYEES_QUEUE.name)
     private employeeQueue: Queue,
   ) {}
 
   registerJobs() {
     this.checkInQueue.add(
-      CRON_JOB_FOR_CHECK_INS,
+      QUEUES.CHECK_INS_QUEUE.CHECK_INS.name,
       {},
       {
         ...this.config,
         repeat: {
           cron: CronExpression.EVERY_12_HOURS,
-        } as any,
-        jobId: CRON_JOB_FOR_CHECK_INS_UNIQUE_ID,
+        },
+        jobId: QUEUES.CHECK_INS_QUEUE.CHECK_INS.id,
       },
     );
 
     this.ptoQueue.add(
-      PTO_ACCRUALS_CRON_JOB,
+      QUEUES.PTO_QUEUE.PTO_ACCRUALS.name,
       {},
       {
         ...this.config,
         repeat: {
           cron: CronExpression.EVERY_12_HOURS,
-        } as any,
-        jobId: PTO_ACCRUALS_CRON_JOB_ID,
+        },
+        jobId: QUEUES.PTO_QUEUE.PTO_ACCRUALS.id,
       },
     );
 
     this.employeeQueue.add(
-      EMPLOYEE_EXPIRED_INVITES_JOB,
+      QUEUES.EMPLOYEES_QUEUE.EXPIRED_INVITES.name,
       {},
       {
         ...this.config,
         repeat: {
-          cron: CronExpression.EVERY_2_HOURS,
-        } as any,
-        jobId: EMPLOYEE_EXPIRED_INVITES_JOB_ID,
+          cron: CronExpression.EVERY_6_HOURS,
+        },
+        jobId: QUEUES.EMPLOYEES_QUEUE.EXPIRED_INVITES.id,
       },
     );
     this.employeeQueue.add(
-      EMPLOYEE_PROFILE_IMAGE_GENERATOR_JOB,
+      QUEUES.EMPLOYEES_QUEUE.PROFILE_IMAGE_GENERATOR.name,
       {},
       {
         ...this.config,
         repeat: {
           cron: CronExpression.EVERY_DAY_AT_2AM,
-        } as any,
-        jobId: EMPLOYEE_PROFILE_IMAGE_GENERATOR_JOB_ID,
+        },
+        jobId: QUEUES.EMPLOYEES_QUEUE.PROFILE_IMAGE_GENERATOR.id,
       },
     );
   }

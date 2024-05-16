@@ -42,7 +42,7 @@ import {
   Bell,
   Lock,
   Building2,
-    Cog,
+  Cog,
 } from 'lucide-react';
 import React from 'react';
 
@@ -90,7 +90,7 @@ export const Icons = {
   CalendarDays,
   Bell,
   Building2,
-  Cog
+  Cog,
 };
 
 export const ClickOutIcon = ({ size = 20 }) => {

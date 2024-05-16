@@ -63,9 +63,12 @@ export const ProjectBackLog = ({ params }: { params: { id: string } }) => {
           </Button>
           <Button variant="secondary" className="gap-2" asChild>
             <Link
-              href={
-                `/app/dashboard/project-management/projects?id=${params.id}` as any
-              }
+              href={{
+                pathname: '/app/dashboard/project-management/projects',
+                query: {
+                  id: params.id,
+                },
+              }}
             >
               Board
             </Link>

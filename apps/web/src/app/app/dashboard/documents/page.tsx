@@ -40,7 +40,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { useSearchParams } from 'next/navigation';
 
 const DocumentsPages = () => {
   const [sort, setSort] = React.useState<'asc' | 'desc'>('asc');
@@ -56,7 +55,6 @@ const DocumentsPages = () => {
     },
   });
 
-  const searchParams = useSearchParams();
   const data = currentData ?? previousData;
   const [create] = useCreateDocumentMutation({
     awaitRefetchQueries: true,

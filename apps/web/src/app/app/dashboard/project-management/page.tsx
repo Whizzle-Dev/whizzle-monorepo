@@ -3,15 +3,14 @@
 import { withAuth } from '@/domain/auth/withAuth';
 import React, { Suspense } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useGetMyTasksQuery, useGetProjectsQuery } from '@/generated';
+import { useGetProjectsQuery } from '@/generated';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ClickOutIcon, Icons } from '@/components/ui/icons';
 import { CreateProjectDrawer } from '@/domain/time-tracking/CreateProjectDrawer';
-import { useMyTasksColumns } from '@/app/app/dashboard/project-management/useMyTasksColumns';
-import { DataTable, useDataTable } from '@/components/ui/data-table/DataTable';
 import { Loader } from '@/components/ui/loader';
+import { MyTasksSection } from '@/app/app/dashboard/project-management/MyTasksSection';
 
 const ProjectManagement = () => {
   const projectsQuery = useGetProjectsQuery();
@@ -51,10 +50,12 @@ const ProjectManagement = () => {
                   />
                   <Button size="icon" variant="ghost" asChild>
                     <Link
-                      href={
-                        ('/app/dashboard/project-management/projects?id=' +
-                          project.id) as any
-                      }
+                      href={{
+                        pathname: '/app/dashboard/project-management/projects',
+                        query: {
+                          id: project.id.toString(),
+                        },
+                      }}
                     >
                       <ClickOutIcon />
                     </Link>
@@ -70,23 +71,6 @@ const ProjectManagement = () => {
       <CreateProjectDrawer open={createOpen} onOpenChange={setCreateOpen} />
     </Suspense>
   );
-};
-
-// show the same table but with tasks from all projects and add project column
-const MyTasksSection = () => {
-  const { data, refetch, loading } = useGetMyTasksQuery();
-
-  const columns = useMyTasksColumns({
-    onUpdate: () => {
-      refetch();
-    },
-  });
-
-  const { table } = useDataTable({
-    data: data?.myTasks,
-    columns,
-  });
-  return <DataTable colSpan={columns.length} table={table} loading={loading} />;
 };
 
 export default withAuth(ProjectManagement);

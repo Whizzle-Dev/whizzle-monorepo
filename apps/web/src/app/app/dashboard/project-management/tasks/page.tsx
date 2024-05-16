@@ -108,9 +108,10 @@ const TaskPageComponent = ({
     <div className="max-w-screen-lg">
       <Button variant="secondary" className="gap-2" asChild>
         <Link
-          href={
-            `/app/dashboard/project-management/projects?id=${task.project?.id}` as any
-          }
+          href={{
+            pathname: '/app/dashboard/project-management/projects',
+            query: { id: task.project?.id.toString() },
+          }}
         >
           <Icons.ArrowLeft className="text-gray-500" size={16} />
           Back to Project

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Database } from '../../database/database.module';
+import { Database } from '../../../database/database.module';
 import { jsonObjectFrom } from 'kysely/helpers/postgres';
 
 @Injectable()

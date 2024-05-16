@@ -1,20 +1,17 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
-import {
-  NOTIFICATIONS_QUEUE,
-  NotificationsQueueEvents,
-  NotificationsQueueJobs,
-} from '../../queues/notification-queue';
+import { NotificationsQueueEvents } from '../../queues/notification-queue';
 import { EmailService } from './email.service';
 import { GeneralQueueProcessor } from '../../shared/general-queue-processor';
+import { QUEUES } from '../../queues/queues';
 
-@Processor(NOTIFICATIONS_QUEUE)
+@Processor(QUEUES.NOTIFICATIONS_QUEUE.name)
 export class NotificationsProcessorQueue extends GeneralQueueProcessor {
   constructor(private emailService: EmailService) {
     super();
   }
 
-  @Process(NotificationsQueueJobs.SEND_EMAIL)
+  @Process(QUEUES.NOTIFICATIONS_QUEUE.SEND_EMAIL.name)
   async sendEmail(job: Job<NotificationsQueueEvents>) {
     if (job.data.type === 'AUTH_VERIFY_ACCOUNT') {
       await this.emailService.sendEmail({

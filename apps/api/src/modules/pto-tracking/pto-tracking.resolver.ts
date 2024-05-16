@@ -14,6 +14,7 @@ import { CreatePtoRequestInput } from './dto/create-pto-request.input';
 import { PtoRequestCreatedEvent } from '../events/types';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { AppEvents } from '../../shared/app-events';
+import { PtoRequestDto } from './dto/pto-request.dto';
 
 @UseGuards(JwtGraphqlGuard)
 @Resolver()
@@ -123,5 +124,32 @@ export class PtoTrackingResolver {
       accepted,
       approverId: token.employeeId,
     });
+  }
+
+  @Roles(PermissionRoleEnum.EMPLOYEE)
+  @Query(() => PtoRequestDto)
+  async getPtoRequestDetails(
+    @Args('requestId', { type: () => Number }) requestId: number,
+    @JwtGraphqlDecorator() token: JwtPayload,
+  ): Promise<PtoRequestDto> {
+    const result = await this.ptoTrackingService.getRequestDetails(
+      requestId,
+      token.companyId,
+    );
+
+    return {
+      approvers: result.approvers.map((a) => ({
+        employee: a,
+        status: a.approverStatus,
+        priority: a.priority,
+      })),
+      id: result.id,
+      startDate: result.startDate,
+      endDate: result.endDate,
+      status: result.status,
+      workingDays: result.workingDays,
+      requstedBy: result.requestedBy,
+      ptoCategoryName: result.leaveCategoryName,
+    };
   }
 }
