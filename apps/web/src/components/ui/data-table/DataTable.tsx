@@ -1,26 +1,24 @@
 import * as React from 'react';
+import { ReactNode, useState } from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
-  SortingState,
-  VisibilityState,
+  ColumnPinningState,
   flexRender,
   getCoreRowModel,
+  getExpandedRowModel,
   getFacetedRowModel,
   getFacetedUniqueValues,
   getFilteredRowModel,
+  getGroupedRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable,
-  Table as TableType,
   GroupingState,
-  getExpandedRowModel,
-  getGroupedRowModel,
-  Cell,
-  Row,
-  ColumnPinningState,
-  Column,
   PaginationState,
+  SortingState,
+  Table as TableType,
+  useReactTable,
+  VisibilityState,
 } from '@tanstack/react-table';
 
 import {
@@ -31,11 +29,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
-import { CSSProperties, ReactNode, useState } from 'react';
-import { clsx } from 'clsx';
-import { Icons } from '@/components/ui/icons';
 import { Loader } from '@/components/ui/loader';
+import {
+  DataTableCell,
+  getCommonPinningStyles,
+} from '@/components/ui/data-table/DataTableCell';
 
 interface DataTableProps<TData> {
   colSpan: number;
@@ -110,35 +108,6 @@ export const useDataTable = <TData,>({
     table,
   };
 };
-const getCommonPinningStyles = (column: Column<any>): CSSProperties => {
-  const isPinned = column.getIsPinned();
-  const isLastLeftPinnedColumn =
-    isPinned === 'left' && column.getIsLastColumn('left');
-  const isFirstRightPinnedColumn =
-    isPinned === 'right' && column.getIsFirstColumn('right');
-
-  if (isPinned)
-    console.log({
-      isPinned,
-      isLastLeftPinnedColumn,
-      isFirstRightPinnedColumn,
-      column,
-    });
-  return {
-    boxShadow: isLastLeftPinnedColumn
-      ? '-4px 0 4px -4px #d6d3d3 inset'
-      : isFirstRightPinnedColumn
-      ? '4px 0 4px -4px #d6d3d3 inset'
-      : undefined,
-    left: isPinned === 'left' ? `${column.getStart('left')}px` : undefined,
-    right: isPinned === 'right' ? `${column.getAfter('right')}px` : undefined,
-    opacity: isPinned ? 0.95 : 1,
-    position: isPinned ? 'sticky' : 'relative',
-    width: column.getSize(),
-    zIndex: isPinned ? 1 : 0,
-    background: isPinned ? 'white' : undefined,
-  };
-};
 
 export function DataTable<TData>({
   colSpan,
@@ -191,7 +160,11 @@ export function DataTable<TData>({
                     className={row.getIsGrouped() ? 'bg-gray-50 p-4' : ''}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <Cell cell={cell} row={row} key={'cell_' + cell.id} />
+                      <DataTableCell
+                        cell={cell}
+                        row={row}
+                        key={'cell_' + cell.id}
+                      />
                     ))}
                   </TableRow>
                 ))
@@ -208,51 +181,3 @@ export function DataTable<TData>({
     </div>
   );
 }
-type CellProps<TData> = {
-  cell: Cell<TData, unknown>;
-  row: Row<TData>;
-};
-const Cell = <TData,>({ cell, row }: CellProps<TData>) => {
-  const isAggregated = cell.getIsAggregated();
-  const isGrouped = cell.getIsGrouped();
-  return (
-    <TableCell
-      className={clsx()}
-      style={{ ...getCommonPinningStyles(cell.column) }}
-    >
-      {isGrouped ? (
-        <>
-          <button
-            onClick={row.getToggleExpandedHandler()}
-            className={clsx(
-              'flex flex-row gap-2 whitespace-nowrap items-center',
-              row.getCanExpand() ? 'cursor-pointer' : 'cursor-default',
-            )}
-          >
-            {row.getIsExpanded() ? (
-              <Icons.ChevronDown size={18} className="text-gray-500" />
-            ) : (
-              <Icons.ChevronRight size={18} className="text-gray-500" />
-            )}{' '}
-            {
-              flexRender(
-                cell.column.columnDef.aggregatedCell ??
-                  cell.column.columnDef.cell,
-                cell.getContext(),
-              ) as ReactNode
-            }{' '}
-            ({row.subRows.length})
-          </button>
-        </>
-      ) : // todo resolve this
-      isAggregated ? (
-        // If the cell is aggregated, use the Aggregated
-        // renderer for cell
-        <div className="p-4">{null}</div>
-      ) : cell.getIsPlaceholder() ? null : ( // For cells with repeated values, render null
-        // Otherwise, just render the regular cell
-        (flexRender(cell.column.columnDef.cell, cell.getContext()) as ReactNode)
-      )}
-    </TableCell>
-  );
-};

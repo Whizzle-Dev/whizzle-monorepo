@@ -5,7 +5,11 @@ import React, { useMemo } from 'react';
 import { DataTableColumnHeader } from '@/components/ui/data-table/DataTableColumnHeader';
 
 import { EmployeeAvatar } from '@/components/ui/avatar';
-import { displayElapsedTime } from '@/lib/date/displayElapsedTime';
+import {
+  diffInSeconds,
+  displayElapsedTime,
+  displayElapsedTimeForSeconds,
+} from '@/lib/date/displayElapsedTime';
 import { TimeTrackingRowActions } from '@/domain/time-tracking/TimeTrackingRowActions';
 
 const columnAccessor = createColumnHelper<TimeEntryFragment>();
@@ -97,7 +101,10 @@ export const useTimeTrackingColumns = ({
         id: 'Date',
         accessorFn: (row) => row.startDate,
         getGroupingValue: (row) => dayjs(row.startDate).format('MMMM, DD.'),
-        aggregatedCell: ({ row }) => {
+        aggregatedCell: ({ row, cell }) => {
+          if (cell.getIsAggregated()) {
+            return null;
+          }
           return (
             <div className="flex flex-row items-center gap-2 min-w-[100px]">
               <span className="font-bold">
@@ -123,8 +130,17 @@ export const useTimeTrackingColumns = ({
       },
       ...(employeeColumn ? [emplyeeColumnDef] : []),
       {
-        accessorFn: (row) => {
-          return displayElapsedTime(row.startDate, row.endDate);
+        accessorFn: (row) => diffInSeconds(row.startDate, row.endDate),
+        getGroupingValue: (row) => diffInSeconds(row.startDate, row.endDate),
+        aggregationFn: 'sum',
+        aggregatedCell: ({ getValue }) => {
+          return (
+            <div className="flex flex-row items-center gap-2 min-w-[100px]">
+              <span className="font-bold">
+                {displayElapsedTimeForSeconds(getValue() as number)}
+              </span>
+            </div>
+          );
         },
         id: 'duration',
         header: () => <span>Duration</span>,

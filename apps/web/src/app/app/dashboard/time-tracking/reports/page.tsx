@@ -84,13 +84,21 @@ const PageSummaries = () => {
         <SummaryBox
           name="Hours This Week"
           title={
-            timeTrackingStatsQuery.loading ? <Loader /> : `${trackedHours}h`
+            timeTrackingStatsQuery.loading ? (
+              <Loader />
+            ) : trackedHours ? (
+              `${trackedHours}h`
+            ) : (
+              ''
+            )
           }
           description={
-            !timeTrackingStatsQuery.loading
-              ? timeTrackingStatsQuery.data?.timeTrackingStats
-                  .minutesPercentageDiffFromLastWeek
-              : null
+            trackedHours
+              ? !timeTrackingStatsQuery.loading
+                ? timeTrackingStatsQuery.data?.timeTrackingStats
+                    .minutesPercentageDiffFromLastWeek
+                : null
+              : 'No time tracked this week'
           }
           icon={<Icons.Clock className="text-gray-500" size={14} />}
         />
