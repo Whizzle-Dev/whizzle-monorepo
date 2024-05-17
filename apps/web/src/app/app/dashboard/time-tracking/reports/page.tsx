@@ -10,7 +10,7 @@ import {
   useGetCompanyTimeEntriesQuery,
   useTimeTrackingStatsQuery,
 } from '@/generated';
-import { useTimeTrackingColumns } from '@/domain/time-tracking/columns';
+import { useTimeTrackingColumns } from '@/domain/time-tracking/useTimeTrackingColumns';
 import { TimeReportsTableToolbar } from '@/domain/time-tracking/TimeReportsTableToolbar';
 import { parseAsArrayOf, parseAsInteger, useQueryState } from 'nuqs';
 import { useQueryDateRange } from '@/domain/time-tracking/useQueryDateRange';

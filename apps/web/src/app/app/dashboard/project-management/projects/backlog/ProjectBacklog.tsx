@@ -85,7 +85,9 @@ export const ProjectBackLog = ({ params }: { params: { id: string } }) => {
         open={createTaskOpen}
         onOpenChange={setCreateTaskOpen}
         projectId={params.id}
-        isBacklog
+        createOptions={{
+          isBacklog: true,
+        }}
         onSuccess={refetch}
       />
     </Suspense>

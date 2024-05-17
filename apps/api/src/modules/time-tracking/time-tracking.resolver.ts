@@ -30,11 +30,22 @@ export class TimeTrackingResolver {
   constructor(private timeTrackingService: TimeTrackingService) {}
 
   @Roles(PermissionRoleEnum.EMPLOYEE)
-  @Query(() => [TimeEntryDto])
+  @Query(() => TimeEntriesPaginatedResponse)
   async timeEntries(
     @JwtGraphqlDecorator() token: JwtPayload,
-  ): Promise<TimeEntryDto[]> {
-    return this.timeTrackingService.getTimeEntries(token.employeeId);
+    @Args('options', { nullable: true, type: () => PaginatedQueryInput })
+    options: PaginatedQueryInput | null,
+  ): Promise<TimeEntriesPaginatedResponse> {
+    const data = await this.timeTrackingService.getTimeEntries({
+      employeeId: token.employeeId,
+      options,
+    });
+    const totalCount = data[0]?.totalCount || 0;
+    return {
+      data,
+      totalCount,
+      hasNextPage: totalCount > (options?.skip || 0) + (options?.take || 0),
+    };
   }
 
   @Roles(PermissionRoleEnum.ADMIN)

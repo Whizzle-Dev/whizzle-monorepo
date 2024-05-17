@@ -11,7 +11,7 @@ export function displayElapsedTime(startDate: Date, endDate: Date): string {
     result += `${diffHours} ${diffHours === 1 ? 'hour' : 'hours'}`;
   }
 
-  if (diffMinutes > 0) {
+  if (diffMinutes % 60 > 0) {
     if (result !== '') {
       result += ' ';
     }
@@ -20,7 +20,7 @@ export function displayElapsedTime(startDate: Date, endDate: Date): string {
     }`;
   }
 
-  if (diffSeconds > 0) {
+  if (diffSeconds % 60 > 0) {
     if (result !== '') {
       result += ' ';
     }

@@ -1,6 +1,10 @@
-query GetTimeEntries {
-    timeEntries {
-        ...TimeEntry
+query GetTimeEntries ($options: PaginatedQueryInput){
+    timeEntries(options: $options) {
+        data {
+            ...TimeEntry
+        }
+        hasNextPage
+        totalCount
     }
 }
 

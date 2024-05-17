@@ -216,7 +216,7 @@ export type EmployeeDto = {
   companyId: Scalars['Int']['output'];
   email: Scalars['String']['output'];
   id: Scalars['Int']['output'];
-  name?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   permissionRole: PermissionRoleEnum;
   profilePhotoUrl?: Maybe<Scalars['String']['output']>;
   role?: Maybe<RoleDto>;
@@ -834,7 +834,7 @@ export type Query = {
   tasks: Array<TaskDto>;
   team: TeamDto;
   teams: Array<TeamDto>;
-  timeEntries: Array<TimeEntryDto>;
+  timeEntries: TimeEntriesPaginatedResponse;
   timeTrackedPerEmployee: Array<TimeTrackedPerEmployee>;
   timeTrackedPerProject: Array<TimeTrackedPerProject>;
   timeTrackedPerTeam: Array<TimeTrackedPerTeam>;
@@ -944,6 +944,11 @@ export type QueryTasksArgs = {
 
 export type QueryTeamArgs = {
   id: Scalars['Int']['input'];
+};
+
+
+export type QueryTimeEntriesArgs = {
+  options?: InputMaybe<PaginatedQueryInput>;
 };
 
 
@@ -1175,12 +1180,12 @@ export type GetCheckInTemplatesQuery = { __typename?: 'Query', getCheckInTemplat
 export type GetPastCheckInsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPastCheckInsQuery = { __typename?: 'Query', getPastCheckIns: Array<{ __typename?: 'CheckInSubmissionModel', id: number, formElements: string, createdBy: number, type: CheckInType, prettyName: string, status: CheckInSubmissionStatus, answer?: string | null, employee: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } }> };
+export type GetPastCheckInsQuery = { __typename?: 'Query', getPastCheckIns: Array<{ __typename?: 'CheckInSubmissionModel', id: number, formElements: string, createdBy: number, type: CheckInType, prettyName: string, status: CheckInSubmissionStatus, answer?: string | null, employee: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } }> };
 
 export type GetPendingCheckInsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPendingCheckInsQuery = { __typename?: 'Query', getPendingCheckins: Array<{ __typename?: 'CheckInSubmissionModel', id: number, formElements: string, createdBy: number, type: CheckInType, prettyName: string, status: CheckInSubmissionStatus, answer?: string | null, employee: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } }> };
+export type GetPendingCheckInsQuery = { __typename?: 'Query', getPendingCheckins: Array<{ __typename?: 'CheckInSubmissionModel', id: number, formElements: string, createdBy: number, type: CheckInType, prettyName: string, status: CheckInSubmissionStatus, answer?: string | null, employee: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } }> };
 
 export type GetCheckInsForCompanyQueryVariables = Exact<{
   options?: InputMaybe<PaginatedQueryInput>;
@@ -1188,16 +1193,16 @@ export type GetCheckInsForCompanyQueryVariables = Exact<{
 }>;
 
 
-export type GetCheckInsForCompanyQuery = { __typename?: 'Query', getCompanyCheckIns: Array<{ __typename?: 'CheckInSubmissionModel', id: number, formElements: string, createdBy: number, type: CheckInType, prettyName: string, status: CheckInSubmissionStatus, answer?: string | null, employee: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } }> };
+export type GetCheckInsForCompanyQuery = { __typename?: 'Query', getCompanyCheckIns: Array<{ __typename?: 'CheckInSubmissionModel', id: number, formElements: string, createdBy: number, type: CheckInType, prettyName: string, status: CheckInSubmissionStatus, answer?: string | null, employee: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } }> };
 
 export type GetCheckInByIdQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type GetCheckInByIdQuery = { __typename?: 'Query', getCheckInSubmission: { __typename?: 'CheckInSubmissionModel', id: number, formElements: string, createdBy: number, type: CheckInType, prettyName: string, status: CheckInSubmissionStatus, answer?: string | null, employee: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } } };
+export type GetCheckInByIdQuery = { __typename?: 'Query', getCheckInSubmission: { __typename?: 'CheckInSubmissionModel', id: number, formElements: string, createdBy: number, type: CheckInType, prettyName: string, status: CheckInSubmissionStatus, answer?: string | null, employee: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } } };
 
-export type CheckInSubmissionFragment = { __typename?: 'CheckInSubmissionModel', id: number, formElements: string, createdBy: number, type: CheckInType, prettyName: string, status: CheckInSubmissionStatus, answer?: string | null, employee: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } };
+export type CheckInSubmissionFragment = { __typename?: 'CheckInSubmissionModel', id: number, formElements: string, createdBy: number, type: CheckInType, prettyName: string, status: CheckInSubmissionStatus, answer?: string | null, employee: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } };
 
 export type SubmitCheckInMutationVariables = Exact<{
   payload: SubmitCheckInInput;
@@ -1327,11 +1332,11 @@ export type GetEmployeesQueryVariables = Exact<{
 }>;
 
 
-export type GetEmployeesQuery = { __typename?: 'Query', employees: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, companyId: number, status: EmployeeStatus, permissionRole: PermissionRoleEnum, profilePhotoUrl?: string | null, team?: { __typename?: 'TeamDto', id: number, name: string } | null, role?: { __typename?: 'RoleDto', id: number, name: string } | null }> };
+export type GetEmployeesQuery = { __typename?: 'Query', employees: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name: string, companyId: number, status: EmployeeStatus, permissionRole: PermissionRoleEnum, profilePhotoUrl?: string | null, team?: { __typename?: 'TeamDto', id: number, name: string } | null, role?: { __typename?: 'RoleDto', id: number, name: string } | null }> };
 
-export type EmployeeFragment = { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, companyId: number, status: EmployeeStatus, permissionRole: PermissionRoleEnum, profilePhotoUrl?: string | null, team?: { __typename?: 'TeamDto', id: number, name: string } | null, role?: { __typename?: 'RoleDto', id: number, name: string } | null };
+export type EmployeeFragment = { __typename?: 'EmployeeDto', id: number, email: string, name: string, companyId: number, status: EmployeeStatus, permissionRole: PermissionRoleEnum, profilePhotoUrl?: string | null, team?: { __typename?: 'TeamDto', id: number, name: string } | null, role?: { __typename?: 'RoleDto', id: number, name: string } | null };
 
-export type LightEmployeeFragment = { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null };
+export type LightEmployeeFragment = { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null };
 
 export type GetRolesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1343,7 +1348,7 @@ export type GetRoleQueryVariables = Exact<{
 }>;
 
 
-export type GetRoleQuery = { __typename?: 'Query', role: { __typename?: 'RoleDto', id: number, name: string, numberOfEmployees?: number | null, employees?: Array<{ __typename?: 'EmployeeDto', id: number, name?: string | null }> | null } };
+export type GetRoleQuery = { __typename?: 'Query', role: { __typename?: 'RoleDto', id: number, name: string, numberOfEmployees?: number | null, employees?: Array<{ __typename?: 'EmployeeDto', id: number, name: string }> | null } };
 
 export type GetTeamsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1355,7 +1360,7 @@ export type GetTeamQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamQuery = { __typename?: 'Query', team: { __typename?: 'TeamDto', id: number, name: string, employees?: Array<{ __typename?: 'EmployeeDto', id: number, name?: string | null, email: string }> | null } };
+export type GetTeamQuery = { __typename?: 'Query', team: { __typename?: 'TeamDto', id: number, name: string, employees?: Array<{ __typename?: 'EmployeeDto', id: number, name: string, email: string }> | null } };
 
 export type InviteEmployeeMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -1417,12 +1422,12 @@ export type GetCheckInsStatsForEmployeeQuery = { __typename?: 'Query', checkInsS
 export type GetNewJoinersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetNewJoinersQuery = { __typename?: 'Query', recentlyJoinedEmployees: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null, role?: { __typename?: 'RoleDto', id: number, name: string } | null, team?: { __typename?: 'TeamDto', id: number, name: string } | null }> };
+export type GetNewJoinersQuery = { __typename?: 'Query', recentlyJoinedEmployees: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null, role?: { __typename?: 'RoleDto', id: number, name: string } | null, team?: { __typename?: 'TeamDto', id: number, name: string } | null }> };
 
 export type GetRecentTasksForEmployeeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetRecentTasksForEmployeeQuery = { __typename?: 'Query', myRecentTasks: Array<{ __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, project?: { __typename?: 'ProjectDto', id: number, name: string, color: string } | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } | null }> };
+export type GetRecentTasksForEmployeeQuery = { __typename?: 'Query', myRecentTasks: Array<{ __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, project?: { __typename?: 'ProjectDto', id: number, name: string, color: string } | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } | null }> };
 
 export type GetRecentlyUpdatedDocumentsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1506,7 +1511,7 @@ export type CreateVacationPolicyMutationVariables = Exact<{
 }>;
 
 
-export type CreateVacationPolicyMutation = { __typename?: 'Mutation', createVacationPolicy: { __typename?: 'VacationPolicyDto', id: number, description: string, name: string, policyDocument?: string | null, default: boolean, archived: boolean, workingDays?: Array<string> | null, leaveCategories?: Array<{ __typename?: 'LeaveCategoryDto', id: number, name: string, daysAllowed: number }> | null, publicHolidays?: Array<{ __typename?: 'PublicHolidayDto', id: number, name: string, date: Date }> | null, employees?: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null }> | null } };
+export type CreateVacationPolicyMutation = { __typename?: 'Mutation', createVacationPolicy: { __typename?: 'VacationPolicyDto', id: number, description: string, name: string, policyDocument?: string | null, default: boolean, archived: boolean, workingDays?: Array<string> | null, leaveCategories?: Array<{ __typename?: 'LeaveCategoryDto', id: number, name: string, daysAllowed: number }> | null, publicHolidays?: Array<{ __typename?: 'PublicHolidayDto', id: number, name: string, date: Date }> | null, employees?: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null }> | null } };
 
 export type DeleteApprovalRoutingMutationVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -1518,14 +1523,14 @@ export type DeleteApprovalRoutingMutation = { __typename?: 'Mutation', deleteApp
 export type GetAccrualsForEmployeeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAccrualsForEmployeeQuery = { __typename?: 'Query', getLeaveAccrualsForEmployee: Array<{ __typename?: 'LeaveAccrualsDto', id: number, accrualDate: Date, accrualValue: number, cancelReason?: string | null, categoryId: number, description?: string | null, updatedAt?: Date | null, createdAt: Date, timeOfRequestId?: number | null, employeeId: number, status: LeaveAccrualStatus, leaveCategoryName?: string | null, employee?: { __typename?: 'EmployeeDto', id: number, name?: string | null, profilePhotoUrl?: string | null } | null }> };
+export type GetAccrualsForEmployeeQuery = { __typename?: 'Query', getLeaveAccrualsForEmployee: Array<{ __typename?: 'LeaveAccrualsDto', id: number, accrualDate: Date, accrualValue: number, cancelReason?: string | null, categoryId: number, description?: string | null, updatedAt?: Date | null, createdAt: Date, timeOfRequestId?: number | null, employeeId: number, status: LeaveAccrualStatus, leaveCategoryName?: string | null, employee?: { __typename?: 'EmployeeDto', id: number, name: string, profilePhotoUrl?: string | null } | null }> };
 
 export type GetLeaveAccrualsForCompanyQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetLeaveAccrualsForCompanyQuery = { __typename?: 'Query', getLeaveAccrualsForCompany: Array<{ __typename?: 'LeaveAccrualsDto', id: number, accrualDate: Date, accrualValue: number, cancelReason?: string | null, categoryId: number, description?: string | null, updatedAt?: Date | null, createdAt: Date, timeOfRequestId?: number | null, employeeId: number, status: LeaveAccrualStatus, leaveCategoryName?: string | null, employee?: { __typename?: 'EmployeeDto', id: number, name?: string | null, profilePhotoUrl?: string | null } | null }> };
+export type GetLeaveAccrualsForCompanyQuery = { __typename?: 'Query', getLeaveAccrualsForCompany: Array<{ __typename?: 'LeaveAccrualsDto', id: number, accrualDate: Date, accrualValue: number, cancelReason?: string | null, categoryId: number, description?: string | null, updatedAt?: Date | null, createdAt: Date, timeOfRequestId?: number | null, employeeId: number, status: LeaveAccrualStatus, leaveCategoryName?: string | null, employee?: { __typename?: 'EmployeeDto', id: number, name: string, profilePhotoUrl?: string | null } | null }> };
 
-export type LeaveAccrualFragment = { __typename?: 'LeaveAccrualsDto', id: number, accrualDate: Date, accrualValue: number, cancelReason?: string | null, categoryId: number, description?: string | null, updatedAt?: Date | null, createdAt: Date, timeOfRequestId?: number | null, employeeId: number, status: LeaveAccrualStatus, leaveCategoryName?: string | null, employee?: { __typename?: 'EmployeeDto', id: number, name?: string | null, profilePhotoUrl?: string | null } | null };
+export type LeaveAccrualFragment = { __typename?: 'LeaveAccrualsDto', id: number, accrualDate: Date, accrualValue: number, cancelReason?: string | null, categoryId: number, description?: string | null, updatedAt?: Date | null, createdAt: Date, timeOfRequestId?: number | null, employeeId: number, status: LeaveAccrualStatus, leaveCategoryName?: string | null, employee?: { __typename?: 'EmployeeDto', id: number, name: string, profilePhotoUrl?: string | null } | null };
 
 export type GetApprovalRequestsQueryVariables = Exact<{
   status?: InputMaybe<PtoRequestStatus>;
@@ -1537,9 +1542,9 @@ export type GetApprovalRequestsQuery = { __typename?: 'Query', getRequestsForApp
 export type GetApprovalRoutingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetApprovalRoutingsQuery = { __typename?: 'Query', approvalRoutings: Array<{ __typename?: 'ApprovalRoutingDto', id: number, name: string, config: string, assignedEmployees: Array<{ __typename?: 'EmployeeDto', id: number, profilePhotoUrl?: string | null, name?: string | null }>, approvingLevels: Array<{ __typename?: 'ApproversLevelDto', approvers: Array<{ __typename?: 'EmployeeDto', id: number, profilePhotoUrl?: string | null, name?: string | null }> }> }> };
+export type GetApprovalRoutingsQuery = { __typename?: 'Query', approvalRoutings: Array<{ __typename?: 'ApprovalRoutingDto', id: number, name: string, config: string, assignedEmployees: Array<{ __typename?: 'EmployeeDto', id: number, profilePhotoUrl?: string | null, name: string }>, approvingLevels: Array<{ __typename?: 'ApproversLevelDto', approvers: Array<{ __typename?: 'EmployeeDto', id: number, profilePhotoUrl?: string | null, name: string }> }> }> };
 
-export type ApprovalRoutingFragment = { __typename?: 'ApprovalRoutingDto', id: number, name: string, config: string, assignedEmployees: Array<{ __typename?: 'EmployeeDto', id: number, profilePhotoUrl?: string | null, name?: string | null }>, approvingLevels: Array<{ __typename?: 'ApproversLevelDto', approvers: Array<{ __typename?: 'EmployeeDto', id: number, profilePhotoUrl?: string | null, name?: string | null }> }> };
+export type ApprovalRoutingFragment = { __typename?: 'ApprovalRoutingDto', id: number, name: string, config: string, assignedEmployees: Array<{ __typename?: 'EmployeeDto', id: number, profilePhotoUrl?: string | null, name: string }>, approvingLevels: Array<{ __typename?: 'ApproversLevelDto', approvers: Array<{ __typename?: 'EmployeeDto', id: number, profilePhotoUrl?: string | null, name: string }> }> };
 
 export type GetLeaveCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1556,9 +1561,9 @@ export type GetPtoRequestsDetailQueryVariables = Exact<{
 }>;
 
 
-export type GetPtoRequestsDetailQuery = { __typename?: 'Query', getPtoRequestDetails: { __typename?: 'PtoRequestDto', id: number, startDate: Date, endDate: Date, status: string, workingDays: number, ptoCategoryName: string, approvers: Array<{ __typename?: 'PtoRequestApproverDto', status: string, priority: number, employee: { __typename?: 'EmployeeDto', id: number, name?: string | null, profilePhotoUrl?: string | null } }>, requstedBy?: { __typename?: 'EmployeeDto', id: number, name?: string | null, profilePhotoUrl?: string | null } | null } };
+export type GetPtoRequestsDetailQuery = { __typename?: 'Query', getPtoRequestDetails: { __typename?: 'PtoRequestDto', id: number, startDate: Date, endDate: Date, status: string, workingDays: number, ptoCategoryName: string, approvers: Array<{ __typename?: 'PtoRequestApproverDto', status: string, priority: number, employee: { __typename?: 'EmployeeDto', id: number, name: string, profilePhotoUrl?: string | null } }>, requstedBy?: { __typename?: 'EmployeeDto', id: number, name: string, profilePhotoUrl?: string | null } | null } };
 
-export type PtoRequestFragmentFragment = { __typename?: 'PtoRequestDto', id: number, startDate: Date, endDate: Date, status: string, workingDays: number, ptoCategoryName: string, approvers: Array<{ __typename?: 'PtoRequestApproverDto', status: string, priority: number, employee: { __typename?: 'EmployeeDto', id: number, name?: string | null, profilePhotoUrl?: string | null } }>, requstedBy?: { __typename?: 'EmployeeDto', id: number, name?: string | null, profilePhotoUrl?: string | null } | null };
+export type PtoRequestFragmentFragment = { __typename?: 'PtoRequestDto', id: number, startDate: Date, endDate: Date, status: string, workingDays: number, ptoCategoryName: string, approvers: Array<{ __typename?: 'PtoRequestApproverDto', status: string, priority: number, employee: { __typename?: 'EmployeeDto', id: number, name: string, profilePhotoUrl?: string | null } }>, requstedBy?: { __typename?: 'EmployeeDto', id: number, name: string, profilePhotoUrl?: string | null } | null };
 
 export type GetPtoRequestsForEmployeeQueryVariables = Exact<{
   options?: InputMaybe<PaginatedQueryInput>;
@@ -1578,16 +1583,16 @@ export type GetPtoRequestsForCompanyQuery = { __typename?: 'Query', getPtoReques
 export type GetVacationPoliciesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetVacationPoliciesQuery = { __typename?: 'Query', vacationPolicies: Array<{ __typename?: 'VacationPolicyDto', id: number, description: string, name: string, policyDocument?: string | null, default: boolean, archived: boolean, workingDays?: Array<string> | null, leaveCategories?: Array<{ __typename?: 'LeaveCategoryDto', id: number, name: string, daysAllowed: number }> | null, publicHolidays?: Array<{ __typename?: 'PublicHolidayDto', id: number, name: string, date: Date }> | null, employees?: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null }> | null }> };
+export type GetVacationPoliciesQuery = { __typename?: 'Query', vacationPolicies: Array<{ __typename?: 'VacationPolicyDto', id: number, description: string, name: string, policyDocument?: string | null, default: boolean, archived: boolean, workingDays?: Array<string> | null, leaveCategories?: Array<{ __typename?: 'LeaveCategoryDto', id: number, name: string, daysAllowed: number }> | null, publicHolidays?: Array<{ __typename?: 'PublicHolidayDto', id: number, name: string, date: Date }> | null, employees?: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null }> | null }> };
 
 export type GetVacationPolicyQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type GetVacationPolicyQuery = { __typename?: 'Query', vacationPolicy: { __typename?: 'VacationPolicyDto', id: number, description: string, name: string, policyDocument?: string | null, default: boolean, archived: boolean, workingDays?: Array<string> | null, leaveCategories?: Array<{ __typename?: 'LeaveCategoryDto', id: number, name: string, daysAllowed: number }> | null, publicHolidays?: Array<{ __typename?: 'PublicHolidayDto', id: number, name: string, date: Date }> | null, employees?: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null }> | null } };
+export type GetVacationPolicyQuery = { __typename?: 'Query', vacationPolicy: { __typename?: 'VacationPolicyDto', id: number, description: string, name: string, policyDocument?: string | null, default: boolean, archived: boolean, workingDays?: Array<string> | null, leaveCategories?: Array<{ __typename?: 'LeaveCategoryDto', id: number, name: string, daysAllowed: number }> | null, publicHolidays?: Array<{ __typename?: 'PublicHolidayDto', id: number, name: string, date: Date }> | null, employees?: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null }> | null } };
 
-export type VacationPolicyFragment = { __typename?: 'VacationPolicyDto', id: number, description: string, name: string, policyDocument?: string | null, default: boolean, archived: boolean, workingDays?: Array<string> | null, leaveCategories?: Array<{ __typename?: 'LeaveCategoryDto', id: number, name: string, daysAllowed: number }> | null, publicHolidays?: Array<{ __typename?: 'PublicHolidayDto', id: number, name: string, date: Date }> | null, employees?: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null }> | null };
+export type VacationPolicyFragment = { __typename?: 'VacationPolicyDto', id: number, description: string, name: string, policyDocument?: string | null, default: boolean, archived: boolean, workingDays?: Array<string> | null, leaveCategories?: Array<{ __typename?: 'LeaveCategoryDto', id: number, name: string, daysAllowed: number }> | null, publicHolidays?: Array<{ __typename?: 'PublicHolidayDto', id: number, name: string, date: Date }> | null, employees?: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null }> | null };
 
 export type SetVacationPolicyAsDefaultMutationVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -1649,7 +1654,7 @@ export type GetProjectQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectQuery = { __typename?: 'Query', project: { __typename?: 'ProjectDto', id: number, name: string, description: string, color: string, columns?: Array<{ __typename?: 'ProjectColumnDto', name: string, value: string }> | null }, tasks: Array<{ __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } | null }> };
+export type GetProjectQuery = { __typename?: 'Query', project: { __typename?: 'ProjectDto', id: number, name: string, description: string, color: string, columns?: Array<{ __typename?: 'ProjectColumnDto', name: string, value: string }> | null }, tasks: Array<{ __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } | null }> };
 
 export type ProjectFragment = { __typename?: 'ProjectDto', id: number, name: string, description: string, color: string };
 
@@ -1658,12 +1663,12 @@ export type GetTasksQueryVariables = Exact<{
 }>;
 
 
-export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } | null }> };
+export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } | null }> };
 
 export type GetMyTasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMyTasksQuery = { __typename?: 'Query', myTasks: Array<{ __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, project?: { __typename?: 'ProjectDto', id: number, name: string, color: string } | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } | null }> };
+export type GetMyTasksQuery = { __typename?: 'Query', myTasks: Array<{ __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, project?: { __typename?: 'ProjectDto', id: number, name: string, color: string } | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } | null }> };
 
 export type GetAvailableStatusesForProjectQueryVariables = Exact<{
   projectId: Scalars['Int']['input'];
@@ -1674,21 +1679,23 @@ export type GetAvailableStatusesForProjectQuery = { __typename?: 'Query', availa
 
 export type LiteTaskFragment = { __typename?: 'TaskDto', id: number, name: string };
 
-export type TaskFragment = { __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } | null };
+export type TaskFragment = { __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } | null };
 
-export type TaskWithProjectFragment = { __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, project?: { __typename?: 'ProjectDto', id: number, name: string, color: string } | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } | null };
+export type TaskWithProjectFragment = { __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, project?: { __typename?: 'ProjectDto', id: number, name: string, color: string } | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } | null };
 
 export type GetTaskQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type GetTaskQuery = { __typename?: 'Query', task: { __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, project?: { __typename?: 'ProjectDto', id: number, name: string, color: string } | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } | null } };
+export type GetTaskQuery = { __typename?: 'Query', task: { __typename?: 'TaskDto', id: number, name: string, description?: string | null, assignedTo?: number | null, createdBy: number, status: string, isBacklog?: boolean | null, rank?: string | null, project?: { __typename?: 'ProjectDto', id: number, name: string, color: string } | null, assignedToEmployee?: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } | null } };
 
-export type GetTimeEntriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetTimeEntriesQueryVariables = Exact<{
+  options?: InputMaybe<PaginatedQueryInput>;
+}>;
 
 
-export type GetTimeEntriesQuery = { __typename?: 'Query', timeEntries: Array<{ __typename?: 'TimeEntryDto', id: number, description?: string | null, startDate: Date, endDate: Date, task?: { __typename?: 'TaskDto', id: number, name: string } | null, project?: { __typename?: 'ProjectDto', id: number, name: string } | null, employee?: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } | null }> };
+export type GetTimeEntriesQuery = { __typename?: 'Query', timeEntries: { __typename?: 'TimeEntriesPaginatedResponse', hasNextPage: boolean, totalCount: number, data: Array<{ __typename?: 'TimeEntryDto', id: number, description?: string | null, startDate: Date, endDate: Date, task?: { __typename?: 'TaskDto', id: number, name: string } | null, project?: { __typename?: 'ProjectDto', id: number, name: string } | null, employee?: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } | null }> } };
 
 export type GetCompanyTimeEntriesQueryVariables = Exact<{
   options?: InputMaybe<PaginatedQueryInput>;
@@ -1696,12 +1703,12 @@ export type GetCompanyTimeEntriesQueryVariables = Exact<{
 }>;
 
 
-export type GetCompanyTimeEntriesQuery = { __typename?: 'Query', companyTimeEntries: { __typename?: 'TimeEntriesPaginatedResponse', hasNextPage: boolean, totalCount: number, data: Array<{ __typename?: 'TimeEntryDto', id: number, description?: string | null, startDate: Date, endDate: Date, task?: { __typename?: 'TaskDto', id: number, name: string } | null, project?: { __typename?: 'ProjectDto', id: number, name: string } | null, employee?: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } | null }> } };
+export type GetCompanyTimeEntriesQuery = { __typename?: 'Query', companyTimeEntries: { __typename?: 'TimeEntriesPaginatedResponse', hasNextPage: boolean, totalCount: number, data: Array<{ __typename?: 'TimeEntryDto', id: number, description?: string | null, startDate: Date, endDate: Date, task?: { __typename?: 'TaskDto', id: number, name: string } | null, project?: { __typename?: 'ProjectDto', id: number, name: string } | null, employee?: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } | null }> } };
 
 export type TimeTrackingStatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TimeTrackingStatsQuery = { __typename?: 'Query', timeTrackingStats: { __typename?: 'TimeTrackingStatsDto', totalMinutesThisWeek: number, minutesPercentageDiffFromLastWeek: string, trendingProject?: { __typename?: 'TrendingProject', totalMinutes: number, project: { __typename?: 'ProjectDto', id: number, name: string } } | null, mostActiveEmployees: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null }> } };
+export type TimeTrackingStatsQuery = { __typename?: 'Query', timeTrackingStats: { __typename?: 'TimeTrackingStatsDto', totalMinutesThisWeek: number, minutesPercentageDiffFromLastWeek: string, trendingProject?: { __typename?: 'TrendingProject', totalMinutes: number, project: { __typename?: 'ProjectDto', id: number, name: string } } | null, mostActiveEmployees: Array<{ __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null }> } };
 
 export type TimeTrackedPerProjectQueryVariables = Exact<{
   dateRange?: InputMaybe<DateRangeInput>;
@@ -1722,9 +1729,9 @@ export type TimeTrackedPerEmployeeQueryVariables = Exact<{
 }>;
 
 
-export type TimeTrackedPerEmployeeQuery = { __typename?: 'Query', timeTrackedPerEmployee: Array<{ __typename?: 'TimeTrackedPerEmployee', totalMinutes: number, employee: { __typename?: 'EmployeeDto', id: number, name?: string | null } }> };
+export type TimeTrackedPerEmployeeQuery = { __typename?: 'Query', timeTrackedPerEmployee: Array<{ __typename?: 'TimeTrackedPerEmployee', totalMinutes: number, employee: { __typename?: 'EmployeeDto', id: number, name: string } }> };
 
-export type TimeEntryFragment = { __typename?: 'TimeEntryDto', id: number, description?: string | null, startDate: Date, endDate: Date, task?: { __typename?: 'TaskDto', id: number, name: string } | null, project?: { __typename?: 'ProjectDto', id: number, name: string } | null, employee?: { __typename?: 'EmployeeDto', id: number, email: string, name?: string | null, profilePhotoUrl?: string | null } | null };
+export type TimeEntryFragment = { __typename?: 'TimeEntryDto', id: number, description?: string | null, startDate: Date, endDate: Date, task?: { __typename?: 'TaskDto', id: number, name: string } | null, project?: { __typename?: 'ProjectDto', id: number, name: string } | null, employee?: { __typename?: 'EmployeeDto', id: number, email: string, name: string, profilePhotoUrl?: string | null } | null };
 
 export type CreateProjectMutationVariables = Exact<{
   name: Scalars['String']['input'];
@@ -4828,9 +4835,13 @@ export type GetTaskLazyQueryHookResult = ReturnType<typeof useGetTaskLazyQuery>;
 export type GetTaskSuspenseQueryHookResult = ReturnType<typeof useGetTaskSuspenseQuery>;
 export type GetTaskQueryResult = Apollo.QueryResult<GetTaskQuery, GetTaskQueryVariables>;
 export const GetTimeEntriesDocument = gql`
-    query GetTimeEntries {
-  timeEntries {
-    ...TimeEntry
+    query GetTimeEntries($options: PaginatedQueryInput) {
+  timeEntries(options: $options) {
+    data {
+      ...TimeEntry
+    }
+    hasNextPage
+    totalCount
   }
 }
     ${TimeEntryFragmentDoc}`;
@@ -4847,6 +4858,7 @@ export const GetTimeEntriesDocument = gql`
  * @example
  * const { data, loading, error } = useGetTimeEntriesQuery({
  *   variables: {
+ *      options: // value for 'options'
  *   },
  * });
  */

@@ -31,6 +31,10 @@ export const TaskSelect = ({ label = '', onChange }: TaskSelectProps) => {
 
   const [open, setOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  if (!projectId) {
+    return null;
+  }
   return (
     <>
       <FormSelect

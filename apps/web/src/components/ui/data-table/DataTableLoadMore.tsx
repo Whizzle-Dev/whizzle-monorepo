@@ -16,7 +16,7 @@ export const DataTableLoadMore = ({
   canLoadMore,
 }: DataTableLoadMoreProps) => {
   return (
-    <div className="flex flex-row items-center gap-4 text-gray-500">
+    <div className="flex flex-row items-center gap-4 text-gray-500 text-sm">
       <span>
         Total count: <strong>{totalCount}</strong>
       </span>

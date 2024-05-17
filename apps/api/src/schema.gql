@@ -384,7 +384,7 @@ type Query {
   task(id: Int!): TaskDto!
   myTasks: [TaskDto!]!
   myRecentTasks: [TaskDto!]!
-  timeEntries: [TimeEntryDto!]!
+  timeEntries(options: PaginatedQueryInput): TimeEntriesPaginatedResponse!
   companyTimeEntries(options: PaginatedQueryInput, filters: GetTimeEntriesFilters): TimeEntriesPaginatedResponse!
   activeTimer: PendingTimeEntryDto
   timeTrackingStats: TimeTrackingStatsDto!

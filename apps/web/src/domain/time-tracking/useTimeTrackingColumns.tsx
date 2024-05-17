@@ -1,18 +1,12 @@
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import {
-  GetTimeEntriesDocument,
-  TimeEntryFragment,
-  useDeleteTimeEntryMutation,
-} from '@/generated';
+import { TimeEntryFragment } from '@/generated';
 import dayjs from 'dayjs';
-import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/ui/icons';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { DataTableColumnHeader } from '@/components/ui/data-table/DataTableColumnHeader';
-import { ManageTimeEntryDialog } from '@/domain/time-tracking/ManageTimeEntryDialog';
 
 import { EmployeeAvatar } from '@/components/ui/avatar';
 import { displayElapsedTime } from '@/lib/date/displayElapsedTime';
+import { TimeTrackingRowActions } from '@/domain/time-tracking/TimeTrackingRowActions';
 
 const columnAccessor = createColumnHelper<TimeEntryFragment>();
 
@@ -128,6 +122,26 @@ export const useTimeTrackingColumns = ({
         enableGrouping: true,
       },
       ...(employeeColumn ? [emplyeeColumnDef] : []),
+      {
+        accessorFn: (row) => {
+          return displayElapsedTime(row.startDate, row.endDate);
+        },
+        id: 'duration',
+        header: () => <span>Duration</span>,
+        cell: ({ row }) => {
+          return (
+            <div className="flex flex-row items-center gap-2 min-w-[120px]">
+              <span>
+                {displayElapsedTime(
+                  row.original.startDate,
+                  row.original.endDate,
+                )}
+              </span>
+            </div>
+          );
+        },
+        enableGrouping: false,
+      },
       columnAccessor.accessor('startDate', {
         id: 'Start Time',
         header: () => <span>Start Time</span>,
@@ -158,26 +172,7 @@ export const useTimeTrackingColumns = ({
         },
         enableGrouping: false,
       }),
-      {
-        accessorFn: (row) => {
-          return displayElapsedTime(row.startDate, row.endDate);
-        },
-        id: 'duration',
-        header: () => <span>Duration</span>,
-        cell: ({ row }) => {
-          return (
-            <div className="flex flex-row items-center gap-2 min-w-[120px]">
-              <span>
-                {displayElapsedTime(
-                  row.original.startDate,
-                  row.original.endDate,
-                )}
-              </span>
-            </div>
-          );
-        },
-        enableGrouping: false,
-      },
+
       {
         id: 'actions-column',
         header: () => null,
@@ -190,55 +185,5 @@ export const useTimeTrackingColumns = ({
     ];
 
     return columns;
-  }, []);
-};
-
-type TimeTrackingRowActionsProps = {
-  data: TimeEntryFragment;
-};
-const TimeTrackingRowActions = ({ data }: TimeTrackingRowActionsProps) => {
-  const [deleteMutation, { loading: deleting }] = useDeleteTimeEntryMutation({
-    awaitRefetchQueries: true,
-    refetchQueries: [GetTimeEntriesDocument],
-  });
-
-  const [open, setOpen] = useState(false);
-
-  const [timeEntry, setTimeEntry] = useState<TimeEntryFragment | null>(null);
-  return (
-    <>
-      <div className="flex flex-row gap-2">
-        <Button
-          size="icon"
-          variant="outline"
-          onClick={() => {
-            setTimeEntry(data);
-            setOpen(true);
-          }}
-        >
-          <Icons.Edit2 size={18} />
-        </Button>
-        <Button
-          size="icon"
-          variant="outline"
-          loading={deleting}
-          onClick={() =>
-            deleteMutation({
-              variables: {
-                id: data.id,
-              },
-            })
-          }
-        >
-          <Icons.Trash2 size={18} className="text-red-500" />
-        </Button>
-      </div>
-      {open && timeEntry && (
-        <ManageTimeEntryDialog
-          onOpenChange={setOpen}
-          defaultValues={timeEntry}
-        />
-      )}
-    </>
-  );
+  }, [employeeColumn]);
 };

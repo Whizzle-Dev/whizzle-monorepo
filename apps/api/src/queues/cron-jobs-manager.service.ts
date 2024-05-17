@@ -29,7 +29,7 @@ export class CronJobsManagerService {
       {
         ...this.config,
         repeat: {
-          cron: CronExpression.EVERY_12_HOURS,
+          cron: CronExpression.EVERY_DAY_AT_1AM,
         },
         jobId: QUEUES.CHECK_INS_QUEUE.CHECK_INS.id,
       },
@@ -41,7 +41,7 @@ export class CronJobsManagerService {
       {
         ...this.config,
         repeat: {
-          cron: CronExpression.EVERY_12_HOURS,
+          cron: CronExpression.EVERY_DAY_AT_1AM,
         },
         jobId: QUEUES.PTO_QUEUE.PTO_ACCRUALS.id,
       },
@@ -53,7 +53,7 @@ export class CronJobsManagerService {
       {
         ...this.config,
         repeat: {
-          cron: CronExpression.EVERY_6_HOURS,
+          cron: CronExpression.EVERY_DAY_AT_1AM,
         },
         jobId: QUEUES.EMPLOYEES_QUEUE.EXPIRED_INVITES.id,
       },
@@ -64,7 +64,7 @@ export class CronJobsManagerService {
       {
         ...this.config,
         repeat: {
-          cron: CronExpression.EVERY_DAY_AT_2AM,
+          cron: CronExpression.EVERY_DAY_AT_1AM,
         },
         jobId: QUEUES.EMPLOYEES_QUEUE.PROFILE_IMAGE_GENERATOR.id,
       },
