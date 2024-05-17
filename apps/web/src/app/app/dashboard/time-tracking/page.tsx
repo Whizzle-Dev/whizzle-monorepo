@@ -26,16 +26,25 @@ import { TimeTrackingLoadingShimmer } from '@/components/ui/loader';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormInput } from '@/components/ui/form/form-input';
-import { useTimeTrackingColumns } from '@/domain/time-tracking/columns';
-import { FormValues, schema } from '@/domain/time-tracking/form';
+import { useTimeTrackingColumns } from '@/domain/time-tracking/useTimeTrackingColumns';
+import { StartTimeFormValues, schema } from '@/domain/time-tracking/form';
 import { TaskSelect } from '@/domain/time-tracking/TaskSelect';
 import { Timer } from '@/domain/time-tracking/Timer';
 import { ProjectSelect } from '@/domain/time-tracking/ProjectSelect';
 import { TimeTrackingTableToolbar } from '@/domain/time-tracking/TimeTrackingTableToolbar';
 import { ManageTimeEntryDialog } from '@/domain/time-tracking/ManageTimeEntryDialog';
+import { NetworkStatus } from '@apollo/client';
+import { DataTableLoadMore } from '@/components/ui/data-table/DataTableLoadMore';
 
 const TimeTrackingPage = () => {
-  const timeEntriesQuery = useGetTimeEntriesQuery();
+  const timeEntriesQuery = useGetTimeEntriesQuery({
+    variables: {
+      options: {
+        skip: 0,
+        take: PER_PAGE,
+      },
+    },
+  });
   const { data: activeTimerData, loading: loadingActiveTimer } =
     useGetActiveTimerQuery();
   const isTimerRunning = !!activeTimerData?.activeTimer?.id;
@@ -44,7 +53,7 @@ const TimeTrackingPage = () => {
     employeeColumn: false,
   });
   const { table } = useDataTable<TimeEntryFragment>({
-    data: timeEntriesQuery.data?.timeEntries,
+    data: timeEntriesQuery.data?.timeEntries.data,
     columns,
   });
   const [startTimer, { loading: starting }] = useStartTimerMutation({
@@ -58,13 +67,12 @@ const TimeTrackingPage = () => {
 
   const startTime = activeTimerData?.activeTimer?.startDate;
 
-  const methods = useForm<FormValues>({
-    // @ts-expect-error todo remove
+  const methods = useForm<StartTimeFormValues>({
     resolver: zodResolver(schema),
     mode: 'onSubmit',
   });
 
-  const submit = (values: FormValues) => {
+  const submit = (values: StartTimeFormValues) => {
     if (starting || stopping) {
       return;
     }
@@ -110,6 +118,31 @@ const TimeTrackingPage = () => {
   }, [activeTimerData?.activeTimer]);
 
   const [manageOpen, setManageOpen] = React.useState(false);
+
+  const count = timeEntriesQuery?.data?.timeEntries.data.length ?? 0;
+  const loadMore = () => {
+    timeEntriesQuery.fetchMore({
+      variables: {
+        options: {
+          skip: count,
+          take: PER_PAGE,
+        },
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        return {
+          timeEntries: {
+            ...fetchMoreResult.timeEntries,
+            data: [
+              ...(prev.timeEntries.data ?? []),
+              ...fetchMoreResult.timeEntries.data,
+            ],
+          },
+        };
+      },
+    });
+  };
+  const hasMore = timeEntriesQuery?.data?.timeEntries.hasNextPage;
 
   return (
     <div className="flex flex-col">
@@ -217,6 +250,15 @@ const TimeTrackingPage = () => {
             table={table}
             loading={timeEntriesQuery.loading}
           />
+          <DataTableLoadMore
+            totalCount={timeEntriesQuery?.data?.timeEntries.totalCount}
+            loadedCount={count}
+            canLoadMore={hasMore}
+            loadingMore={
+              timeEntriesQuery.networkStatus === NetworkStatus.fetchMore
+            }
+            onLoadMore={loadMore}
+          />
         </div>
       </div>
     </div>
@@ -224,3 +266,5 @@ const TimeTrackingPage = () => {
 };
 
 export default withAuth(TimeTrackingPage);
+
+const PER_PAGE = 30;

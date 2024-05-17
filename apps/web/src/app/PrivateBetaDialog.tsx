@@ -65,7 +65,9 @@ export const PrivateBetaDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="xl">Private Beta Access</Button>
+        <Button size="xl" variant="brand">
+          Private Beta Access
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

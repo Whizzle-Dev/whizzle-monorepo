@@ -8,7 +8,7 @@ import { jsonObjectFrom } from 'kysely/helpers/postgres';
 import { sql } from 'kysely';
 import { TimeTrackingStatsDto } from './dto/time-tracking-stats.dto';
 import { DateRangeInput } from '../../shared/date-range-input';
-import { GetTimeEntriesArgs } from './types';
+import { GetTimeCompanyEntriesArgs, GetTimeEmployeeEntriesArgs } from './types';
 import { DateService } from '../../shared/date.service';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class TimeTrackingService {
   getTimeEntryQuery() {
     return this.database
       .selectFrom('TimeEntry')
-      .orderBy('TimeEntry.createdAt desc')
+      .orderBy('TimeEntry.startDate desc')
       .select((eb) => [
         'TimeEntry.id as id',
         'TimeEntry.startDate as startDate',
@@ -46,9 +46,15 @@ export class TimeTrackingService {
       ]);
   }
 
-  getTimeEntries(employeeId: number) {
+  getTimeEntries({ employeeId, options }: GetTimeEmployeeEntriesArgs) {
     return this.getTimeEntryQuery()
       .where('TimeEntry.employeeId', '=', employeeId)
+      .$if(Boolean(options), (eb) => {
+        const skip = options?.skip as number;
+        const take = options?.take as number;
+        return eb.offset(skip).limit(take);
+      })
+      .select(() => [sql<number>`count(*) over()`.as('totalCount')])
       .execute();
   }
 
@@ -169,7 +175,7 @@ export class TimeTrackingService {
       .execute();
   }
 
-  getCompanyTimeEntries(args: GetTimeEntriesArgs) {
+  getCompanyTimeEntries(args: GetTimeCompanyEntriesArgs) {
     return this.getTimeEntryQuery()
       .innerJoin('Employee', 'Employee.id', 'TimeEntry.employeeId')
       .innerJoin('User', 'Employee.userId', 'User.id')

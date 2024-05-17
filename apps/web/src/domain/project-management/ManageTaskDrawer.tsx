@@ -25,7 +25,9 @@ type ManageTaskDrawerProps = {
   task?: TaskFragment;
   initialStatus?: string;
   onChangePosition?: (task: TaskFragment) => void;
-  isBacklog?: boolean;
+  createOptions?: {
+    isBacklog: boolean;
+  };
 };
 
 export const ManageTaskDrawer = ({
@@ -36,7 +38,7 @@ export const ManageTaskDrawer = ({
   task,
   initialStatus,
   onChangePosition,
-  isBacklog,
+  createOptions,
 }: ManageTaskDrawerProps) => {
   const statusesQuery = useGetAvailableStatusesForProjectQuery({
     variables: {
@@ -120,7 +122,7 @@ export const ManageTaskDrawer = ({
                 : null,
             description: JSON.stringify(data.description),
             status: data.status,
-            isBacklog: isBacklog ?? false,
+            isBacklog: createOptions?.isBacklog ?? false,
           },
           projectId: Number(projectId),
         },
