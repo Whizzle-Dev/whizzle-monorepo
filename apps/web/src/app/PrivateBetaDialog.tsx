@@ -13,16 +13,14 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { FormInput } from '@/components/ui/form/form-input';
-import React from 'react';
-import { useRequestBetaAccessMutation } from '@/generated';
+import React, { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
-import { getGraphqlError } from '@/lib/utils';
 import { DialogClose } from '@/components/plate-ui/dialog';
 
 const schema = z.object({
   email: z.string().min(1, { message: 'Email is required' }).email(),
   name: z.string().min(1, { message: 'Name is required' }),
-  company: z.string().min(1, { message: 'Name is required' }),
+  company: z.string().min(1, { message: 'Company Name is required' }),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -32,34 +30,35 @@ export const PrivateBetaDialog = () => {
   });
   const { toast } = useToast();
 
-  const [requestAccess, { loading }] = useRequestBetaAccessMutation();
-
+  const [loading, setLoading] = useState(false);
   const { handleSubmit, reset } = methods;
 
   function onSubmit(data: FormValues) {
-    requestAccess({
-      variables: {
-        input: {
-          email: data.email,
-          company: data.company,
-          fullName: data.name,
-        },
+    const formData = new FormData();
+    formData.append('email', data.email);
+    formData.append('name', data.name);
+    formData.append('company', data.company);
+    setLoading(true);
+    fetch('https://formspree.io/f/xayrzjra', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Accept: 'application/json',
       },
     })
-      .then(() => {
-        toast({
-          variant: 'default',
-          title: 'We received your request!',
-          description:
-            'Please watch your email inbox for further instructions.',
-        });
-        reset();
+      .then((response) => {
+        if (response.ok) {
+          toast({
+            variant: 'default',
+            title: 'We received your request!',
+            description:
+              'Please watch your email inbox for further instructions.',
+          });
+          reset();
+        }
       })
-      .catch((e) => {
-        toast({
-          variant: 'destructive',
-          description: getGraphqlError(e),
-        });
+      .finally(() => {
+        setLoading(false);
       });
   }
   return (
