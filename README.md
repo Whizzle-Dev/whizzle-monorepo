@@ -3,7 +3,18 @@
     <h1 style="margin-left: 20px; font-size: 34px; margin-top:5px">Whizzle</h1>
 </div>
 
-### Projects:
+## Open source HR, time tracking, PTO management, documents management and more.
+
+### Features included in Whizzle
+* **Time Tracking**
+* **Check-Ins**
+* **Project Management**
+* **Employee Onboarding**
+* **PTO Tracking**
+* **Knowledge Base(Documents)**
+* **HR**
+
+### Monorepo Projects:
 
 - [apps/api](apps/api): Main backend service
 - [apps/web](apps/web): Main frontend app
